@@ -2,7 +2,7 @@
 const Sequelize = require("sequelize");
 
 //Database connection
-const db = new Sequelize('khsoosi', 'root', 'ninja', {
+const db = new Sequelize('khsoosi', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
 })

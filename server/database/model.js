@@ -37,6 +37,32 @@ const Permission = db.define('permission', {
 });
 
 
+const Schedule = db.define('schedule', {
+   id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
+   day:{type: Sequelize.STRING, required: true},
+   startHour:{type: Sequelize.STRING, required: true},
+   endHour:{type: Sequelize.STRING, required: true},
+
+});
+
+const PermissionRole = db.define('PermissionRole', {
+    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true}
+ });
+
+ const UserRole = db.define('UserRole', {
+    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true}
+ 
+ });
+
+ const TeacherSubject = db.define('TeacherSubject', {
+    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true}
+ 
+ });
+
+
+Role.belongsToMany(Permission, {through: 'PermissionRole'});
+Permission.belongsToMany(Role, {through: 'PermissionRole'});
+
 Role.belongsToMany(User, {through: 'UserRole'});
 User.belongsToMany(Role, {through: 'UserRole'});
 
@@ -44,6 +70,19 @@ Subject.belongsToMany(User, {through: 'TeacherSubject'});
 User.belongsToMany(Subject, {through: 'TeacherSubject'});
 
 User.hasMany(Rating);
+Rating.belongsTo(User);
+
+User.hasMany(Schedule);
+Schedule.belongsTo(User);
+
 
 
 module.exports.User = User;
+module.exports.Schedule = Schedule;
+module.exports.Role = Role;
+module.exports.Permission = Permission;
+module.exports.Subject = Subject;
+module.exports.Rating = Rating;
+module.exports.PermissionRole = PermissionRole;
+module.exports.UserRole = UserRole;
+module.exports.TeacherSubject = TeacherSubject;
