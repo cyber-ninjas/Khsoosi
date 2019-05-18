@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const db = require("./database/db");
+const {User, Schedule, Role, Permission, Subject, Rating, PermissionRole, UserRole, TeacherSubject} = require("./database/model");
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
