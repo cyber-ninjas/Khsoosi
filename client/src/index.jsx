@@ -5,33 +5,25 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        name: "",
-        cvFile: "",
-        img: "",
-        summary: "",
-        is_teacher: "",
-        password: "",
-        email: "",
-        phone: "",
-        location: ""
-      },
+      userName: "",
+      cvFile: "",
+      img: "",
+      summary: "",
+      is_teacher: "",
+      password: "",
+      email: "",
+      phone: "",
+      location: "",
       teacherProfiles: [],
       current_teacherId: "",
       current_studentId: "",
-      rating: {
-        text: "",
-        rate: ""
-      },
-      subject: {
-        subjectName: "",
-        level: ""
-      },
-      Schedule: {
-        day: "",
-        startHour: "",
-        endHour: ""
-      }
+      ratingText: "",
+      rate: "",
+      subjectName: "",
+      subjectLevel: "",
+      day: "",
+      startHour: "",
+      endHour: ""
     };
   }
   componentDidMount() {}
