@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Rating from "./components/Rating.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -34,14 +35,21 @@ class App extends React.Component {
       }
     };
   }
+
+  onChange(e) {
+    this.setState({
+      rating:{[e.target.name]: e.target.value}
+    });
+    console.log(this.state)
+  }
   componentDidMount() {}
 
   render() {
-    // var {rating} =this.state;
-    // var RatingVaribles = {/*varibles*/}
+    var {rating} =this.state;
     return (
       <div>
         <h1>Test</h1>
+        <Rating RatingVariables = {rating} onChange = {this.onChange.bind(this)}/>
       </div>
     );
   }
