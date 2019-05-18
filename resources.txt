@@ -10,3 +10,7 @@ git remote add origin https://github.com/cyber-ninjas/Khsoosi.git
 git push -u origin master
 git remote add origin https://github.com/cyber-ninjas/Khsoosi.git
 git push -u origin master
+
+
+
+ "react-dev": "webpack -d --watch",
