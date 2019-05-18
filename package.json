@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+
     "start": "nodemon server/server.js"
   },
   "author": "Cyber - Ninja",

@@ -6,35 +6,25 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        name: "",
-        cvFile: "",
-        img: "",
-        summary: "",
-        is_teacher: "",
-        password: "",
-        email: "",
-        phone: "",
-        location: "",
-        urlImg: '',
-			  progress: 0
-      },
+      userName: "",
+      cvFile: "",
+      img: "",
+      summary: "",
+      is_teacher: "",
+      password: "",
+      email: "",
+      phone: "",
+      location: "",
       teacherProfiles: [],
       current_teacherId: "",
       current_studentId: "",
-      rating: {
-        text: "",
-        rate: ""
-      },
-      subject: {
-        subjectName: "",
-        level: ""
-      },
-      Schedule: {
-        day: "",
-        startHour: "",
-        endHour: ""
-      }
+      ratingText: "",
+      rate: "",
+      subjectName: "",
+      subjectLevel: "",
+      day: "",
+      startHour: "",
+      endHour: ""
     };
   }
   handleImgChange = e => {
@@ -72,9 +62,7 @@ class App extends React.Component {
     // var RatingVaribles = {/*varibles*/}
     return (
       <div>
-        <h1>Test</h1>
-        <ImageUpload onChange={e => this.handleImgChange(e)} onClick = {e => this.handleImgUpload(e)} 
-        urlImg = {this.state.name.urlImg} progress = {this.state.name.progress} />
+        <h1>Test by Cyber-Ninjas</h1>
       </div>
     );
   }
