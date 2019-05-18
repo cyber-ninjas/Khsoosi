@@ -11,6 +11,17 @@ git push -u origin master
 git remote add origin https://github.com/cyber-ninjas/Khsoosi.git
 git push -u origin master
 
+
+db
+
+dbhost:sql2.freesqldatabase.com
+dbname:sql2292264
+dbuser:sql2292264
+dbpassword:wS4*zG6%
+dpport:3306
+
+
+
 deploy:
 https://medium.com/jeremy-gottfrieds-tech-blog/tutorial-how-to-deploy-a-production-react-app-to-heroku-c4831dfcfa08
 
