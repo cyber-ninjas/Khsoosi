@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server/server.js"
+    "react-dev": "webpack -d --watch",
+    "start":"nodemon server/server.js"
   },
   "author": "Cyber - Ninja",
   "license": "ISC",
