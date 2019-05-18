@@ -10,15 +10,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //   next();
 // });
+app.use(express.static(__dirname + '/../react-client/dist'));
 
-app.get("/api/hello", (req, res) => {
-  res.send({ express: "Hello From Express" });
-});
-app.post("/api/world", (req, res) => {
-  console.log(req.body);
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`
-  );
+app.get('/items', function (req, res) {
+  items.selectAll(function(err, data) {
+    if(err) {
+      res.sendStatus(500);
+    } else {
+      res.json(data);
+    }
+  });
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, function() {
+  console.log('listening on port !');
+});
