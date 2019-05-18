@@ -41,7 +41,7 @@ class App extends React.Component {
     // var RatingVaribles = {/*varibles*/}
     return (
       <div>
-        <h1>Test</h1>
+        <h1>Test by Cyber-Ninjas</h1>
       </div>
     );
   }
