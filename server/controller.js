@@ -1,6 +1,17 @@
 const cd = require("./database/db");
 const Sequelize = require("sequelize");
-const { User, Schedule, Role, Permission, Subject, Rating, PermissionRole, UserRole, TeacherSubject } = require("./database/model");
+const bcrypt = require("bcrypt");
+const {
+  User,
+  Schedule,
+  Role,
+  Permission,
+  Subject,
+  Rating,
+  PermissionRole,
+  UserRole,
+  TeacherSubject
+} = require("./database/model");
 const Op = Sequelize.Op;
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage

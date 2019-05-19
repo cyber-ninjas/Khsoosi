@@ -5,6 +5,9 @@ const {User, Schedule, Role, Permission, Subject, Rating, PermissionRole, UserRo
 const app = express();
 const {search , seeSchedule , checkTheUser} = require('./controller')
 
+const khsoosiRouter = require('./router');
+
+
 const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,6 +16,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+app.use("",khsoosiRouter);
 //this get for search around for a teacher 
 app.get('/search',(req,res)=>{
   search(req.query,res)
@@ -29,23 +33,8 @@ checkTheUser(req.body,res)
 
 })
 
-
 app.use(express.static(__dirname + '/../client/dist'));
-// app.post('/dd',(req,res)=>{
-//   console.log("called");
-//   Subject.create({
-//     name:"math33",
-//     level:"22"
-// }).then(function(data) {
-//   console.log(data)
-//     res.status(200);
-//     res.send(data)
-// }).catch(function(error) {
-//   // console.log(error)
-//     res.status(500);
-//     res.json({error:error, stackError:error.stack});
-// });
-// })
+
 app.post('/rating',(req,res)=>{
   console.log("called");
   Rating.create({
