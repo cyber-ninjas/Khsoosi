@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class ImageUpload extends Component {
+class ImageUpload extends React.Component {
+  
 	render() {
     const style = {
       height: '100vh',
@@ -9,14 +10,16 @@ class ImageUpload extends Component {
       alignItems: 'center',
       justifyContent: 'center'
     };
+    
     return (
       <div style={style}>
-				<progress value={props.progress} max='100' />
+        <h1>hi </h1>
+				<progress value={this.props.progress} max='100' />
 				<br/>
-        <input type = 'file' onChange={e => props.onChange(e)} />
-        <button onClick= {e => props.onClick(e)} >Upload Your Image Here</button>
+        <input type = 'file' onChange={this.props.handleImgChange.bind(this)} />
+        <button onClick= {this.props.handleImgUpload.bind(this)} >Upload Your Image Here</button>
 			  <br/>
-			  <img src={props.urlImg || 'https://via.placeholder.com/400x300'} alt = 'uploaded images' height='300' width='400' />
+			  <img src={this.props.imgUrl || 'https://via.placeholder.com/400x300'} alt = 'uploaded images' height='300' width='400' />
       </div>
     )
   }
