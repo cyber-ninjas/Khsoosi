@@ -17,6 +17,7 @@ class SignUp extends React.Component {
   
     return(
       <div>
+        <h2>SignUp</h2>
         <label htmlFor="student"></label>
         <input type="radio" name="is_teacher" id="student" value = "false" onChange={this.props.onchangingSignUp.bind(this)}/>
         <label htmlFor="taecher"></label>
