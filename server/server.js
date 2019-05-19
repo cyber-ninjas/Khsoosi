@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const db = require("./database/db");
 const {User, Schedule, Role, Permission, Subject, Rating, PermissionRole, UserRole, TeacherSubject} = require("./database/model");
 const app = express();
-const {search} = require('./controller')
+const {search , seeSchedule} = require('./controller')
 
 const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
@@ -18,8 +18,9 @@ app.get('/search',(req,res)=>{
   search(req.query,res)
 })
 
-app.get('classes/id',(req,res)=>{
-
+app.get('/classes/id',(req,res)=>{
+//  console.log(req.query)
+  seeSchedule(req.query,res)
 })
 
 

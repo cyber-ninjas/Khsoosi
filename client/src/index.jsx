@@ -4,6 +4,7 @@ import SignUp from "./components/SignUp.jsx"
 import Rating from "./components/Rating.jsx";
 import Search from './combpnants/search.jsx'
 import ResultSearch from './components/resultSearch.jsx'
+import Classes from './components/see classes.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -27,7 +28,8 @@ class App extends React.Component {
       subjectLevel: "",
       day: "",
       startHour: "",
-      endHour: ""
+      endHour: "",
+      classes:[]
     };
   }
   onchangingSignUp(e){
@@ -64,23 +66,34 @@ class App extends React.Component {
       this.setState({ ratingText: '', rate: '' });
     });
   }
-
+//this functiom for search about the teacher whom match the order of the clinet (send the info to the server)
   searchTecher(e) {
-
     e.preventDefault();
-
-    // Default options are marked with *
-    return fetch(`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`, {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+     return fetch(`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`, {
+      method: 'GET', 
       headers: {
-        // 'Content-Type': 'application/json',
-        'Accept': 'application/json'
+      'Accept': 'application/json'
       }
     })
       .then(response => response = response.json())
       .then(data => { this.setState({ teacherProfiles: data.data }); console.log(this.state.teacherProfiles) });
+   }
 
+  searchClasses(e) {
+    e.preventDefault();
+    return fetch(`/classes/id?id=${this.state.current_teacherId}`,{
+      method: 'GET',
+      headers:{
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response = response.json())
+    .then(data => { this.setState({classes:data.data}); console.log(this.state.classes)})
   }
+
+
+
+
   componentDidMount() { }
 
   render() {
@@ -96,6 +109,7 @@ class App extends React.Component {
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />
         <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)} />
+        <Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes}/>
         <h1>Test</h1>
       </div>
     );
