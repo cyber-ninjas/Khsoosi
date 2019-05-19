@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import SignUp from "./components/SignUp.jsx"
 import Rating from "./components/Rating.jsx";
-import Search from './combpnants/search.jsx';
+import Search from './components/search.jsx';
 import ResultSearch from './components/resultSearch.jsx';
 import Header from './components/Header.jsx';
 
@@ -14,7 +15,7 @@ class App extends React.Component {
       cvFile: "",
       img: "",
       summary: "",
-      is_teacher: "",
+      is_teacher: false,
       password: "",
       email: "",
       phone: "",
@@ -31,6 +32,13 @@ class App extends React.Component {
       endHour: ""
     };
   }
+  onchangingSignUp(e){
+    this.setState({[e.target.name]:e.target.value});
+  }
+  onSignUp(){
+    console.log("signup");
+  }
+  componentDidMount() {}
 
   searchInfo(e) {
     console.log(this.state[e.target.name])
@@ -84,12 +92,9 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        {/* <div className="background">
-        <div className="transbox">
-        <p>This is some text that is placed in the transparent box.</p>
-        </div>
-        </div> */}
         <img src='https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ'/>
+        <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
+        <h1>Test by Cyber-Ninjas</h1>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />
         <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)} />

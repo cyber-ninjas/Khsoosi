@@ -15,7 +15,7 @@ app.use((req, res, next) => {
 });
 //this get for search around for a teacher 
 app.get('/search',(req,res)=>{
-  search(req.body,res)
+  search(req.query,res)
 })
 
 app.get('classes/id',(req,res)=>{
@@ -44,5 +44,5 @@ app.post('/rating',(req,res)=>{
 })
 
 app.listen(port, function() {
-  console.log('listening on port !');
+  console.log('listening on port !',port);
 });

@@ -48,25 +48,31 @@ exports.search = (req, res) => {
       }]
     }]
   }).then(result => {
-    console.log(result)
-    var info = [];
-    for (let i = 0; i < result.length; i++) {
-      let obj = {}
-      obj.subject = result[i].name
-      obj.level = result[i].level
-      obj.name = result[i].users[0].name
-      obj.phone = result[i].users[0].phone
-      obj.location = result[i].users[0].location
-      obj.img = result[i].users[0].img
-      obj.cvFile = result[i].users[0].cvFile
-      obj.summary = result[i].users[0].summary
-      obj.reatingText = result[i].users[0].ratings[0].text
-      obj.rate = result[i].users[0].ratings[0].rate
-      obj.date = result[i].users[0].ratings[0].date
-      info.push(obj)
-    }
-    res.send(result)
-    console.log({ data: info }, "hello woerdjfakljlkj")
+      console.log(result)
+       var info = [];
+       var obj1 = {}
+       obj1.subject = result[0].name
+       obj1.level = result[0].level
+      
+       for (let i = 0; i < result[0].users.length; i++) {
+        let obj = {}
+
+        obj.id = result[0].users[i].id
+        obj.name = result[0].users[i].name
+        obj.phone = result[0].users[i].phone
+        obj.location = result[0].users[i].location
+        obj.img = result[0].users[i].img
+        obj.cvFile = result[0].users[i].cvFile
+        obj.summary = result[0].users[i].summary
+        obj.reatingText = result[0].users[i].ratings[0].text
+        obj.rate = result[0].users[i].ratings[0].rate
+        obj.date = result[0].users[i].ratings[0].date
+        obj.subject =  obj1.subject
+        obj.level = obj1.level
+        info.push(obj)
+      }
+     res.send({data:info})
+     console.log({data:info},"hello woerdjfakljlkj")
   })
 }
 exports.seeSchedule = (req, res) => {
