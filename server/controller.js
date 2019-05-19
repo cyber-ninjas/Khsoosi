@@ -5,7 +5,7 @@ const Op = Sequelize.Op;
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage
 exports.search = (req, res) => {
-//   console.log(req,"serach controllar")
+  console.log(req,"serach controllar")
   User.findAll({
 
     where: {
@@ -33,7 +33,7 @@ exports.search = (req, res) => {
       obj.level = result[i].subjects[0].level
       info.push(obj)
     }
-   res.send(result[0].subjects[0].level)
+   res.send({data:info})
    console.log({data:info},"hello woerdjfakljlkj")
   })
 

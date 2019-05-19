@@ -13,11 +13,11 @@ const User = db.define("user", {
   is_teacher: { type: Sequelize.BOOLEAN, required: true },
   createdAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   },
   updatedAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   }
 });
 
@@ -27,11 +27,11 @@ const Subject = db.define("subject", {
   level: { type: Sequelize.STRING, required: true },
   createdAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   },
   updatedAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   }
 });
 
@@ -40,11 +40,11 @@ const Role = db.define("role", {
   role: { type: Sequelize.STRING, required: true },
   createdAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   },
   updatedAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   }
 });
 
@@ -55,11 +55,11 @@ const Rating = db.define("rating", {
   date: { type: Sequelize.DATE, required: true },
   createdAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   },
   updatedAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   }
 });
 
@@ -68,11 +68,11 @@ const Permission = db.define("permission", {
   name: { type: Sequelize.STRING, required: true },
   createdAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   },
   updatedAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   }
 });
 
@@ -83,11 +83,11 @@ const Schedule = db.define("schedule", {
   endHour: { type: Sequelize.STRING, required: true },
   createdAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   },
   updatedAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   }
 });
 
@@ -95,11 +95,11 @@ const PermissionRole = db.define("PermissionRole", {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
   createdAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   },
   updatedAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   }
 });
 
@@ -107,11 +107,11 @@ const UserRole = db.define("UserRole", {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
   createdAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   },
   updatedAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   }
 });
 
@@ -119,11 +119,11 @@ const TeacherSubject = db.define("TeacherSubject", {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
   createdAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   },
   updatedAt: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    defaultValue: Sequelize.NOW
   }
 });
 

@@ -1,61 +1,47 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Search  from './combpnants/search.jsx'
+import resultSearch  from './components/resultSearch.jsx'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        name: "",
-        cvFile: "",
-        img: "",
-        summary: "",
-        is_teacher: "",
-        password: "",
-        email: "",
-        phone: "",
-        location: ""
-      },
+      userName: "",
+      cvFile: "",
+      img: "",
+      summary: "",
+      is_teacher: "",
+      password: "",
+      email: "",
+      phone: "",
+      location: "",
       teacherProfiles: [],
       current_teacherId: "",
       current_studentId: "",
-      rating: {
-        text: "",
-        rate: ""
-      },
-      subject: {
-        subjectName: "",
-        level: ""
-      },
-      Schedule: {
-        day: "",
-        startHour: "",
-        endHour: ""
-      }
+      ratingText: "",
+      rate: "",
+      subjectName: "",
+      subjectLevel: "",
+      day: "",
+      startHour: "",
+      endHour: ""
     };
   }
 
-  searchInfo(e){
-    let temp = e.target.name
-    e.preventDefault();
-    console.log(e.target.value)
-    this.setState(prevState => ({
-      user: {
-          ...prevState.user,
-          [e.target.name]: e.target.value
-      }
-  })) ;
-    console.log(this.state.user);
-    
+  searchInfo(e) {
+    console.log(this.state[e.target.name])
+    e.preventDefault()
+    this.setState({[e.target.name]:e.target.value})
   }
+  componentDidMount() {}
 
   searchTecher (e) {
-    console.log('click')
+    
     e.preventDefault();
    
       // Default options are marked with *
-        return fetch(`/ss/?location=${this.state.location}&name=${this.state.name}&level=${this.state.level}`, {
+        return fetch(`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`, {
             method: 'GET', // *GET, POST, PUT, DELETE, etc.
             headers : { 
               // 'Content-Type': 'application/json',
@@ -63,17 +49,19 @@ class App extends React.Component {
              }
         })
         .then(response => response = response.json() )
-        .then(data =>{ this.setState({res:data.data,hide:true}); console.log(this.state.res)});
+        .then(data =>{ this.setState({teacherProfiles:data.data}); console.log(this.state.teacherProfiles)});
 
   }
   componentDidMount() {}
 
   render() {
+    var tech = this.state.teacherProfiles
     // var {rating} =this.state;
     // var RatingVaribles = {/*varibles*/}
     return (
       <div>
-        <Search searchTecher={this.searchTecher}  searchInfo={this.searchInfo.bind(this)}/>
+        <Search searchTecher={this.searchTecher.bind(this)}  searchInfo={this.searchInfo.bind(this)}/>
+        <resultSearch resultOfSer={this.props.tech}/>
         <h1>Test</h1>
       </div>
     );
