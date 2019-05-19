@@ -3,15 +3,26 @@ const bodyParser = require("body-parser");
 const db = require("./database/db");
 const {User, Schedule, Role, Permission, Subject, Rating, PermissionRole, UserRole, TeacherSubject} = require("./database/model");
 const app = express();
+const {search} = require('./controller')
+
 const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+//this get for search around for a teacher 
+app.get('/search',(req,res)=>{
+  search(req.body,res)
+})
 
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
+app.get('classes/id',(req,res)=>{
+
+})
+
+
 app.use(express.static(__dirname + '/../client/dist'));
 // app.post('/dd',(req,res)=>{
 //   console.log("called");
