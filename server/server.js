@@ -39,6 +39,19 @@ app.use(express.static(__dirname + '/../client/dist'));
 //     res.json({error:error, stackError:error.stack});
 // });
 // })
+app.post('/rating',(req,res)=>{
+  console.log("called");
+  Rating.create({
+    text: req.body.ratingText,
+    rate:req.body.rate
+}).then(function(data) {
+    res.status(200);
+    res.send(data)
+}).catch(function(error) {
+    res.status(500);
+    res.json({error:error, stackError:error.stack});
+});
+})
 app.listen(port, function() {
-  console.log('listening on port !');
+  console.log('listening on port !',port);
 });
