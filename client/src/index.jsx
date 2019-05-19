@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Rating from "./components/Rating.jsx";
-import Search from './combpnants/search.jsx'
-import ResultSearch from './components/resultSearch.jsx'
+import Search from './combpnants/search.jsx';
+import ResultSearch from './components/resultSearch.jsx';
+import Header from './components/Header.jsx';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -36,10 +38,10 @@ class App extends React.Component {
     this.setState({ [e.target.name]: e.target.value })
   }
   componentDidMount() { }
+
   onRatingChange(e) {
     this.setState({
       [e.target.name]: e.target.value
-
     });
   }
 
@@ -77,16 +79,20 @@ class App extends React.Component {
 
   render() {
     var tech = this.state.teacherProfiles;
-    // var {rating} =this.state;
-    // var RatingVaribles = {/*varibles*/}
     var { ratingText, rate, current_studentId, current_teacherId } = this.state;
     var RatingVariables = { ratingText, rate, current_studentId, current_teacherId };
     return (
       <div>
+        <Header />
+        {/* <div className="background">
+        <div className="transbox">
+        <p>This is some text that is placed in the transparent box.</p>
+        </div>
+        </div> */}
+        <img src='https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ'/>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />
         <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)} />
-        <h1>Test</h1>
       </div>
     );
   }
