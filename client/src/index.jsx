@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
+import SignUp from "./components/SignUp.jsx"
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -9,7 +9,7 @@ class App extends React.Component {
       cvFile: "",
       img: "",
       summary: "",
-      is_teacher: "",
+      is_teacher: false,
       password: "",
       email: "",
       phone: "",
@@ -26,6 +26,12 @@ class App extends React.Component {
       endHour: ""
     };
   }
+  onchangingSignUp(e){
+    this.setState({[e.target.name]:e.target.value});
+  }
+  onSignUp(){
+    console.log("signup");
+  }
   componentDidMount() {}
 
   render() {
@@ -33,6 +39,7 @@ class App extends React.Component {
     // var RatingVaribles = {/*varibles*/}
     return (
       <div>
+        <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
         <h1>Test by Cyber-Ninjas</h1>
       </div>
     );

@@ -29,5 +29,5 @@ app.use(express.static(__dirname + '/../client/dist'));
 // });
 // })
 app.listen(port, function() {
-  console.log('listening on port !');
+  console.log('listening on port !',port);
 });
