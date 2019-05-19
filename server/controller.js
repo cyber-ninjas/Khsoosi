@@ -46,6 +46,7 @@ exports.search = (req, res) => {
     
   })
 }
+////this function give the teacher a schedule of the classes he/she have
 exports.seeSchedule = (req,res) => {
   console.log(req,"req--id")
   User.findAll({
@@ -70,5 +71,23 @@ exports.seeSchedule = (req,res) => {
     res.send({data:info})
   })  
 }
+
+
+exports.checkTheUser = (req,res) =>{
+  console.log(req)
+  User.findOne({
+    where:{
+      email:req.email,
+      password: req.password
+    }
+  }).then((data) => console.log(data))
+
+
+}
+
+
+
+
+
 
 

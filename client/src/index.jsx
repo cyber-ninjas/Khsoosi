@@ -78,7 +78,7 @@ class App extends React.Component {
       .then(response => response = response.json())
       .then(data => { this.setState({ teacherProfiles: data.data }); console.log(this.state.teacherProfiles) });
    }
-
+////this function give the teacher a schedule of the classes he/she have
   searchClasses(e) {
     e.preventDefault();
     return fetch(`/classes/id?id=${this.state.current_teacherId}`,{
