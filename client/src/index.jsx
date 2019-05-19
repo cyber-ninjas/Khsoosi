@@ -36,6 +36,7 @@ class App extends React.Component {
   onSignUp(){
     console.log("signup");
     const { userName, is_teacher, password, email, phone, location } = this.state;
+    const body = { userName, is_teacher, password, email, phone, location };
     fetch('/signup', {
       method: 'post',
       body: JSON.stringify(body),

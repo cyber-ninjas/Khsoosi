@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.use("/*",khsoosiRouter);
+app.use("",khsoosiRouter);
 
 app.get('classes/id',(req,res)=>{
 

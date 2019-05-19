@@ -1,5 +1,6 @@
 const cd = require("./database/db");
 const Sequelize = require("sequelize");
+const bcrypt = require("bcrypt");
 const {
   User,
   Schedule,
@@ -69,6 +70,22 @@ exports.search = (req, res) => {
   });
 };
 exports.signup = (req, res)=>{
-  console.log(req.body)
+  console.log("ok")
+  const info = req.body;
+  User.findOne({ where: {email: info.email} }).then(exist => {
+    if(exist) return res.status(401).send({error:"The email already exist pleas signIn!"});
+    password = bcrypt.hashSync(info.password, 10);
+    User.create({
+      email: info.email,
+      password: password,
+      name:info.userName ,
+      phone: info.phone,
+      location: info.location,
+      is_teacher: info.is_teacher}).then(user => {
+    }).then(created=>{
+      return res.send({created:created})
+    }).catch(err=> res.send({error:"can't store the account"}))
+  }).catch(err=> res.send({error:"server error"}))
+  
 };
 exports.seeSchedule = (req, res) => {};
