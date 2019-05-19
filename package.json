@@ -5,7 +5,11 @@
   "main": "server.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
+<<<<<<< HEAD
     "start": "nodemon server/server.js"
+=======
+    "start":"nodemon server/server.js"
+>>>>>>> 2bbf6c38a6570f7392fd81251fa6481822210db5
   },
   "author": "Cyber - Ninja",
   "license": "ISC",
@@ -14,7 +18,8 @@
     "babel-loader": "^6.3.2",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "webpack-cli": "^3.3.2"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
