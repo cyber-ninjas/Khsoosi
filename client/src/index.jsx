@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import SignUp from "./components/SignUp.jsx"
 import Rating from "./components/Rating.jsx";
-import Search from './components/search.jsx'
+import Search from './combpnants/search.jsx'
 import ResultSearch from './components/resultSearch.jsx'
 
 class App extends React.Component {
@@ -35,6 +35,18 @@ class App extends React.Component {
   }
   onSignUp(){
     console.log("signup");
+    const { userName, is_teacher, password, email, phone, location } = this.state;
+    const body = { userName, is_teacher, password, email, phone, location };
+    fetch('/signup', {
+      method: 'post',
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" }
+    }).then((response) => {
+      return response.json();
+    }).then((body) => {
+      console.log(body)
+      this.setState({ userName:'', is_teacher:'', password:'', email:'', phone:'', location:'' });
+    });
   }
   componentDidMount() {}
 
@@ -91,8 +103,8 @@ class App extends React.Component {
     var RatingVariables = { ratingText, rate, current_studentId, current_teacherId };
     return (
       <div>
-        <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
         <h1>Test by Cyber-Ninjas</h1>
+        <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />
         <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)} />
