@@ -20,7 +20,7 @@ exports.search = (req, res) => {
    where: {
      name: `${req.name}`,
      level: `${req.level}`
- },
+ }, 
   include: [{
     model: User,
       where: {
