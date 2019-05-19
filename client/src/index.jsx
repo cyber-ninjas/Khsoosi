@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import SignUp from "./components/SignUp.jsx"
 import Rating from "./components/Rating.jsx";
 import Search from './combpnants/search.jsx'
 import ResultSearch from './components/resultSearch.jsx'
@@ -12,7 +13,7 @@ class App extends React.Component {
       cvFile: "",
       img: "",
       summary: "",
-      is_teacher: "",
+      is_teacher: false,
       password: "",
       email: "",
       phone: "",
@@ -29,6 +30,13 @@ class App extends React.Component {
       endHour: ""
     };
   }
+  onchangingSignUp(e){
+    this.setState({[e.target.name]:e.target.value});
+  }
+  onSignUp(){
+    console.log("signup");
+  }
+  componentDidMount() {}
 
   searchInfo(e) {
     console.log(this.state[e.target.name])
@@ -83,6 +91,8 @@ class App extends React.Component {
     var RatingVariables = { ratingText, rate, current_studentId, current_teacherId };
     return (
       <div>
+        <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
+        <h1>Test by Cyber-Ninjas</h1>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />
         <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)} />

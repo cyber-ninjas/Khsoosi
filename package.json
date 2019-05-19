@@ -5,7 +5,11 @@
   "main": "server.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
+<<<<<<< HEAD
+    "start": "nodemon server/server.js"
+=======
     "start":"nodemon server/server.js"
+>>>>>>> 2bbf6c38a6570f7392fd81251fa6481822210db5
   },
   "author": "Cyber - Ninja",
   "license": "ISC",
