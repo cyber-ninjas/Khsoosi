@@ -28,23 +28,20 @@ class App extends React.Component {
       endHour: ""
     };
   }
-
-  searchInfo(e) {
-    console.log(this.state[e.target.name])
+//this fucntion lisent to the chages in search bar
+   searchInfo(e) {
     e.preventDefault()
     this.setState({[e.target.name]:e.target.value})
   }
   componentDidMount() {}
 
+///this function send the info from the serach bar to the server 
   searchTecher (e) {
-    
-    e.preventDefault();
-   
-      // Default options are marked with *
-        return fetch(`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`, {
-            method: 'GET', // *GET, POST, PUT, DELETE, etc.
+   e.preventDefault();
+      return fetch(`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`, {
+            method: 'GET', 
             headers : { 
-              // 'Content-Type': 'application/json',
+             
               'Accept': 'application/json'
              }
         })
@@ -56,9 +53,7 @@ class App extends React.Component {
 
   render() {
     var tech = this.state.teacherProfiles
-    // var {rating} =this.state;
-    // var RatingVaribles = {/*varibles*/}
-    return (
+   return (
       <div>
         <Search searchTecher={this.searchTecher.bind(this)}  searchInfo={this.searchInfo.bind(this)}/>
         <ResultSearch resultOfSer={tech}/>
