@@ -6,50 +6,58 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        name: "",
-        cvFile: "",
-        img: "",
-        summary: "",
-        is_teacher: "",
-        password: "",
-        email: "",
-        phone: "",
-        location: ""
-      },
+      userName: "",
+      cvFile: "",
+      img: "",
+      summary: "",
+      is_teacher: "",
+      password: "",
+      email: "",
+      phone: "",
+      location: "",
       teacherProfiles: [],
       current_teacherId: "",
       current_studentId: "",
-      rating: {
-        text: "",
-        rate: ""
-      },
-      subject: {
-        subjectName: "",
-        level: ""
-      },
-      Schedule: {
-        day: "",
-        startHour: "",
-        endHour: ""
-      }
+      ratingText: "",
+      rate: "",
+      subjectName: "",
+      subjectLevel: "",
+      day: "",
+      startHour: "",
+      endHour: ""
     };
   }
 
-  onChange(e) {
+  onRatingChange(e) {
     this.setState({
-      rating:{[e.target.name]: e.target.value}
+      [e.target.name]: e.target.value
+
     });
-    console.log(this.state)
   }
-  componentDidMount() {}
+
+  rating(){
+    const body = {ratingText: this.state.ratingText, rate: this.state.rate};
+    fetch('/rating', {
+      method: 'post',
+      body: JSON.stringify(body),
+      headers: {"Content-Type": "application/json"}
+    }).then((response) => {
+      return response.json();
+    }).then((body) => {
+      console.log(body)
+      this.setState({ratingText: '', rate: ''});
+    });
+  }
+
+  componentDidMount() { }
 
   render() {
-    var {rating} =this.state;
+    var { ratingText, rate, current_studentId, current_teacherId } = this.state;
+    var RatingVariables = { ratingText, rate, current_studentId, current_teacherId };
     return (
       <div>
         <h1>Test</h1>
-        <Rating RatingVariables = {rating} onChange = {this.onChange.bind(this)}/>
+        <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)}/>
       </div>
     );
   }

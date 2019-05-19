@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const db = require("./database/db");
 const {User, Schedule, Role, Permission, Subject, Rating, PermissionRole, UserRole, TeacherSubject} = require("./database/model");
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -28,6 +28,19 @@ app.use(express.static(__dirname + '/../client/dist'));
 //     res.json({error:error, stackError:error.stack});
 // });
 // })
+app.post('/rating',(req,res)=>{
+  console.log("called");
+  Rating.create({
+    text: req.body.ratingText,
+    rate:req.body.rate
+}).then(function(data) {
+    res.status(200);
+    res.send(data)
+}).catch(function(error) {
+    res.status(500);
+    res.json({error:error, stackError:error.stack});
+});
+})
 app.listen(port, function() {
   console.log('listening on port !');
 });
