@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Search  from './combpnants/search.jsx'
-import resultSearch  from './components/resultSearch.jsx'
+import ResultSearch  from './components/resultSearch.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -61,7 +61,7 @@ class App extends React.Component {
     return (
       <div>
         <Search searchTecher={this.searchTecher.bind(this)}  searchInfo={this.searchInfo.bind(this)}/>
-        <resultSearch resultOfSer={this.props.tech}/>
+        <ResultSearch resultOfSer={tech}/>
         <h1>Test</h1>
       </div>
     );

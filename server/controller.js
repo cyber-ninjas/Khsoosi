@@ -6,35 +6,54 @@ const Op = Sequelize.Op;
 //that the student ask for in the search feild in the homepage
 exports.search = (req, res) => {
   console.log(req,"serach controllar")
-  User.findAll({
-
-    where: {
-      location: `${req.location}`,
-    },
-    include: [{
-      model: Subject,
-
-      where: {
-        name: `${req.name}`,
-        level: `${req.level}`
-      }
-    }]
+//   User.findAll({
+//       where: {
+//       location: `${req.location}`,
+//     },
+//     include: [{
+//       model: Subject,
+//       where: {
+//         name: `${req.name}`,
+//         level: `${req.level}`
+//       }
+//     }]
+Subject.findAll({
+        where: {
+            name: `${req.name}`,
+           level: `${req.level}`
+      },
+      include: [{ 
+       
+        model: User,
+        where: {
+            location: `${req.location}`,
+        },
+       include:[{
+        model:Rating
+       }]
+      }]
   }).then(result => {
-   
-    var info = [];
-    for (let i = 0; i < result.length; i++) {
-      let obj = {}
-      obj.summary = result[i].summary
-      obj.name = result[i].name
-      obj.phone = result[i].phone
-      obj.location = result[i].location
-      obj.img = result[i].img
-      obj.cvFile = result[i].cvFile
-      obj.level = result[i].subjects[0].level
-      info.push(obj)
-    }
-   res.send({data:info})
-   console.log({data:info},"hello woerdjfakljlkj")
+      console.log(result)
+       var info = [];
+       for (let i = 0; i < result.length; i++) {
+        let obj = {}
+        obj.subject = result[i].name
+        obj.level = result[i].level
+        obj.name = result[i].users[0].name
+        obj.phone = result[i].users[0].phone
+        obj.location = result[i].users[0].location
+        obj.img = result[i].users[0].img
+        obj.cvFile = result[i].users[0].cvFile
+        obj.summary = result[i].users[0].summary
+        obj.reatingText = result[i].users[0].ratings[0].text
+        obj.rate = result[i].users[0].ratings[0].rate
+        obj.date = result[i].users[0].ratings[0].date
+        info.push(obj)
+      }
+     res.send(result)
+     console.log({data:info},"hello woerdjfakljlkj")
   })
+}
+exports.seeSchedule = (req,res) => {
 
 }

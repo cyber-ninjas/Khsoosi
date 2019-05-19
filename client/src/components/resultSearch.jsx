@@ -1,17 +1,18 @@
-import React , {Component} from 'react'
+import React, { Component } from 'react'
 
-class resultSearch extends Component{
-    // render(){
-    //     this.props
-    // return (
-    //     <div>
-    //         {/* {this.props.resultOfSer.map(function(name, index){
-    //             return <div key={ index }>{name.name}</div>;
-    //           })} */}
-    //     </div>
-    // )
-    //         }
-
+class ResultSearch extends Component {
+  render() {
+    return (
+      <div>
+        {
+          this.props.resultOfSer.map(function (name, index) {
+            return( <div key={index}>{name.name}</div>
+            
+              ) 
+            })}
+      </div>
+    )
+  }
 }
 
-export default resultSearch
+export default ResultSearch

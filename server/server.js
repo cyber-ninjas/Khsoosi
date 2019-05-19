@@ -13,11 +13,13 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
+//this get for search around for a teacher 
 app.get('/search',(req,res)=>{
-  // console.log(req.query)
-  search(req.query,res)
-  
+  search(req.body,res)
+})
+
+app.get('classes/id',(req,res)=>{
+
 })
 
 
