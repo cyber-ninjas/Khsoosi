@@ -15,29 +15,29 @@ const Op = Sequelize.Op;
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage
 exports.search = (req, res) => {
-  req = req.body;
-  console.log(req, "serach controllar");
+  const query = req.body;
+  console.log(query, "serach controllar");
   //   User.findAll({
   //       where: {
-  //       location: `${req.location}`,
+  //       location: `${query.location}`,
   //     },
   //     include: [{
   //       model: Subject,
   //       where: {
-  //         name: `${req.name}`,
-  //         level: `${req.level}`
+  //         name: `${query.name}`,
+  //         level: `${query.level}`
   //       }
   //     }]
   Subject.findAll({
     where: {
-      name: `${req.name}`,
-      level: `${req.level}`
+      name: `${query.name}`,
+      level: `${query.level}`
     },
     include: [
       {
         model: User,
         where: {
-          location: `${req.location}`
+          location: `${query.location}`
         },
         include: [
           {
@@ -68,5 +68,7 @@ exports.search = (req, res) => {
     console.log({ data: info }, "hello woerdjfakljlkj");
   });
 };
-exports.signup = (req, res);
+exports.signup = (req, res)=>{
+  console.log(req.body)
+};
 exports.seeSchedule = (req, res) => {};
