@@ -8,6 +8,9 @@ import Search from './components/search.jsx';
 import ResultSearch from './components/resultSearch.jsx';
 import Header from './components/Header.jsx';
 import {storage} from '../../server/database/firebase.js';
+import Classes from './components/classes.jsx';
+import Login from './components/login.jsx';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -34,7 +37,9 @@ class App extends React.Component {
       subjectLevel: "",
       day: "",
       startHour: "",
-      endHour: ""
+      endHour: "",
+      classes: [],
+      token: ''
     };
   }
   handleImgChange (e) {
@@ -147,13 +152,55 @@ class App extends React.Component {
       headers: {
         // 'Content-Type': 'application/json',
         'Accept': 'application/json'
-      }
-    })
-      .then(response => response = response.json())
-      .then(data => { this.setState({ teacherProfiles: data.data }); console.log(this.state.teacherProfiles) });
+			}
+		})
+			.then((response) => (response = response.json()))
+			.then((data) => {
+				this.setState({ classes: data.data });
+				console.log(this.state.classes);
+			}).catch((err)=>console.log(err))
+	} 
 
-  }
- 
+	loging(e) {
+		e.preventDefault();
+		return fetch(`/login?email=${this.state.email}&password=${this.state.password}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		})
+			.then((response) => response.json())
+			.then((data) => {
+        if(data.err)return console.log(data);
+				let user_id = 'current_studentId';
+				if (data.is_teacher) user_id = 'current_teacherId';
+				this.setState({ token: data.token, [user_id]: data.user_id, is_teacher: data.is_teacher }, () => {
+          if(this.state.is_teacher){
+            ///// go to the teacher profile /////// 
+          }else{
+            ///// go to the student profile ///////
+          }
+					console.log(this.state.token," ",this.state.is_teacher," ",this.state.current_teacherId);
+				});
+			}).catch()
+	}
+
+	searchClasses(e) {
+		e.preventDefault();
+		return fetch(`/classes?id=${1}`, {
+			method: 'GET',
+			headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+})
+    .then((response) => (response = response.json()))
+    .then((data) => {
+        this.setState({ classes: data.data });
+        console.log(this.state.classes);
+    }).catch((err)=>console.log(err))
+} 
 
   render() {
     var tech = this.state.teacherProfiles;
@@ -178,8 +225,10 @@ class App extends React.Component {
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />
         <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)} />
+        <Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
+				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
       </div>
     );
   }
 }
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));
