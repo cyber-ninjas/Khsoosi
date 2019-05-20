@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ImageUpload from './components/imageUpload.jsx';
-import {storage} from '/Users/rbk-4/Desktop/Khsoosi/server/database/firebase.js';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userName: "",
       cvFile: "",
-      image: "",
+      image: null,
       imgUrl: "",
       progress: 0,
       summary: "",
@@ -39,27 +39,44 @@ class App extends React.Component {
     
   }
   handleImgUpload () {
-		const {image} = this.state;
-		const uploadTask = storage.ref(`images/${image.name}`).put(image);
-		uploadTask.on('state_changed', 
-		(snapshot) => {
-			//progress function ....
-			const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-			this.setState({progress});
-		},
-		(error) => {
-			// error function ....
-			console.log(error);
-		},
-		() => {
-			// complete function ....
-			storage.ref('images').child(image.name).getDownloadURL().then(imgUrl => {
-        this.setState({imgUrl});
-        console.log(this.state);
-        console.log(imgUrl);
-      })
-		});
-		console.log(this.state);
+    // e.preventDefault();
+    const formData = new FormData();
+    formData.append('myImage',this.state.image);
+    // const body = this.state.image
+    fetch('/profileUpdate', {
+      method: 'post',
+      body: (formData)
+      // headers: {
+      //   'Accept': 'application/json',
+      //   "Content-Type": "multipart/form-data"
+      // }
+    })
+    // .then((res) => {
+    //   return res.json();
+    // }).then((data) => {
+    //   this.setState({imgUrl: data.url});
+    // });
+		// const {image} = this.state;
+		// const uploadTask = storage.ref(`images/${image.name}`).put(image);
+		// uploadTask.on('state_changed', 
+		// (snapshot) => {
+		// 	//progress function ....
+		// 	const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+		// 	this.setState({progress});
+		// },
+		// (error) => {
+		// 	// error function ....
+		// 	console.log(error);
+		// },
+		// () => {
+		// 	// complete function ....
+		// 	storage.ref('images').child(image.name).getDownloadURL().then(imgUrl => {
+    //     this.setState({imgUrl});
+    //     console.log(this.state);
+    //     console.log(imgUrl);
+    //   })
+		// });
+		// console.log(this.state);
   }
   componentDidMount() {}
 
