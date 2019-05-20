@@ -9,7 +9,8 @@ class Classes extends React.Component{
         <div>
           <p>you'r schedule</p>
             <button onClick={this.props.searchClasses.bind(this)}>Classes</button>
-            {this.props.result.map((data,indx)=>{
+            {
+              this.props.result.map((data,indx)=>{
               // console.log('kdfk')
              return( <div>
                 <p>day:{data.day}</p>

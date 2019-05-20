@@ -17,22 +17,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use("",khsoosiRouter);
-//this get for search around for a teacher 
-app.get('/search',(req,res)=>{
-  search(req.query,res)
-})
-////this function give the teacher a schedule of the classes he/she have
-app.get('/classes/id',(req,res)=>{
-//  console.log(req.query)
-  seeSchedule(req.query,res)
-})
-
-app.get('/login',(req,res)=>{
-  console.log(req.body)
-checkTheUser(req.body,res)
-
-})
-
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/rating',(req,res)=>{
