@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import ImageUpload from './components/imageUpload.jsx';
 import SignUp from "./components/SignUp.jsx"
 import Rating from "./components/Rating.jsx";
 import Search from './components/search.jsx';
@@ -13,7 +14,9 @@ class App extends React.Component {
     this.state = {
       userName: "",
       cvFile: "",
-      img: "",
+      image: null,
+      imgUrl: "",
+      progress: 0,
       summary: "",
       is_teacher: false,
       password: "",
@@ -31,6 +34,55 @@ class App extends React.Component {
       startHour: "",
       endHour: ""
     };
+  }
+  handleImgChange (e) {
+    if (e.target.files[0]) {
+      const image = e.target.files[0];
+      this.setState(() => ({image}));
+      console.log(image);
+    }
+    console.log(this.state);
+    
+  }
+  handleImgUpload () {
+    // e.preventDefault();
+    const formData = new FormData();
+    formData.append('myImage',this.state.image);
+    // const body = this.state.image
+    fetch('/profileUpdate', {
+      method: 'post',
+      body: (formData)
+      // headers: {
+      //   'Accept': 'application/json',
+      //   "Content-Type": "multipart/form-data"
+      // }
+    })
+    // .then((res) => {
+    //   return res.json();
+    // }).then((data) => {
+    //   this.setState({imgUrl: data.url});
+    // });
+		// const {image} = this.state;
+		// const uploadTask = storage.ref(`images/${image.name}`).put(image);
+		// uploadTask.on('state_changed', 
+		// (snapshot) => {
+		// 	//progress function ....
+		// 	const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+		// 	this.setState({progress});
+		// },
+		// (error) => {
+		// 	// error function ....
+		// 	console.log(error);
+		// },
+		// () => {
+		// 	// complete function ....
+		// 	storage.ref('images').child(image.name).getDownloadURL().then(imgUrl => {
+    //     this.setState({imgUrl});
+    //     console.log(this.state);
+    //     console.log(imgUrl);
+    //   })
+		// });
+    // console.log(this.state);
   }
   onchangingSignUp(e){
     this.setState({[e.target.name]:e.target.value});
@@ -106,6 +158,11 @@ class App extends React.Component {
         <Header />
         <img src='https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ'/>
         <h1>Test by Cyber-Ninjas</h1>
+        <ImageUpload imgUrl={this.state.imgUrl} 
+                     image={this.state.image}
+                     progress={this.state.progress}
+                     handleImgChange={e => this.handleImgChange(e)} 
+                     handleImgUpload={() => this.handleImgUpload()} />
         <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />
