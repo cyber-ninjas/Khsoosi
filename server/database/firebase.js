@@ -1,5 +1,5 @@
-const firebase = require ('firebase/app');
-const fire = require ('firebase/storage');
+import firebase from 'firebase/app';
+import 'firebase/storage';
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -16,5 +16,6 @@ var firebaseConfig = {
 
   const storage = firebase.storage();
 
-  exports.storage = storage;
-  exports.firebase = firebase;
+  export {
+      storage, firebase as default
+  }

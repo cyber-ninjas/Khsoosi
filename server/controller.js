@@ -170,3 +170,8 @@ exports.signup = (req, res) => {
 		})
 		.catch((err) => res.send({ error: 'server error' }));
 };
+
+
+exports.pick = (req,res) =>{
+  ////////doSomeThing///////
+}
