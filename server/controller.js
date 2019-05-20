@@ -16,6 +16,21 @@ const {
 var jwt = require('jsonwebtoken');
 
 const Op = Sequelize.Op;
+
+//Adding new rating 
+exports.rating = (req, res) => {
+  Rating.create({
+    text: req.body.ratingText,
+    rate: req.body.rate
+  }).then(function (data) {
+    res.status(200);
+    res.send(data)
+  }).catch(function (error) {
+    res.status(500);
+    res.json({ error: error, stackError: error.stack });
+  });
+}
+
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage
 exports.search = (req, res) => {

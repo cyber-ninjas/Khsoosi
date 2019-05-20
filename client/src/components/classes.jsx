@@ -12,7 +12,7 @@ class Classes extends React.Component{
             {
               this.props.result.map((data,indx)=>{
               // console.log('kdfk')
-             return( <div>
+             return( <div key={indx}>
                 <p>day:{data.day}</p>
                 <p>at:{data.startHour}</p>
                 <p>end:{data.endHour}</p>
