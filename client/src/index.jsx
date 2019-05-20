@@ -201,6 +201,7 @@ class App extends React.Component {
     var RatingVariables = { ratingText, rate, current_studentId, current_teacherId };
     return (
       <div>
+        <div>
         <Header />
         <img src='https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ'/>
         <h1>Test by Cyber-Ninjas</h1>
@@ -215,6 +216,8 @@ class App extends React.Component {
         <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)} />
         <Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
 				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
+        </div>
+         
       </div>
     );
   }
