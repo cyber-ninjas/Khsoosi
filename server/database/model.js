@@ -69,7 +69,7 @@ const Confirm = db.define("TeacherConfirm", {
   day: { type: Sequelize.STRING, required: true },
   start: { type: Sequelize.STRING, required: true },
   end: { type: Sequelize.STRING, required: true },
-  confirmed: { type: Sequelize.STRING, required: true },// yes, no, not yet
+  confirmed: { type: Sequelize.STRING, required: true }, // yes, no, not yet
   createdAt: {
     type: Sequelize.DATE,
     defaultValue: Sequelize.NOW
