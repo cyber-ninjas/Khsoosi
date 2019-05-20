@@ -1,11 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ImageUpload from './components/imageUpload.jsx';
+import CVUpload from './components/cvUpload.jsx';
 import SignUp from "./components/SignUp.jsx"
 import Rating from "./components/Rating.jsx";
 import Search from './components/search.jsx';
 import ResultSearch from './components/resultSearch.jsx';
 import Header from './components/Header.jsx';
+import {storage} from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
 import Login from './components/login.jsx';
 
@@ -15,7 +17,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       userName: "",
-      cvFile: "",
+      cvFile: {},
+      cvFileUrl: "",
       image: null,
       imgUrl: "",
       progress: 0,
@@ -43,50 +46,54 @@ class App extends React.Component {
     if (e.target.files[0]) {
       const image = e.target.files[0];
       this.setState(() => ({image}));
-      console.log(image);
-    }
-    console.log(this.state);
-    
+    } 
+  }
+  handleFileChange (e) {
+    if (e.target.files[0]) {
+      const cvFile = e.target.files[0];
+      this.setState(() => ({cvFile}));
+    } 
+  }
+  handleFileUpload () {
+		const {cvFile} = this.state;
+		const uploadTask = storage.ref(`files/${cvFile.name}`).put(cvFile);
+		uploadTask.on('state_changed', 
+		(snapshot) => {
+			//progress function ....
+			const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+			this.setState({progress});
+		},
+		(error) => {
+			// error function ....
+			console.log(error);
+		},
+		() => {
+			// complete function ....
+			storage.ref('files').child(cvFile.name).getDownloadURL().then(cvFileUrl => {
+        this.setState({cvFileUrl, cvFile: cvFile.name});
+        
+      })
+		});
   }
   handleImgUpload () {
-    // e.preventDefault();
-    const formData = new FormData();
-    formData.append('myImage',this.state.image);
-    // const body = this.state.image
-    fetch('/profileUpdate', {
-      method: 'post',
-      body: (formData)
-      // headers: {
-      //   'Accept': 'application/json',
-      //   "Content-Type": "multipart/form-data"
-      // }
-    })
-    // .then((res) => {
-    //   return res.json();
-    // }).then((data) => {
-    //   this.setState({imgUrl: data.url});
-    // });
-		// const {image} = this.state;
-		// const uploadTask = storage.ref(`images/${image.name}`).put(image);
-		// uploadTask.on('state_changed', 
-		// (snapshot) => {
-		// 	//progress function ....
-		// 	const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-		// 	this.setState({progress});
-		// },
-		// (error) => {
-		// 	// error function ....
-		// 	console.log(error);
-		// },
-		// () => {
-		// 	// complete function ....
-		// 	storage.ref('images').child(image.name).getDownloadURL().then(imgUrl => {
-    //     this.setState({imgUrl});
-    //     console.log(this.state);
-    //     console.log(imgUrl);
-    //   })
-		// });
-    // console.log(this.state);
+		const {image} = this.state;
+		const uploadTask = storage.ref(`images/${image.name}`).put(image);
+		uploadTask.on('state_changed', 
+		(snapshot) => {
+			//progress function ....
+			const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+			this.setState({progress});
+		},
+		(error) => {
+			// error function ....
+			console.log(error);
+		},
+		() => {
+			// complete function ....
+			storage.ref('images').child(image.name).getDownloadURL().then(imgUrl => {
+        this.setState({imgUrl});
+      })
+		});
   }
   onchangingSignUp(e){
     this.setState({[e.target.name]:e.target.value});
@@ -106,14 +113,14 @@ class App extends React.Component {
       this.setState({ userName:'', is_teacher:'', password:'', email:'', phone:'', location:'' });
     });
   }
-  componentDidMount() {}
+  
 
   searchInfo(e) {
     console.log(this.state[e.target.name])
     e.preventDefault()
     this.setState({ [e.target.name]: e.target.value })
   }
-  componentDidMount() { }
+  
 
   onRatingChange(e) {
     this.setState({
@@ -209,6 +216,11 @@ class App extends React.Component {
                      progress={this.state.progress}
                      handleImgChange={e => this.handleImgChange(e)} 
                      handleImgUpload={() => this.handleImgUpload()} />
+        <CVUpload    cvFileUrl={this.state.cvFileUrl} 
+                     cvFile={this.state.cvFile}
+                     progress={this.state.progress}
+                     handleFileChange={e => this.handleFileChange(e)} 
+                     handleFileUpload={() => this.handleFileUpload()} />
         <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />
