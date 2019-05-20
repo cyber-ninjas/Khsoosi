@@ -24,7 +24,7 @@ class Search extends Component{
 // }
   render(){
    return( <div>
-      <form>
+      <form id="searchForm">
         <input className="inputs" type="text" name="subjectLevel" onChange={this.props.searchInfo.bind(this)} placeholder="level"/>
         <br/>
         <br/>

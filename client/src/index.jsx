@@ -5,6 +5,7 @@ import Rating from "./components/Rating.jsx";
 import Search from './components/search.jsx';
 import ResultSearch from './components/resultSearch.jsx';
 import Header from './components/Header.jsx';
+import Schedule from "./components/Schedule.jsx";
 
 
 class App extends React.Component {
@@ -57,6 +58,7 @@ class App extends React.Component {
     e.preventDefault()
     this.setState({ [e.target.name]: e.target.value })
   }
+  
   componentDidMount() { }
 
   onRatingChange(e) {
@@ -101,6 +103,8 @@ class App extends React.Component {
     var tech = this.state.teacherProfiles;
     var { ratingText, rate, current_studentId, current_teacherId } = this.state;
     var RatingVariables = { ratingText, rate, current_studentId, current_teacherId };
+    var { current_teacherId, day, startHour, endHour } = this.state;
+    var ScheduleVariables = { current_teacherId, day, startHour, endHour };
     return (
       <div>
         <Header />
@@ -109,6 +113,7 @@ class App extends React.Component {
         <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />
+        <Schedule ScheduleVariables={ScheduleVariables}/>
         <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)} />
       </div>
     );
