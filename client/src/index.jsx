@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ImageUpload from './components/imageUpload.jsx';
+import CVUpload from './components/cvUpload.jsx';
 import SignUp from "./components/SignUp.jsx"
 import Rating from "./components/Rating.jsx";
 import Search from './components/search.jsx';
@@ -13,7 +14,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       userName: "",
-      cvFile: "",
+      cvFile: {},
+      cvFileUrl: "",
       image: null,
       imgUrl: "",
       progress: 0,
@@ -41,8 +43,34 @@ class App extends React.Component {
       this.setState(() => ({image}));
     } 
   }
+  handleFileChange (e) {
+    if (e.target.files[0]) {
+      const cvFile = e.target.files[0];
+      this.setState(() => ({cvFile}));
+    } 
+  }
+  handleFileUpload () {
+		const {cvFile} = this.state;
+		const uploadTask = storage.ref(`files/${cvFile.name}`).put(cvFile);
+		uploadTask.on('state_changed', 
+		(snapshot) => {
+			//progress function ....
+			const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+			this.setState({progress});
+		},
+		(error) => {
+			// error function ....
+			console.log(error);
+		},
+		() => {
+			// complete function ....
+			storage.ref('files').child(cvFile.name).getDownloadURL().then(cvFileUrl => {
+        this.setState({cvFileUrl, cvFile: cvFile.name});
+        
+      })
+		});
+  }
   handleImgUpload () {
-
 		const {image} = this.state;
 		const uploadTask = storage.ref(`images/${image.name}`).put(image);
 		uploadTask.on('state_changed', 
@@ -59,10 +87,8 @@ class App extends React.Component {
 			// complete function ....
 			storage.ref('images').child(image.name).getDownloadURL().then(imgUrl => {
         this.setState({imgUrl});
-
       })
 		});
-   
   }
   onchangingSignUp(e){
     this.setState({[e.target.name]:e.target.value});
@@ -143,6 +169,11 @@ class App extends React.Component {
                      progress={this.state.progress}
                      handleImgChange={e => this.handleImgChange(e)} 
                      handleImgUpload={() => this.handleImgUpload()} />
+        <CVUpload    cvFileUrl={this.state.cvFileUrl} 
+                     cvFile={this.state.cvFile}
+                     progress={this.state.progress}
+                     handleFileChange={e => this.handleFileChange(e)} 
+                     handleFileUpload={() => this.handleFileUpload()} />
         <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />

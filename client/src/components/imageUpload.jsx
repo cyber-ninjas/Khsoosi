@@ -4,7 +4,6 @@ class ImageUpload extends React.Component {
   
 	render() {
     const style = {
-      height: '100vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -13,7 +12,6 @@ class ImageUpload extends React.Component {
     
     return (
       <div style={style}>
-        <h1>hi </h1>
 				<progress value={this.props.progress} max='100' />
 				<br/>
         <input type = 'file' accept="image/*" data-max-size="5000" onChange={this.props.handleImgChange.bind(this)} />
