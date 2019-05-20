@@ -5,7 +5,7 @@ const db = require("./database/db");
 const {User, Schedule, Role, Permission, Subject, Rating, PermissionRole, UserRole, TeacherSubject} = require("./database/model");
 const {storage} = require ('./database/firebase.js');
 const app = express();
-const {search, rating} = require('./controller')
+const {search, rating, seeSchedule} = require('./controller')
 const khsoosiRouter = require('./router');
 
 
@@ -24,15 +24,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use("",khsoosiRouter);
-//this get for search around for a teacher 
-app.get('/search',(req,res)=>{
-  search(req.query,res)
-})
-
-app.get('classes/id',(req,res)=>{
-
-})
-
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/rating',(req,res)=>{
