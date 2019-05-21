@@ -12,6 +12,7 @@ class TeacherProfile extends React.Component {
 		//   justifyContent: 'center'
 		// };
 		// const schedules = this.props.teacherInfo.schedules;
+		
 		return (
 			<div>
 				<img
@@ -23,43 +24,52 @@ class TeacherProfile extends React.Component {
 				<br />
 				<fieldset>
 					<legend>Teacher Info</legend>
-					<p>{this.props.teacherInfo.userName}</p>
-					<p>{this.props.teacherInfo.email}</p>
-					<p>{this.props.teacherInfo.phone}</p>
-					<p>{this.props.teacherInfo.location}</p>
-					<p>{this.props.teacherInfo.summary}</p>
+					<label htmlFor="">Name: </label> {this.props.teacherInfo.userName}
+					<br />
+					<label htmlFor="">email: </label> {this.props.teacherInfo.email}
+					<br />
+					<label htmlFor="">Phone: </label> {this.props.teacherInfo.phone}
+					<br />
+					<label htmlFor="">Location: </label> {this.props.teacherInfo.location}
+					<br />
+					{this.props.teacherInfo.ratings.map((rates, index) => {
+						return (
+							<div>
+								<label htmlFor="">Compliment: </label> {rates.text} <br />
+								<label htmlFor="">Rating level: </label> {rates.rate} <br />
+							</div>
+						);
+					})}
+					<label htmlFor="">Summary: </label> <p>{this.props.teacherInfo.summary}</p>
 				</fieldset>
-				
-				{this.props.teacherInfo.ratings.map((rates, index) => {
-					return (
-						<div>
-							<p>{rates.text}</p>
-							<p>{rates.rate}</p>
-						</div>
-					);
-				})}
+				<br />
+
 				<fieldset>
 					<legend>Teacher CV</legend>
 					<iframe src={this.props.teacherInfo.cvFileUrl}>
 						<p>{"javascript:alert('No file exist');"}</p>
 					</iframe>
 				</fieldset>
-				
-				<br/>
-				<ul>
-					<p>Please select your class time:</p>
-					{this.props.teacherInfo.schedules.map((time, index) => {
-						return (
-							<li key={index}>
-								{' '}
-								<input type="radio" name="gender" value="added" /> {time.day}
-								{' start at:'} {time.startHour} {' end at:'} {time.endHour}
-							</li>
-						);
-					})}
-				</ul>
+				<br />
 
-				<button >Pick</button> <button>Rate</button>
+				<fieldset>
+					<legend>Teacher Schedule</legend>
+					<ul>
+						<p>Please select your class time:</p>
+						{this.props.teacherInfo.schedules.map((time, index) => {
+							return (
+								<li key={index}>
+									{' '}
+									<input type="radio" name="gender" value="added" /> {time.day}
+									{' start at:'} {time.startHour} {' end at:'} {time.endHour}
+								</li>
+							);
+						})}
+					</ul>
+					<button>Pick</button>
+				</fieldset>
+				<br />
+				<button>Rate</button>
 			</div>
 		);
 	}
