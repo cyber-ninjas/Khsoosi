@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ImageUpload from './components/imageUpload.jsx';
-import CVUpload from './components/cvUpload.jsx';
 import SignUp from './components/SignUp.jsx';
 import Rating from './components/Rating.jsx';
 import Search from './components/search.jsx';
@@ -10,8 +8,8 @@ import Header from './components/Header.jsx';
 import { storage } from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
 import Login from './components/login.jsx';
-import Schedule from './components/Schedule.jsx';
 import TeacherProfile from './components/teacherProfile.jsx';
+import Profile from './components/Profile.jsx';
 
 class App extends React.Component {
 	constructor(props) {
@@ -30,8 +28,8 @@ class App extends React.Component {
 			phone: '',
 			location: '',
 			teacherProfiles: [],
-			current_teacherId: '3',
-			current_studentId: '4',
+			current_teacherId: '',
+			current_studentId: '',
 			ratingText: '',
 			rate: '',
 			subjectName: '',
@@ -208,7 +206,12 @@ class App extends React.Component {
 	}
 
 	rating() {
-		const body = { ratingText: this.state.ratingText, rate: this.state.rate , current_studentId:this.state.current_studentId, current_teacherId:this.state.current_teacherId};
+		const body = {
+			ratingText: this.state.ratingText,
+			rate: this.state.rate,
+			current_studentId: this.state.current_studentId,
+			current_teacherId: this.state.current_teacherId
+		};
 		fetch('/rating', {
 			method: 'post',
 			body: JSON.stringify(body),
@@ -328,6 +331,36 @@ class App extends React.Component {
 			current_studentId,
 			current_teacherId
 		};
+		var {
+			userName,
+			cvFileUrl,
+			imgUrl,
+			summary,
+			email,
+			phone,
+			location,
+			current_teacherId,
+			schedules,
+      token,
+      cvFile,
+			image,
+			progress
+		} = this.state;
+		var ProfileVariables = {
+			userName,
+			cvFileUrl,
+			imgUrl,
+			summary,
+			email,
+			phone,
+			location,
+			current_teacherId,
+			schedules,
+			token,
+			cvFile,
+			image,
+			progress
+		};
 		return (
 			<div>
 				<Header />
@@ -351,27 +384,17 @@ class App extends React.Component {
 					onClick={(event) => this.rating(event)}
 				/>
 				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
-				<ImageUpload
-					imgUrl={this.state.imgUrl}
-					image={this.state.image}
-					progress={this.state.progress}
+				<TeacherProfile teacherInfo={this.state} showTeacherInfo={this.showTeacherInfo.bind(this)} />
+				<Profile
+					ProfileVariables={ProfileVariables}
+					change={this.change.bind(this)}
 					handleImgChange={(e) => this.handleImgChange(e)}
 					handleImgUpload={() => this.handleImgUpload()}
-				/>
-				<CVUpload
-					cvFileUrl={this.state.cvFileUrl}
-					cvFile={this.state.cvFile}
-					progress={this.state.progress}
 					handleFileChange={(e) => this.handleFileChange(e)}
 					handleFileUpload={() => this.handleFileUpload()}
-				/>
-				<Schedule
-					schedules={this.state.schedules}
-					change={this.change.bind(this)}
 					addSchedule={this.addSchedule.bind(this)}
 					removeSchedule={this.removeSchedule.bind(this)}
 				/>
-				<TeacherProfile teacherInfo={this.state} showTeacherInfo={this.showTeacherInfo.bind(this)} />
 			</div>
 		);
 	}
