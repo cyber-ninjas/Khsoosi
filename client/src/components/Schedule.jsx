@@ -39,7 +39,7 @@ class Schedule extends React.Component {
 											<td>{sch.startHour}</td>
 											<td>{sch.endHour}</td>
 											<td>
-												<button name={sch.day} onClick={this.props.removeSchedule.bind(this)}>
+												<button value={sch.day} onClick={this.props.removeSchedule.bind(this)}>
 													remove
 												</button>
 											</td>
