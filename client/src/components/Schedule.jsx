@@ -21,7 +21,7 @@ class Schedule extends React.Component {
 					<button onClick={this.props.addSchedule.bind(this)}>Add</button>
 				</form>
 				<br />
-				{this.props.schedule.length > 0 ? (
+				{this.props.schedules.length > 0 ? (
 					<div>
 						<h3>Schedule</h3>
 						<table>
@@ -32,7 +32,7 @@ class Schedule extends React.Component {
 									<th>End</th>
 									<th>Cancel</th>
 								</tr>
-								{this.props.schedule.map((sch, index) => {
+								{this.props.schedules.map((sch, index) => {
 									return (
 										<tr key={sch.day}>
 											<td>{sch.day}</td>

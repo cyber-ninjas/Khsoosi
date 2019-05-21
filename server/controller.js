@@ -1,4 +1,4 @@
-const cd = require('./database/db');
+const { db } = require('./database/db');
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const SECRET_KEY = 'any string';
@@ -11,7 +11,8 @@ const {
 	Rating,
 	PermissionRole,
 	UserRole,
-	TeacherSubject
+	TeacherSubject,
+	Confirm
 } = require('./database/model');
 var jwt = require('jsonwebtoken');
 
@@ -22,8 +23,8 @@ exports.rating = (req, res) => {
 	Rating.create({
 		text: req.body.ratingText,
 		rate: req.body.rate,
-		studentId: req.body.studentId,
-		teacherId: req.body.teacherId
+		studentId: req.body.current_studentId,
+		teacherId: req.body.current_teacherId
 	})
 		.then(function(data) {
 			res.status(200);
@@ -34,7 +35,6 @@ exports.rating = (req, res) => {
 			res.json({ error: error, stackError: error.stack });
 		});
 };
-
 
 exports.updateTeacherProfile = (req, res) => {
 	User.update(
@@ -57,11 +57,11 @@ exports.updateTeacherProfile = (req, res) => {
 			});
 		})
 		.then(() => {
-			for (let i = 0; i < req.body.schedule.length; i++) {
+			for (let i = 0; i < req.body.schedules.length; i++) {
 				Schedule.create({
-					day: req.body.schedule[i].day,
-					startHour: req.body.schedule[i].startHour,
-					endHour: req.body.schedule[i].endHour,
+					day: req.body.schedules[i].day,
+					startHour: req.body.schedules[i].startHour,
+					endHour: req.body.schedules[i].endHour,
 					userId: req.body.current_teacherId
 				});
 			}
@@ -96,7 +96,6 @@ exports.showTeacherInfo = (req, res) => {
 			res.send(data);
 		})
 		.catch(function(error) {
-
 			res.status(404);
 			res.json({ error: error, stackError: error.stack });
 		});
@@ -108,14 +107,14 @@ exports.search = (req, res) => {
 	const query = req.query;
 	Subject.findAll({
 		where: {
-			name: `${query.name}`,
-			level: `${query.level}`
+			name: `${query.name}` || { [Op.notLike]: '%=%' },
+			level: `${query.level}` || { [Op.notLike]: '%=%' }
 		},
 		include: [
 			{
 				model: User,
 				where: {
-					location: `${query.location}`
+					location: `${query.location}` || { [Op.notLike]: '%=%' }
 				},
 				include: [
 					{
@@ -125,27 +124,30 @@ exports.search = (req, res) => {
 			}
 		]
 	}).then((result) => {
-		if (result.length < 1) return res.send({ err: 'please fill the field' });
-		console.log(result);
+		// if(result.length < 1)return res.send({err:'please fill the field'})
+
+		// res.send(result);
+		// res.end()
 		let info = [];
 		var obj1 = {};
-		obj1.subject = result[0].name;
-		obj1.level = result[0].level;
-
-		for (let i = 0; i < result[0].users.length; i++) {
+		//
+		// res.send(result[0])
+		for (let i = 0; i < result.length; i++) {
 			let obj = {};
-			obj.id = result[0].users[i].id;
-			obj.name = result[0].users[i].name;
-			obj.phone = result[0].users[i].phone;
-			obj.location = result[0].users[i].location;
-			obj.img = result[0].users[i].img;
-			obj.cvFile = result[0].users[i].cvFile;
-			obj.summary = result[0].users[i].summary;
-			obj.reatingText = result[0].users[i].ratings[0].text;
-			obj.rate = result[0].users[i].ratings[0].rate;
-			obj.date = result[0].users[i].ratings[0].date;
-			obj.subject = obj1.subject;
-			obj.level = obj1.level;
+			obj.id = result[i].users[0].id;
+			obj.name = result[i].users[0].name;
+			obj.phone = result[i].users[0].phone;
+			obj.location = result[i].users[0].location;
+			obj.img = result[i].users[0].img;
+			obj.cvFile = result[i].users[0].cvFile;
+			obj.summary = result[i].users[0].summary;
+			obj.reatingText = result[i].users[0].ratings[0].text;
+			obj.rate = result[i].users[0].ratings[0].rate;
+			obj.subject = result[0].name;
+			obj.level = result[0].level;
+			// console.log(obj);
+			// obj.subject = obj1.subject;
+			// obj.level = obj1.level;
 			info.push(obj);
 		}
 		res.send({ data: info });
@@ -153,7 +155,8 @@ exports.search = (req, res) => {
 };
 ////this function give the teacher a schedule of the classes he/she have
 exports.seeSchedule = (req, res) => {
-	console.log(req.query, 'req--id');
+	// console.log(req.query, 'req--id');
+
 	User.findAll({
 		where: {
 			is_teacher: true,
@@ -174,7 +177,7 @@ exports.seeSchedule = (req, res) => {
 			obj.endHour = result[0].schedules[i].endHour;
 			info.push(obj);
 		}
-		console.log({ data: info });
+		// console.log({ data: info });
 		res.send({ data: info });
 	});
 };
@@ -239,4 +242,65 @@ exports.signup = (req, res) => {
 				.catch((err) => res.send({ error: "can't store the account" }));
 		})
 		.catch((err) => res.send({ error: 'server error' }));
+};
+
+exports.pick = (req, res) => {
+	// const query = req.query;
+	Confirm.findOne({
+		where: {
+			day: req.body.day,
+			start: req.body.startHour,
+			end: req.body.endHour,
+			studentId: req.body.studentId,
+			teacherId: req.body.teacherId
+		}
+	}).then((data) => {
+		// res.send(data)
+		if (data) return res.status(401).send({ error: 'You alredy pick up!' });
+		Confirm.create({
+			day: req.body.day,
+			start: req.body.startHour,
+			end: req.body.endHour,
+			studentId: req.body.studentId,
+			teacherId: req.body.teacherId,
+			confirmed: 'Not yet'
+		})
+			.then((created) => {
+				return res.send({ created: 'we send your request wait ' });
+			})
+			.catch((err) => res.send({ error: 'server error' }));
+	});
+};
+
+exports.conform = (req, res) => {
+	const id = req.query.teacherId;
+	db
+		.query(
+			`select TeacherConfirms.id, users.name, TeacherConfirms.start, TeacherConfirms.end, TeacherConfirms.day, TeacherConfirms.confirmed from TeacherConfirms  JOIN users on TeacherConfirms.studentId = users.id and TeacherConfirms.teacherId = ${id}`
+		)
+		.then(([ result, metadata ]) => res.send(result));
+};
+
+exports.conformAnswer = (req, res) => {
+	let query = req.query;
+	console.log(query, 'gfhgfh');
+	Confirm.update(
+		{ confirmed: query.confirmed },
+		{
+			where: {
+				id: query.id
+			}
+		}
+	)
+		.then((result) => {
+			const id = req.query.teacherId;
+			db
+				.query(
+					`select TeacherConfirms.id, users.name, TeacherConfirms.start, TeacherConfirms.end, TeacherConfirms.day, TeacherConfirms.confirmed from TeacherConfirms  JOIN users on TeacherConfirms.studentId = users.id and   TeacherConfirms.teacherId = ${id} `
+				)
+				.then(([ result, metadata ]) => res.send(result));
+		})
+		.catch(function(err) {
+			req.server.log([ 'error' ], err.stack);
+		});
 };
