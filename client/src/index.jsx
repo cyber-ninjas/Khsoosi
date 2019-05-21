@@ -16,20 +16,20 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			userName: '',
+			userName: '', //
 			cvFile: {},
-			cvFileUrl: '',
+			cvFileUrl: '', //
 			image: null,
-			imgUrl: '',
+			imgUrl: '', //
 			progress: 0,
-			summary: '',
+			summary: '', //
 			is_teacher: false,
 			password: '',
-			email: '',
-			phone: '',
-			location: '',
+			email: '', //
+			phone: '', //
+			location: '', //
 			teacherProfiles: [],
-			current_teacherId: '',
+			current_teacherId: '', //
 			current_studentId: '',
 			ratingText: '',
 			rate: '',
@@ -39,11 +39,28 @@ class App extends React.Component {
 			startHour: '',
 			endHour: '',
 			error: '',
-			schedule: [],
+			schedule: [], //
 			classes: [],
-			token: ''
+			token: '' //
 		};
 	}
+
+	saveInfo() {
+    const { userName, cvFileUrl, imgUrl, summary, email, phone, location, current_teacherId, schedule, token } = this.state;
+		const body = { userName, cvFileUrl, imgUrl, summary, email, phone, location, current_teacherId, schedule, token };
+		fetch('/updateTeacherProfile', {
+			method: 'post',
+			body: JSON.stringify(body),
+			headers: { 'Content-Type': 'application/json' }
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((body) => {
+				console.log(body);
+			});
+	}
+
 	handleImgChange(e) {
 		if (e.target.files[0]) {
 			const image = e.target.files[0];
@@ -300,7 +317,7 @@ class App extends React.Component {
 					schedule={this.state.schedule}
 					change={this.change.bind(this)}
 					addSchedule={this.addSchedule.bind(this)}
-          removeSchedule={this.removeSchedule.bind(this)}
+					removeSchedule={this.removeSchedule.bind(this)}
 				/>
 			</div>
 		);

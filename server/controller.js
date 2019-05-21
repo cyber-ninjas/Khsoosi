@@ -1,7 +1,7 @@
 const cd = require('./database/db');
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
-const  SECRET_KEY  = "any string"
+const SECRET_KEY = 'any string';
 const {
 	User,
 	Schedule,
@@ -17,19 +17,63 @@ var jwt = require('jsonwebtoken');
 
 const Op = Sequelize.Op;
 
-//Adding new rating 
+//Adding new rating
 exports.rating = (req, res) => {
-  Rating.create({
-    text: req.body.ratingText,
-    rate: req.body.rate
-  }).then(function (data) {
-    res.status(200);
-    res.send(data)
-  }).catch(function (error) {
-    res.status(500);
-    res.json({ error: error, stackError: error.stack });
-  });
-}
+	Rating.create({
+		text: req.body.ratingText,
+		rate: req.body.rate,
+		studentId: req.body.studentId,
+		teacherId: req.body.teacherId
+	})
+		.then(function(data) {
+			res.status(200);
+			res.send(data);
+		})
+		.catch(function(error) {
+			res.status(500);
+			res.json({ error: error, stackError: error.stack });
+		});
+};
+
+exports.updateTeacherProfile = (req, res) => {
+	User.update(
+		{
+			name: req.body.userName,
+			email: req.body.email,
+			phone: req.body.phone,
+			location: req.body.location,
+			summary: req.body.summary,
+			cvFile: req.body.cvFileUrl,
+			img: req.body.imgUrl
+		},
+		{ where: { id: req.body.current_teacherId } }
+	)
+		.then(() => {
+			Schedule.destroy({
+				where: {
+					userId: req.body.current_teacherId
+				}
+			});
+		})
+		.then(() => {
+			 for(let i = 0; i < req.body.schedule.length; i++){
+				Schedule.create({
+					day: req.body.schedule[i].day,
+					startHour: req.body.schedule[i].startHour,
+					endHour: req.body.schedule[i].endHour,
+					userId: req.body.current_teacherId
+				});
+			 }
+		})
+		.then(function(data) {
+			res.status(200);
+			res.send(data);
+		})
+		.catch(function(error) {
+			res.status(500);
+			res.json({ error: error, stackError: error.stack });
+		});
+};
 
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage
@@ -54,7 +98,7 @@ exports.search = (req, res) => {
 			}
 		]
 	}).then((result) => {
-    if(result.length < 1)return res.send({err:'please fill the field'})
+		if (result.length < 1) return res.send({ err: 'please fill the field' });
 		console.log(result);
 		let info = [];
 		var obj1 = {};
@@ -103,13 +147,13 @@ exports.seeSchedule = (req, res) => {
 			obj.endHour = result[0].schedules[i].endHour;
 			info.push(obj);
 		}
-    console.log({data:info})
+		console.log({ data: info });
 		res.send({ data: info });
 	});
 };
 
 exports.login = (req, res) => {
-  const query = req.query
+	const query = req.query;
 
 	User.findOne({
 		where: {
@@ -129,15 +173,15 @@ exports.login = (req, res) => {
 						{
 							expiresIn: '1h'
 						}
-          );
-          console.log({token:token,user_id:data.id,is_teacher:data.is_teacher},"hello")
-					res.send({token:token,user_id:data.id,is_teacher:data.is_teacher});
+					);
+					console.log({ token: token, user_id: data.id, is_teacher: data.is_teacher }, 'hello');
+					res.send({ token: token, user_id: data.id, is_teacher: data.is_teacher });
 				} else {
-					res.send({err:"you'r password wrong"});
+					res.send({ err: "you'r password wrong" });
 				}
-			}else {
-        res.send({err:"please sigunup"})
-      }
+			} else {
+				res.send({ err: 'please sigunup' });
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({
@@ -147,7 +191,6 @@ exports.login = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-
 	console.log('ok');
 	const info = req.body;
 	User.findOne({ where: { email: info.email } })
