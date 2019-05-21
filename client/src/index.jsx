@@ -10,6 +10,7 @@ import Header from './components/Header.jsx';
 import { storage } from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
 import Login from './components/login.jsx';
+import Schedule from './components/Schedule.jsx';
 import TeacherProfile from './components/teacherProfile.jsx';
 
 class App extends React.Component {
@@ -35,15 +36,54 @@ class App extends React.Component {
 			rate: '',
 			subjectName: '',
 			subjectLevel: '',
-			day: '',
+			day: 'Sunday',
 			startHour: '',
 			endHour: '',
+			error: '',
+			schedules: [],
 			classes: [],
-      schedules: [],
-      error: "",
 			token: ''
 		};
 	}
+
+	updateInfo() {
+		const {
+			userName,
+			cvFileUrl,
+			imgUrl,
+			summary,
+			email,
+			phone,
+			location,
+			current_teacherId,
+			schedule,
+			token
+		} = this.state;
+		const body = {
+			userName,
+			cvFileUrl,
+			imgUrl,
+			summary,
+			email,
+			phone,
+			location,
+			current_teacherId,
+			schedule,
+			token
+		};
+		fetch('/updateTeacherProfile', {
+			method: 'put',
+			body: JSON.stringify(body),
+			headers: { 'Content-Type': 'application/json' }
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((body) => {
+				console.log(body);
+			});
+	}
+
 	handleImgChange(e) {
 		if (e.target.files[0]) {
 			const image = e.target.files[0];
@@ -117,8 +157,19 @@ class App extends React.Component {
 			})
 			.then((body) => {
 				console.log(body);
-				this.setState({ userName: '', is_teacher: '', password: '', email: '', phone: '', location: '' });
-			});
+				if (body.error) this.setState({ error: body.error });
+				else {
+					this.setState({
+						userName: '',
+						is_teacher: '',
+						password: '',
+						email: '',
+						phone: '',
+						location: ''
+					});
+				}
+			})
+			.catch((err) => console.log('Error'));
 	}
 
 	searchInfo(e) {
@@ -127,10 +178,33 @@ class App extends React.Component {
 		this.setState({ [e.target.name]: e.target.value });
 	}
 
-	onRatingChange(e) {
+	change(e) {
 		this.setState({
 			[e.target.name]: e.target.value
 		});
+	}
+
+	addSchedule(e) {
+		e.preventDefault();
+		const { day, startHour, endHour } = this.state;
+		const temp = this.state.schedule;
+		this.setState({
+			schedule: [ ...temp, { day, startHour, endHour } ]
+		});
+		console.log(this.state.schedule);
+	}
+
+	removeSchedule(e) {
+		let { schedule } = this.state;
+		schedule.forEach((element, index) => {
+			if (element.day === e.target.value) {
+				schedule.splice(index, 1);
+			}
+		});
+		this.setState({
+			schedule: schedule
+		});
+		console.log(this.state.schedule);
 	}
 
 	rating() {
@@ -148,6 +222,7 @@ class App extends React.Component {
 				this.setState({ ratingText: '', rate: '' });
 			});
 	}
+
 	showTeacherInfo() {
 		return fetch(`/teacherProfile/${this.state.current_teacherId}`, {
 			method: 'GET',
@@ -174,16 +249,14 @@ class App extends React.Component {
 			})
 			.catch((err) => console.log(err));
 	}
+
 	searchTecher(e) {
 		e.preventDefault();
-
-		// Default options are marked with *
 		return fetch(
 			`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`,
 			{
-				method: 'GET', // *GET, POST, PUT, DELETE, etc.
+				method: 'GET',
 				headers: {
-					// 'Content-Type': 'application/json',
 					Accept: 'application/json'
 				}
 			}
@@ -210,14 +283,21 @@ class App extends React.Component {
 				if (data.err) return console.log(data);
 				let user_id = 'current_studentId';
 				if (data.is_teacher) user_id = 'current_teacherId';
-				this.setState({ token: data.token, [user_id]: data.user_id, is_teacher: data.is_teacher }, () => {
-					if (this.state.is_teacher) {
-						///// go to the teacher profile ///////
-					} else {
-						///// go to the student profile ///////
+				this.setState(
+					{
+						token: data.token,
+						[user_id]: data.user_id,
+						is_teacher: data.is_teacher
+					},
+					() => {
+						if (this.state.is_teacher) {
+							///// go to the teacher profile ///////
+						} else {
+							///// go to the student profile ///////
+						}
+						console.log(this.state.token, ' ', this.state.is_teacher, ' ', this.state.current_teacherId);
 					}
-					console.log(this.state.token, ' ', this.state.is_teacher, ' ', this.state.current_teacherId);
-				});
+				);
 			})
 			.catch();
 	}
@@ -242,16 +322,25 @@ class App extends React.Component {
 	render() {
 		var tech = this.state.teacherProfiles;
 		var { ratingText, rate, current_studentId, current_teacherId } = this.state;
-		var RatingVariables = { ratingText, rate, current_studentId, current_teacherId };
+		var RatingVariables = {
+			ratingText,
+			rate,
+			current_studentId,
+			current_teacherId
+		};
 		return (
 			<div>
 				<Header />
-				<img src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ" />
+				<img
+					id="img"
+					src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ"
+				/>
 				<h1>Test by Cyber-Ninjas</h1>
 				<SignUp
 					onchangingSignUp={this.onchangingSignUp.bind(this)}
 					onSignUp={this.onSignUp.bind(this)}
 					is_teacher={this.state.is_teacher}
+					error={this.state.error}
 				/>
 				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
 				<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
@@ -276,9 +365,15 @@ class App extends React.Component {
 					handleFileChange={(e) => this.handleFileChange(e)}
 					handleFileUpload={() => this.handleFileUpload()}
 				/>
+				<Schedule
+					schedule={this.state.schedule}
+					change={this.change.bind(this)}
+					addSchedule={this.addSchedule.bind(this)}
+					removeSchedule={this.removeSchedule.bind(this)}
+				/>
 				<TeacherProfile teacherInfo={this.state} showTeacherInfo={this.showTeacherInfo.bind(this)} />
 			</div>
 		);
 	}
 }
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));

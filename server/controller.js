@@ -21,7 +21,9 @@ const Op = Sequelize.Op;
 exports.rating = (req, res) => {
 	Rating.create({
 		text: req.body.ratingText,
-		rate: req.body.rate
+		rate: req.body.rate,
+		studentId: req.body.studentId,
+		teacherId: req.body.teacherId
 	})
 		.then(function(data) {
 			res.status(200);
@@ -32,6 +34,44 @@ exports.rating = (req, res) => {
 			res.json({ error: error, stackError: error.stack });
 		});
 };
+
+
+exports.updateTeacherProfile = (req, res) => {
+	User.update(
+		{
+			name: req.body.userName,
+			email: req.body.email,
+			phone: req.body.phone,
+			location: req.body.location,
+			summary: req.body.summary,
+			cvFile: req.body.cvFileUrl,
+			img: req.body.imgUrl
+		},
+		{ where: { id: req.body.current_teacherId } }
+	)
+		.then(() => {
+			Schedule.destroy({
+				where: {
+					userId: req.body.current_teacherId
+				}
+			});
+		})
+		.then(() => {
+			for (let i = 0; i < req.body.schedule.length; i++) {
+				Schedule.create({
+					day: req.body.schedule[i].day,
+					startHour: req.body.schedule[i].startHour,
+					endHour: req.body.schedule[i].endHour,
+					userId: req.body.current_teacherId
+				});
+			}
+		})
+		.then(function(data) {
+			res.status(500);
+			res.json({ error: error, stackError: error.stack });
+		});
+};
+
 exports.showTeacherInfo = (req, res) => {
 	const id = req.params.number;
 	User.findOne({
@@ -52,6 +92,7 @@ exports.showTeacherInfo = (req, res) => {
 			res.send(data);
 		})
 		.catch(function(error) {
+
 			res.status(404);
 			res.json({ error: error, stackError: error.stack });
 		});
