@@ -143,7 +143,7 @@ class App extends React.Component {
     });
   }
   gitTeacherProfile() {
-    return fetch('/teacherProfile', {
+    return fetch(`/teacherProfile/${this.state.current_teacherId}`, {
       method: 'GET',
       headers: {
         // 'Content-Type': 'application/json',
@@ -152,8 +152,18 @@ class App extends React.Component {
 		})
 			.then((response) => (response = response.json()))
 			.then((data) => {
-				this.setState({ imgUrl: data });
-				console.log(this.state.imgUrl);
+				this.setState({ 
+          userName: data.name,
+          cvFileUrl: data.file,
+          imgUrl: data.img,
+          email: data.email,
+          phone: data.phone,
+          location: data.location,
+          day: data.schedules[0].day,
+          startHour: data.schedules[0].startHour,
+          endHour: data.schedules[0].startHour
+        });
+				console.log(this.state);
 			}).catch((err)=>console.log(err))
 	} 
   searchTecher(e) {
@@ -236,7 +246,8 @@ class App extends React.Component {
                      handleFileChange={e => this.handleFileChange(e)} 
                      handleFileUpload={() => this.handleFileUpload()} />
         <TeacherProfile imgUrl={this.state.imgUrl}
-                        cvFileUrl={this.state.cvFileUrl}/>
+                        cvFileUrl={this.state.cvFileUrl}
+                        gitTeacherProfile={() => this.gitTeacherProfile()}/>
         <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />

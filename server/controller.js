@@ -30,11 +30,12 @@ exports.rating = (req, res) => {
     res.json({ error: error, stackError: error.stack });
   });
 }
-exports.showteacherProfilePicture = (req, res) => {
+exports.showTeacherInfo = (req, res) => {
+	const id = req.params.number;
 	User.findOne({
-		attributes: ['name', 'phone','location','imgUtl','cvFileUrl'],
+		attributes: ['name', 'phone','location','img','cvFile','email'],
 		where: {
-			id: req.query.id
+			id: id
 		}, include: [
 			{
 				model: Schedule,
@@ -44,7 +45,7 @@ exports.showteacherProfilePicture = (req, res) => {
 	}).then(data => {
 		console.log(data);
 		res.status(200);
-		res.send(data);
+		res.send({data});
 	}).catch(function (error) {
     res.status(500);
     res.json({ error: error, stackError: error.stack });
