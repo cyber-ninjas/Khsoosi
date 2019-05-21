@@ -10,6 +10,7 @@ import Header from './components/Header.jsx';
 import {storage} from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
 import Login from './components/login.jsx';
+import TeacherProfile from "./components/teacherProfile.jsx";
 
 
 class App extends React.Component {
@@ -17,7 +18,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       userName: "",
-      cvFile: {},
+      cvFile: '',
       cvFileUrl: "",
       image: null,
       imgUrl: "",
@@ -141,7 +142,20 @@ class App extends React.Component {
       this.setState({ ratingText: '', rate: '' });
     });
   }
-
+  gitTeacherProfile() {
+    return fetch('/teacherProfile', {
+      method: 'GET',
+      headers: {
+        // 'Content-Type': 'application/json',
+        'Accept': 'application/json'
+			}
+		})
+			.then((response) => (response = response.json()))
+			.then((data) => {
+				this.setState({ imgUrl: data });
+				console.log(this.state.imgUrl);
+			}).catch((err)=>console.log(err))
+	} 
   searchTecher(e) {
 
     e.preventDefault();
@@ -221,6 +235,8 @@ class App extends React.Component {
                      progress={this.state.progress}
                      handleFileChange={e => this.handleFileChange(e)} 
                      handleFileUpload={() => this.handleFileUpload()} />
+        <TeacherProfile imgUrl={this.state.imgUrl}
+                        cvFileUrl={this.state.cvFileUrl}/>
         <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
         <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
         <ResultSearch resultOfSer={tech} />

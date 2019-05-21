@@ -30,9 +30,29 @@ exports.rating = (req, res) => {
     res.json({ error: error, stackError: error.stack });
   });
 }
-
+exports.showteacherProfilePicture = (req, res) => {
+	User.findOne({
+		attributes: ['name', 'phone','location','imgUtl','cvFileUrl'],
+		where: {
+			id: req.query.id
+		}, include: [
+			{
+				model: Schedule,
+				attributes: ['day', 'startHour','endHour']
+			}
+		]
+	}).then(data => {
+		console.log(data);
+		res.status(200);
+		res.send(data);
+	}).catch(function (error) {
+    res.status(500);
+    res.json({ error: error, stackError: error.stack });
+  });
+}
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage
+
 exports.search = (req, res) => {
 	const query = req.query;
 	Subject.findAll({

@@ -7,8 +7,8 @@ const User = db.define("user", {
   name: { type: Sequelize.STRING, required: true },
   phone: { type: Sequelize.STRING, required: true },
   location: { type: Sequelize.STRING, required: true },
-  img: { type: Sequelize.STRING, required: false },
-  cvFile: { type: Sequelize.STRING, required: false },
+  imgUrl: { type: Sequelize.STRING, required: false },
+  cvFileUrl: { type: Sequelize.STRING, required: false },
   summary: { type: Sequelize.STRING, required: false },
   is_teacher: { type: Sequelize.BOOLEAN, required: true },
   createdAt: {
