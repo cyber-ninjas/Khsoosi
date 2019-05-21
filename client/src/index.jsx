@@ -30,8 +30,8 @@ class App extends React.Component {
 			phone: '',
 			location: '',
 			teacherProfiles: [],
-			current_teacherId: '5',
-			current_studentId: '',
+			current_teacherId: '3',
+			current_studentId: '4',
 			ratingText: '',
 			rate: '',
 			subjectName: '',
@@ -187,28 +187,28 @@ class App extends React.Component {
 	addSchedule(e) {
 		e.preventDefault();
 		const { day, startHour, endHour } = this.state;
-		const temp = this.state.schedule;
+		const temp = this.state.schedules;
 		this.setState({
-			schedule: [ ...temp, { day, startHour, endHour } ]
+			schedules: [ ...temp, { day, startHour, endHour } ]
 		});
-		console.log(this.state.schedule);
+		console.log(this.state.schedules);
 	}
 
 	removeSchedule(e) {
-		let { schedule } = this.state;
-		schedule.forEach((element, index) => {
+		let { schedules } = this.state;
+		schedules.forEach((element, index) => {
 			if (element.day === e.target.value) {
-				schedule.splice(index, 1);
+				schedules.splice(index, 1);
 			}
 		});
 		this.setState({
-			schedule: schedule
+			schedules: schedules
 		});
-		console.log(this.state.schedule);
+		console.log(this.state.schedules);
 	}
 
 	rating() {
-		const body = { ratingText: this.state.ratingText, rate: this.state.rate };
+		const body = { ratingText: this.state.ratingText, rate: this.state.rate , current_studentId:this.state.current_studentId, current_teacherId:this.state.current_teacherId};
 		fetch('/rating', {
 			method: 'post',
 			body: JSON.stringify(body),
@@ -347,7 +347,7 @@ class App extends React.Component {
 				<ResultSearch resultOfSer={tech} />
 				<Rating
 					RatingVariables={RatingVariables}
-					onChange={(event) => this.onRatingChange(event)}
+					onChange={(event) => this.change(event)}
 					onClick={(event) => this.rating(event)}
 				/>
 				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
@@ -366,7 +366,7 @@ class App extends React.Component {
 					handleFileUpload={() => this.handleFileUpload()}
 				/>
 				<Schedule
-					schedule={this.state.schedule}
+					schedules={this.state.schedules}
 					change={this.change.bind(this)}
 					addSchedule={this.addSchedule.bind(this)}
 					removeSchedule={this.removeSchedule.bind(this)}
