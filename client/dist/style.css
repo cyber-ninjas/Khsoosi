@@ -65,3 +65,9 @@ td {
 th, td {
   padding: 10px;
 }
+
+#pickLabel {
+
+  display:none;
+  
+  }

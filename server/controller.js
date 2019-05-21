@@ -75,7 +75,7 @@ exports.updateTeacherProfile = (req, res) => {
 exports.showTeacherInfo = (req, res) => {
 	const id = req.params.number;
 	User.findOne({
-		attributes: [ 'name', 'phone', 'location', 'img', 'cvFile', 'email' ],
+		attributes: [ 'name', 'phone', 'location', 'img', 'cvFile', 'email', 'summary' ],
 		where: {
 			id: id
 		},
@@ -83,11 +83,15 @@ exports.showTeacherInfo = (req, res) => {
 			{
 				model: Schedule,
 				attributes: [ 'day', 'startHour', 'endHour' ]
+			},
+			{
+				model: Rating,
+				attributes: [ 'rate', 'text' ]
 			}
+			
 		]
 	})
 		.then((data) => {
-			console.log(data);
 			res.status(200);
 			res.send(data);
 		})
