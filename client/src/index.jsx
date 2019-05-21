@@ -39,7 +39,8 @@ class App extends React.Component {
 			startHour: '',
 			endHour: '',
 			classes: [],
-			schedules: [],
+      schedules: [],
+      error: "",
 			token: ''
 		};
 	}
@@ -280,4 +281,4 @@ class App extends React.Component {
 		);
 	}
 }
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));
