@@ -1,7 +1,7 @@
 import React from 'react';
 
 class TeacherProfile extends React.Component {
-	componentWillMount(){
+	componentWillMount() {
 		this.props.showTeacherInfo();
 	}
 	render() {
@@ -28,15 +28,19 @@ class TeacherProfile extends React.Component {
 				<a href={this.props.teacherInfo.cvFileUrl || "javascript:alert('No file exist');"}> CV </a>
 				<br />
 				<ul>
-					{this.props.teacherInfo.schedules.map((time, index) =>
-					{
-						return <li key={index}> <input type="radio" name="gender" value="added"/> {time.day}{" start at:"} {time.startHour} {time.endHour}</li>
-					}
-					)}
+					<p>Please select your class time:</p>
+					{this.props.teacherInfo.schedules.map((time, index) => {
+						return (
+							<li key={index}>
+								{' '}
+								<input type="radio" name="gender" value="added" /> {time.day}
+								{' start at:'} {time.startHour} {' end at:'} {time.endHour}
+							</li>
+						);
+					})}
 				</ul>
-				<p>Please select your class time:</p>
-				
-				{/* <button onClick={this.props.showTeacherInfo}>show</button> */}
+
+				<button >Pick</button>
 			</div>
 		);
 	}

@@ -247,6 +247,20 @@ class App extends React.Component {
 				<Header />
 				<img src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ" />
 				<h1>Test by Cyber-Ninjas</h1>
+				<SignUp
+					onchangingSignUp={this.onchangingSignUp.bind(this)}
+					onSignUp={this.onSignUp.bind(this)}
+					is_teacher={this.state.is_teacher}
+				/>
+				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
+				<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
+				<ResultSearch resultOfSer={tech} />
+				<Rating
+					RatingVariables={RatingVariables}
+					onChange={(event) => this.onRatingChange(event)}
+					onClick={(event) => this.rating(event)}
+				/>
+				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
 				<ImageUpload
 					imgUrl={this.state.imgUrl}
 					image={this.state.image}
@@ -261,20 +275,6 @@ class App extends React.Component {
 					handleFileChange={(e) => this.handleFileChange(e)}
 					handleFileUpload={() => this.handleFileUpload()}
 				/>
-				<SignUp
-					onchangingSignUp={this.onchangingSignUp.bind(this)}
-					onSignUp={this.onSignUp.bind(this)}
-					is_teacher={this.state.is_teacher}
-				/>
-				<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
-				<ResultSearch resultOfSer={tech} />
-				<Rating
-					RatingVariables={RatingVariables}
-					onChange={(event) => this.onRatingChange(event)}
-					onClick={(event) => this.rating(event)}
-				/>
-				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
-				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
 				<TeacherProfile teacherInfo={this.state} showTeacherInfo={this.showTeacherInfo.bind(this)} />
 			</div>
 		);
