@@ -12,7 +12,7 @@ class TeacherProfile extends React.Component {
 		//   justifyContent: 'center'
 		// };
 		// const schedules = this.props.teacherInfo.schedules;
-		
+
 		return (
 			<div>
 				<img
@@ -66,7 +66,8 @@ class TeacherProfile extends React.Component {
 							);
 						})}
 					</ul>
-					<button>Pick</button>
+					<button onClick={this.props.pickDate.bind(this)}>Pick</button>
+					<label id="pickLabel">your request was send ...wait for confirm </label>
 				</fieldset>
 				<br />
 				<button>Rate</button>

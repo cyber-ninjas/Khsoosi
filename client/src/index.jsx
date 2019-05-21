@@ -39,11 +39,11 @@ class App extends React.Component {
 			day: '',
 			startHour: '',
 			endHour: '',
-      error: '',
+			error: '',
 			schedules: [],
 			classes: [],
-      token: '',
-      ratings: []
+			token: '',
+			ratings: []
 		};
 	}
 
@@ -242,9 +242,9 @@ class App extends React.Component {
 						imgUrl: data.img,
 						email: data.email,
 						phone: data.phone,
-            location: data.location,
-            summary: data.summary,
-            ratings: data.ratings,
+						location: data.location,
+						summary: data.summary,
+						ratings: data.ratings,
 						schedules: data.schedules
 					},
 					() => console.log(this.state)
@@ -322,6 +322,19 @@ class App extends React.Component {
 			.catch((err) => console.log(err));
 	}
 
+	pickDate(e) {
+		// let { state } = this.state;
+		// state.forEach((element, index) => {
+
+		// });
+
+		// this.setState({
+
+		// });
+		//document.getElementById('pickLabel').style.display='';
+		console.log('your request was send ...wait for confirm ');
+	}
+
 	render() {
 		var tech = this.state.teacherProfiles;
 		var { ratingText, rate, current_studentId, current_teacherId } = this.state;
@@ -374,7 +387,11 @@ class App extends React.Component {
 					addSchedule={this.addSchedule.bind(this)}
 					removeSchedule={this.removeSchedule.bind(this)}
 				/>
-				<TeacherProfile teacherInfo={this.state} showTeacherInfo={this.showTeacherInfo.bind(this)} />
+				<TeacherProfile
+					teacherInfo={this.state}
+					showTeacherInfo={this.showTeacherInfo.bind(this)}
+					pickDate={this.pickDate.bind(this)}
+				/>
 			</div>
 		);
 	}
