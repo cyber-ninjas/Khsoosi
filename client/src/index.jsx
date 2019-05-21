@@ -1,165 +1,186 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SignUp from './components/SignUp.jsx';
 import ImageUpload from './components/imageUpload.jsx';
 import CVUpload from './components/cvUpload.jsx';
-import SignUp from "./components/SignUp.jsx"
-import Rating from "./components/Rating.jsx";
+import Rating from './components/Rating.jsx';
 import Search from './components/search.jsx';
 import ResultSearch from './components/resultSearch.jsx';
 import Header from './components/Header.jsx';
-import {storage} from '../../server/database/firebase.js';
+import { storage } from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
 import Login from './components/login.jsx';
-
+import Conform from './components/conform.jsx';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userName: "",
-      cvFile: {},
-      cvFileUrl: "",
-      image: null,
-      imgUrl: "",
-      progress: 0,
-      summary: "",
-      is_teacher: false,
-      password: "",
-      email: "",
-      phone: "",
-      location: "",
-      teacherProfiles: [],
-      current_teacherId: "",
-      current_studentId: "",
-      ratingText: "",
-      rate: "",
-      subjectName: "",
-      subjectLevel: "",
-      day: "",
-      startHour: "",
-      endHour: "",
-      classes: [],
-      token: ''
-    };
-  }
-  handleImgChange (e) {
-    if (e.target.files[0]) {
-      const image = e.target.files[0];
-      this.setState(() => ({image}));
-    } 
-  }
-  handleFileChange (e) {
-    if (e.target.files[0]) {
-      const cvFile = e.target.files[0];
-      this.setState(() => ({cvFile}));
-    } 
-  }
-  handleFileUpload () {
-		const {cvFile} = this.state;
+	constructor(props) {
+		super(props);
+		this.state = {
+			userName: '',
+			cvFile: {},
+			cvFileUrl: '',
+			image: null,
+			imgUrl: '',
+			progress: 0,
+			summary: '',
+			is_teacher: false,
+			password: '',
+			email: '',
+			phone: '',
+			location: '',
+			teacherProfiles: [],
+			current_teacherId: '4',
+			current_studentId: '',
+			ratingText: '',
+			rate: '',
+			subjectName: '',
+			subjectLevel: '',
+			day: '',
+			startHour: '',
+			endHour: '',
+			error: '',
+			bookes: [],
+			classes: [],
+			token: ''
+		};
+	}
+	handleImgChange(e) {
+		if (e.target.files[0]) {
+			const image = e.target.files[0];
+			this.setState(() => ({ image }));
+		}
+	}
+	handleFileChange(e) {
+		if (e.target.files[0]) {
+			const cvFile = e.target.files[0];
+			this.setState(() => ({ cvFile }));
+		}
+	}
+	handleFileUpload() {
+		const { cvFile } = this.state;
 		const uploadTask = storage.ref(`files/${cvFile.name}`).put(cvFile);
-		uploadTask.on('state_changed', 
-		(snapshot) => {
-			//progress function ....
-			const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-			this.setState({progress});
-		},
-		(error) => {
-			// error function ....
-			console.log(error);
-		},
-		() => {
-			// complete function ....
-			storage.ref('files').child(cvFile.name).getDownloadURL().then(cvFileUrl => {
-        this.setState({cvFileUrl, cvFile: cvFile.name});
-        
-      })
-		});
-  }
-  handleImgUpload () {
-		const {image} = this.state;
-		const uploadTask = storage.ref(`images/${image.name}`).put(image);
-		uploadTask.on('state_changed', 
-		(snapshot) => {
-			//progress function ....
-			const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-			this.setState({progress});
-		},
-		(error) => {
-			// error function ....
-			console.log(error);
-		},
-		() => {
-			// complete function ....
-			storage.ref('images').child(image.name).getDownloadURL().then(imgUrl => {
-        this.setState({imgUrl});
-      })
-		});
-  }
-  onchangingSignUp(e){
-    this.setState({[e.target.name]:e.target.value});
-  }
-  onSignUp(){
-    console.log("signup");
-    const { userName, is_teacher, password, email, phone, location } = this.state;
-    const body = { userName, is_teacher, password, email, phone, location };
-    fetch('/signup', {
-      method: 'post',
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" }
-    }).then((response) => {
-      return response.json();
-    }).then((body) => {
-      console.log(body)
-      this.setState({ userName:'', is_teacher:'', password:'', email:'', phone:'', location:'' });
-    });
-  }
-  
-
-  searchInfo(e) {
-    console.log(this.state[e.target.name])
-    e.preventDefault()
-    this.setState({ [e.target.name]: e.target.value })
-  }
-  
-
-  onRatingChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  }
-
-  rating() {
-    const body = { ratingText: this.state.ratingText, rate: this.state.rate };
-    fetch('/rating', {
-      method: 'post',
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" }
-    }).then((response) => {
-      return response.json();
-    }).then((body) => {
-      console.log(body)
-      this.setState({ ratingText: '', rate: '' });
-    });
-  }
-
-  searchTecher(e) {
-
-    e.preventDefault();
-
-    // Default options are marked with *
-    return fetch(`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`, {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        // 'Content-Type': 'application/json',
-        'Accept': 'application/json'
+		uploadTask.on(
+			'state_changed',
+			(snapshot) => {
+				//progress function ....
+				const progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
+				this.setState({ progress });
+			},
+			(error) => {
+				// error function ....
+				console.log(error);
+			},
+			() => {
+				// complete function ....
+				storage.ref('files').child(cvFile.name).getDownloadURL().then((cvFileUrl) => {
+					this.setState({ cvFileUrl, cvFile: cvFile.name });
+				});
 			}
+		);
+	}
+	handleImgUpload() {
+		const { image } = this.state;
+		const uploadTask = storage.ref(`images/${image.name}`).put(image);
+		uploadTask.on(
+			'state_changed',
+			(snapshot) => {
+				//progress function ....
+				const progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
+				this.setState({ progress });
+			},
+			(error) => {
+				// error function ....
+				console.log(error);
+			},
+			() => {
+				// complete function ....
+				storage.ref('images').child(image.name).getDownloadURL().then((imgUrl) => {
+					this.setState({ imgUrl });
+				});
+			}
+		);
+	}
+	onchangingSignUp(e) {
+		this.setState({ [e.target.name]: e.target.value });
+	}
+	onSignUp() {
+		console.log('signup');
+		const { userName, is_teacher, password, email, phone, location } = this.state;
+		const body = { userName, is_teacher, password, email, phone, location };
+		fetch('/signup', {
+			method: 'post',
+			body: JSON.stringify(body),
+			headers: { 'Content-Type': 'application/json' }
 		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((body) => {
+				console.log(body);
+				if (body.error) this.setState({ error: body.error });
+				else {
+					this.setState({
+						userName: '',
+						is_teacher: '',
+						password: '',
+						email: '',
+						phone: '',
+						location: ''
+					});
+				}
+			})
+			.catch((err) => console.log('Error'));
+	}
+
+	searchInfo(e) {
+		console.log(this.state[e.target.name]);
+		e.preventDefault();
+		this.setState({ [e.target.name]: e.target.value });
+	}
+
+	onRatingChange(e) {
+		this.setState({
+			[e.target.name]: e.target.value
+		});
+	}
+
+	rating() {
+		const body = { ratingText: this.state.ratingText, rate: this.state.rate };
+		fetch('/rating', {
+			method: 'post',
+			body: JSON.stringify(body),
+			headers: { 'Content-Type': 'application/json' }
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((body) => {
+				console.log(body);
+				this.setState({ ratingText: '', rate: '' });
+			});
+	}
+
+	searchTecher(e) {
+		e.preventDefault();
+
+		// Default options are marked with *
+		return fetch(
+			`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`,
+			{
+				method: 'GET', // *GET, POST, PUT, DELETE, etc.
+				headers: {
+					// 'Content-Type': 'application/json',
+					Accept: 'application/json'
+				}
+			}
+		)
 			.then((response) => (response = response.json()))
 			.then((data) => {
-				this.setState({ classes: data.data });
-				console.log(this.state.classes);
-			}).catch((err)=>console.log(err))
-	} 
+				this.setState({ teacherProfiles: data.data });
+				console.log(this.state.teacherProfiles);
+			})
+			.catch((err) => console.log(err));
+	}
 
 	loging(e) {
 		e.preventDefault();
@@ -172,18 +193,26 @@ class App extends React.Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-        if(data.err)return console.log(data);
+				if (data.err) return console.log(data);
 				let user_id = 'current_studentId';
 				if (data.is_teacher) user_id = 'current_teacherId';
-				this.setState({ token: data.token, [user_id]: data.user_id, is_teacher: data.is_teacher }, () => {
-          if(this.state.is_teacher){
-            ///// go to the teacher profile /////// 
-          }else{
-            ///// go to the student profile ///////
-          }
-					console.log(this.state.token," ",this.state.is_teacher," ",this.state.current_teacherId);
-				});
-			}).catch()
+				this.setState(
+					{
+						token: data.token,
+						[user_id]: data.user_id,
+						is_teacher: data.is_teacher
+					},
+					() => {
+						if (this.state.is_teacher) {
+							///// go to the teacher profile ///////
+						} else {
+							///// go to the student profile ///////
+						}
+						console.log(this.state.token, ' ', this.state.is_teacher, ' ', this.state.current_teacherId);
+					}
+				);
+			})
+			.catch();
 	}
 
 	searchClasses(e) {
@@ -191,78 +220,131 @@ class App extends React.Component {
 		return fetch(`/classes?id=${1}`, {
 			method: 'GET',
 			headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    }
-})
-    .then((response) => (response = response.json()))
-    .then((data) => {
-        this.setState({ classes: data.data });
-        console.log(this.state.classes);
-    }).catch((err)=>console.log(err))
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		})
+			.then((response) => (response = response.json()))
+			.then((data) => {
+				this.setState({ classes: data.data });
+				console.log(this.state.classes);
+			})
+			.catch((err) => console.log(err));
+	}
+
+	pick(e) {
+		e.preventDefault();
+		const { data, studentId, teacherId, day, startHour, endHour } = this.state;
+		const info = { data, studentId, teacherId, day, startHour, endHour };
+		return fetch(
+			`/profileUpdata?studentId=${this.state.current_studentId}&teacherId=${this.state
+				.current_teacherId}&day=${this.state.day}&start=${this.state.startHour}&end=${this.state.endHour}`,
+			{
+				method: 'POST',
+				data: JSON.stringify(info),
+				header: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json'
+				}
+			}
+		).then((result) => console.log(result));
+	}
+
+	conform(e) {
+		// e.preventDefault();
+		return fetch(`/conform?teacherId=${this.state.current_teacherId}`, {
+			method: 'GET',
+			header: {
+				Accept: 'application/json'
+			}
+		})
+			.then((result) => (result = result.json()))
+			.then((result) => {
+				this.setState({ bookes: result });
+				console.log(this.state.bookes);
+			})
+			.catch((err) => {
+				console.log({ err: 'error' }, err);
+			});
+	}
+
+	answer(e) {
+		e.preventDefault();
+		// console.log(e.target.name, e.target.value);
+		fetch(
+			`/conformAnswer?id=${e.target.name}&confirmed=${e.target.value}&teacherId=${this.state.current_teacherId}`,
+			{
+				method: 'GET',
+				header: {
+					Accept: 'application/json'
+				}
+			}
+		)
+			.then((result) => (result = result.json()))
+			.then((result) => {
+				// console.log(this.state.bookes);
+				this.setState({ bookes: result });
+				// console.log(this.state.bookes);
+			});
+	}
+
+	render() {
+		var tech = this.state.teacherProfiles;
+		var { ratingText, rate, current_studentId, current_teacherId } = this.state;
+		var RatingVariables = {
+			ratingText,
+			rate,
+			current_studentId,
+			current_teacherId
+		};
+		return (
+			<div>
+				<Conform
+					conform={this.conform.bind(this)}
+					resultOfBook={this.state.bookes}
+					answer={this.answer.bind(this)}
+				/>
+				{false && (
+					<div>
+						<Header />
+						<img src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ" />
+						<h1>Test by Cyber-Ninjas</h1>
+						<SignUp
+							onchangingSignUp={this.onchangingSignUp.bind(this)}
+							onSignUp={this.onSignUp.bind(this)}
+							is_teacher={this.state.is_teacher}
+							error={this.state.error}
+						/>
+						<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
+						<ImageUpload
+							imgUrl={this.state.imgUrl}
+							image={this.state.image}
+							progress={this.state.progress}
+							handleImgChange={(e) => this.handleImgChange(e)}
+							handleImgUpload={() => this.handleImgUpload()}
+						/>
+						<CVUpload
+							cvFileUrl={this.state.cvFileUrl}
+							cvFile={this.state.cvFile}
+							progress={this.state.progress}
+							handleFileChange={(e) => this.handleFileChange(e)}
+							handleFileUpload={() => this.handleFileUpload()}
+						/>
+
+						<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
+						<ResultSearch resultOfSer={tech} />
+						<Rating
+							RatingVariables={RatingVariables}
+							onChange={(event) => this.onRatingChange(event)}
+							onClick={(event) => this.rating(event)}
+						/>
+						<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
+						<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
+					</div>
+				)}
+			</div>
+		);
+	}
 }
 
-// const options = {
-//   method: 'POST',
-//   data: {
-//     title: 'foo',
-//     body: 'bar',
-//     userId: 1
-//   },
-//   credentials: 'include',
-//   headers: {}
-// };
-
-
-  pick(e){
-    e.preventDefault()
-   return fetch(`/profileUpdata?studentId=${this.state.current_studentId}&teacherId=${this.state.current_teacherId}&day=${this.state.day}&start=${this.state.startHour}&end=${this.state.endHour}`,{
-     method:'POST',
-     data: {
-       studentId: this.state.current_studentId,
-       teacherId : this.state.current_teacherId,
-       day : this.state.day,
-       start : this.state.startHour,
-       end : this.state.endHour,
-       
-     } ,
-     header: {
-       'Accept': 'application/json'
-    }
-   })
-   .then(result => console.log("DoSomeThing"))
-  }
-
-  render() {
-    var tech = this.state.teacherProfiles;
-    var { ratingText, rate, current_studentId, current_teacherId } = this.state;
-    var RatingVariables = { ratingText, rate, current_studentId, current_teacherId };
-    return (
-      <div>
-        <div>
-        <Header />
-        <img src='https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ'/>
-        <h1>Test by Cyber-Ninjas</h1>
-        <ImageUpload imgUrl={this.state.imgUrl} 
-                     image={this.state.image}
-                     progress={this.state.progress}
-                     handleImgChange={e => this.handleImgChange(e)} 
-                     handleImgUpload={() => this.handleImgUpload()} />
-        <CVUpload    cvFileUrl={this.state.cvFileUrl} 
-                     cvFile={this.state.cvFile}
-                     progress={this.state.progress}
-                     handleFileChange={e => this.handleFileChange(e)} 
-                     handleFileUpload={() => this.handleFileUpload()} />
-        <SignUp onchangingSignUp={this.onchangingSignUp.bind(this)} onSignUp={this.onSignUp.bind(this)} is_teacher={this.state.is_teacher}/>
-        <Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
-        <ResultSearch resultOfSer={tech} />
-        <Rating RatingVariables={RatingVariables} onChange={event => this.onRatingChange(event)} onClick={event => this.rating(event)} />
-        <Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
-				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
-        </div>
-         
-      </div>
-    );
-  }
-}
 ReactDOM.render(<App />, document.getElementById('app'));

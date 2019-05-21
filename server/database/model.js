@@ -52,7 +52,24 @@ const Rating = db.define("rating", {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
   text: { type: Sequelize.STRING, required: true },
   rate: { type: Sequelize.INTEGER, required: true },
-  date: { type: Sequelize.DATE, required: true },
+ 
+  createdAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW
+  }
+});
+const Confirm = db.define("TeacherConfirm", {
+  id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+  studentId: { type: Sequelize.INTEGER, required: true },
+  teacherId: { type: Sequelize.INTEGER, required: true },
+  day: { type: Sequelize.STRING, required: true },
+  start: { type: Sequelize.STRING, required: true },
+  end: { type: Sequelize.STRING, required: true },
+  confirmed: { type: Sequelize.STRING, required: true }, // yes, no, not yet
   createdAt: {
     type: Sequelize.DATE,
     defaultValue: Sequelize.NOW
@@ -151,3 +168,4 @@ module.exports.Rating = Rating;
 module.exports.PermissionRole = PermissionRole;
 module.exports.UserRole = UserRole;
 module.exports.TeacherSubject = TeacherSubject;
+module.exports.Confirm = Confirm;
