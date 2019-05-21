@@ -56,14 +56,14 @@ exports.updateTeacherProfile = (req, res) => {
 			});
 		})
 		.then(() => {
-			 for(let i = 0; i < req.body.schedule.length; i++){
+			for (let i = 0; i < req.body.schedule.length; i++) {
 				Schedule.create({
 					day: req.body.schedule[i].day,
 					startHour: req.body.schedule[i].startHour,
 					endHour: req.body.schedule[i].endHour,
 					userId: req.body.current_teacherId
 				});
-			 }
+			}
 		})
 		.then(function(data) {
 			res.status(200);

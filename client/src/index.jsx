@@ -45,11 +45,11 @@ class App extends React.Component {
 		};
 	}
 
-	saveInfo() {
+	updateInfo() {
     const { userName, cvFileUrl, imgUrl, summary, email, phone, location, current_teacherId, schedule, token } = this.state;
 		const body = { userName, cvFileUrl, imgUrl, summary, email, phone, location, current_teacherId, schedule, token };
 		fetch('/updateTeacherProfile', {
-			method: 'post',
+			method: 'put',
 			body: JSON.stringify(body),
 			headers: { 'Content-Type': 'application/json' }
 		})
@@ -281,7 +281,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<Header />
-				<img src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ" />
+				<img id="img"src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ" />
 				<h1>Test by Cyber-Ninjas</h1>
 				<SignUp
 					onchangingSignUp={this.onchangingSignUp.bind(this)}

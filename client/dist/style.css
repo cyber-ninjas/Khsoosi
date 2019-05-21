@@ -53,9 +53,9 @@
 button {
 	border-radius: 8px;
 }
-/* img {
-	width: 1508px;
-} */
+#img {
+	width: 100%;
+}
 
 table,
 th,
