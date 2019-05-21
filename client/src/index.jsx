@@ -36,7 +36,7 @@ class App extends React.Component {
 			rate: '',
 			subjectName: '',
 			subjectLevel: '',
-			day: 'Sunday',
+			day: '',
 			startHour: '',
 			endHour: '',
 			error: '',
@@ -241,7 +241,10 @@ class App extends React.Component {
 						imgUrl: data.img,
 						email: data.email,
 						phone: data.phone,
-						location: data.location,
+            location: data.location,
+            summary: data.summary,
+            ratingText: data.text,
+            rate: data.rate,
 						schedules: data.schedules
 					},
 					() => console.log(this.state)
@@ -366,7 +369,7 @@ class App extends React.Component {
 					handleFileUpload={() => this.handleFileUpload()}
 				/>
 				<Schedule
-					schedule={this.state.schedule}
+					schedule={this.state.schedules}
 					change={this.change.bind(this)}
 					addSchedule={this.addSchedule.bind(this)}
 					removeSchedule={this.removeSchedule.bind(this)}

@@ -25,6 +25,9 @@ class TeacherProfile extends React.Component {
 				<p>{this.props.teacherInfo.email}</p>
 				<p>{this.props.teacherInfo.phone}</p>
 				<p>{this.props.teacherInfo.location}</p>
+				<p>{this.props.teacherInfo.summary}</p>
+				<p>{this.props.teacherInfo.ratingText}</p>
+				<p>{this.props.teacherInfo.rate}</p>
 				<a href={this.props.teacherInfo.cvFileUrl || "javascript:alert('No file exist');"}> CV </a>
 				<br />
 				<ul>
@@ -40,7 +43,7 @@ class TeacherProfile extends React.Component {
 					})}
 				</ul>
 
-				<button >Pick</button>
+				<button >Pick</button> <button>Rate</button>
 			</div>
 		);
 	}
