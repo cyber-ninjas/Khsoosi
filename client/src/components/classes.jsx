@@ -7,7 +7,7 @@ class Classes extends React.Component{
      
     return (
         <div>
-          <p>you'r schedule</p>
+          <p>your schedule</p>
             <button onClick={this.props.searchClasses.bind(this)}>Classes</button>
             {
               this.props.result.map((data,indx)=>{
