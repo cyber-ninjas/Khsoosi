@@ -92,7 +92,6 @@ exports.showTeacherInfo = (req, res) => {
 		]
 	})
 		.then((data) => {
-			console.log(data);
 			res.status(200);
 			res.send(data);
 		})

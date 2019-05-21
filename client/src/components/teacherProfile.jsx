@@ -26,8 +26,15 @@ class TeacherProfile extends React.Component {
 				<p>{this.props.teacherInfo.phone}</p>
 				<p>{this.props.teacherInfo.location}</p>
 				<p>{this.props.teacherInfo.summary}</p>
-				<p>{this.props.teacherInfo.ratingText}</p>
-				<p>{this.props.teacherInfo.rate}</p>
+				{this.props.teacherInfo.ratings.map((rates, index) => {
+					return (
+						<div>
+							<p>{rates.text}</p>
+							<p>{rates.rate}</p>
+						</div>
+					);
+				})}
+				
 				<a href={this.props.teacherInfo.cvFileUrl || "javascript:alert('No file exist');"}> CV </a>
 				<br />
 				<ul>

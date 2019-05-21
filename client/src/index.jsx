@@ -39,10 +39,11 @@ class App extends React.Component {
 			day: '',
 			startHour: '',
 			endHour: '',
-			error: '',
+      error: '',
 			schedules: [],
 			classes: [],
-			token: ''
+      token: '',
+      ratings: []
 		};
 	}
 
@@ -243,8 +244,7 @@ class App extends React.Component {
 						phone: data.phone,
             location: data.location,
             summary: data.summary,
-            ratingText: data.text,
-            rate: data.rate,
+            ratings: data.ratings,
 						schedules: data.schedules
 					},
 					() => console.log(this.state)
