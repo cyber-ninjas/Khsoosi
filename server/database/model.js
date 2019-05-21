@@ -62,6 +62,23 @@ const Rating = db.define("rating", {
     defaultValue: Sequelize.NOW
   }
 });
+const Confirm = db.define("TeacherConfirm", {
+  id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+  studentId: { type: Sequelize.INTEGER, required: true },
+  teacherId: { type: Sequelize.INTEGER, required: true },
+  day: { type: Sequelize.STRING, required: true },
+  start: { type: Sequelize.STRING, required: true },
+  end: { type: Sequelize.STRING, required: true },
+  confirmed: { type: Sequelize.STRING, required: true }, // yes, no, not yet
+  createdAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW
+  }
+});
 
 const Permission = db.define("permission", {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },

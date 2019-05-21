@@ -34,12 +34,14 @@ class Schedule extends React.Component {
 								</tr>
 								{this.props.schedule.map((sch, index) => {
 									return (
-										<tr key={sch.day} >
+										<tr key={sch.day}>
 											<td>{sch.day}</td>
 											<td>{sch.startHour}</td>
 											<td>{sch.endHour}</td>
 											<td>
-												<button name={sch.day} onClick={this.props.removeSchedule.bind(this)}>remove</button>
+												<button name={sch.day} onClick={this.props.removeSchedule.bind(this)}>
+													remove
+												</button>
 											</td>
 										</tr>
 									);
