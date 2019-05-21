@@ -21,11 +21,15 @@ class TeacherProfile extends React.Component {
 					width="100"
 				/>
 				<br />
-				<p>{this.props.teacherInfo.userName}</p>
-				<p>{this.props.teacherInfo.email}</p>
-				<p>{this.props.teacherInfo.phone}</p>
-				<p>{this.props.teacherInfo.location}</p>
-				<p>{this.props.teacherInfo.summary}</p>
+				<fieldset>
+					<legend>Teacher Info</legend>
+					<p>{this.props.teacherInfo.userName}</p>
+					<p>{this.props.teacherInfo.email}</p>
+					<p>{this.props.teacherInfo.phone}</p>
+					<p>{this.props.teacherInfo.location}</p>
+					<p>{this.props.teacherInfo.summary}</p>
+				</fieldset>
+				
 				{this.props.teacherInfo.ratings.map((rates, index) => {
 					return (
 						<div>
@@ -34,9 +38,14 @@ class TeacherProfile extends React.Component {
 						</div>
 					);
 				})}
+				<fieldset>
+					<legend>Teacher CV</legend>
+					<iframe src={this.props.teacherInfo.cvFileUrl}>
+						<p>{"javascript:alert('No file exist');"}</p>
+					</iframe>
+				</fieldset>
 				
-				<a href={this.props.teacherInfo.cvFileUrl || "javascript:alert('No file exist');"}> CV </a>
-				<br />
+				<br/>
 				<ul>
 					<p>Please select your class time:</p>
 					{this.props.teacherInfo.schedules.map((time, index) => {
