@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SignUp from './components/SignUp.jsx';
 import ImageUpload from './components/imageUpload.jsx';
 import CVUpload from './components/cvUpload.jsx';
+import SignUp from './components/SignUp.jsx';
 import Rating from './components/Rating.jsx';
 import Search from './components/search.jsx';
 import ResultSearch from './components/resultSearch.jsx';
@@ -11,13 +11,15 @@ import { storage } from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
 import Login from './components/login.jsx';
 import Conform from './components/conform.jsx';
+import Schedule from './components/Schedule.jsx';
+import TeacherProfile from './components/teacherProfile.jsx';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			userName: '',
-			cvFile: {},
+			cvFile: '',
 			cvFileUrl: '',
 			image: null,
 			imgUrl: '',
@@ -30,20 +32,60 @@ class App extends React.Component {
 			location: '',
 			teacherProfiles: [],
 			current_teacherId: '4',
-			current_studentId: '',
+			current_studentId: '4',
 			ratingText: '',
 			rate: '',
 			subjectName: '',
 			subjectLevel: '',
-			day: '',
+			day: 'Sunday',
 			startHour: '',
 			endHour: '',
 			error: '',
+			schedules: [],
 			bookes: [],
 			classes: [],
 			token: ''
 		};
 	}
+
+	updateInfo() {
+		const {
+			userName,
+			cvFileUrl,
+			imgUrl,
+			summary,
+			email,
+			phone,
+			location,
+			current_teacherId,
+			schedule,
+			token
+		} = this.state;
+		const body = {
+			userName,
+			cvFileUrl,
+			imgUrl,
+			summary,
+			email,
+			phone,
+			location,
+			current_teacherId,
+			schedule,
+			token
+		};
+		fetch('/updateTeacherProfile', {
+			method: 'put',
+			body: JSON.stringify(body),
+			headers: { 'Content-Type': 'application/json' }
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((body) => {
+				// console.log(body);
+			});
+	}
+
 	handleImgChange(e) {
 		if (e.target.files[0]) {
 			const image = e.target.files[0];
@@ -68,7 +110,7 @@ class App extends React.Component {
 			},
 			(error) => {
 				// error function ....
-				console.log(error);
+				// console.log(error);
 			},
 			() => {
 				// complete function ....
@@ -104,7 +146,7 @@ class App extends React.Component {
 		this.setState({ [e.target.name]: e.target.value });
 	}
 	onSignUp() {
-		console.log('signup');
+		// console.log('signup');
 		const { userName, is_teacher, password, email, phone, location } = this.state;
 		const body = { userName, is_teacher, password, email, phone, location };
 		fetch('/signup', {
@@ -116,7 +158,7 @@ class App extends React.Component {
 				return response.json();
 			})
 			.then((body) => {
-				console.log(body);
+				// console.log(body);
 				if (body.error) this.setState({ error: body.error });
 				else {
 					this.setState({
@@ -133,19 +175,47 @@ class App extends React.Component {
 	}
 
 	searchInfo(e) {
-		console.log(this.state[e.target.name]);
+		// console.log(this.state[e.target.name]);
 		e.preventDefault();
 		this.setState({ [e.target.name]: e.target.value });
 	}
 
-	onRatingChange(e) {
+	change(e) {
 		this.setState({
 			[e.target.name]: e.target.value
 		});
 	}
 
+	addSchedule(e) {
+		e.preventDefault();
+		const { day, startHour, endHour } = this.state;
+		const temp = this.state.schedules;
+		this.setState({
+			schedules: [ ...temp, { day, startHour, endHour } ]
+		});
+		// console.log(this.state.schedules);
+	}
+
+	removeSchedule(e) {
+		let { schedules } = this.state;
+		schedules.forEach((element, index) => {
+			if (element.day === e.target.value) {
+				schedules.splice(index, 1);
+			}
+		});
+		this.setState({
+			schedules: schedules
+		});
+		// console.log(this.state.schedules);
+	}
+
 	rating() {
-		const body = { ratingText: this.state.ratingText, rate: this.state.rate };
+		const body = {
+			ratingText: this.state.ratingText,
+			rate: this.state.rate,
+			current_studentId: this.state.current_studentId,
+			current_teacherId: this.state.current_teacherId
+		};
 		fetch('/rating', {
 			method: 'post',
 			body: JSON.stringify(body),
@@ -155,21 +225,45 @@ class App extends React.Component {
 				return response.json();
 			})
 			.then((body) => {
-				console.log(body);
+				// console.log(body);
 				this.setState({ ratingText: '', rate: '' });
 			});
 	}
 
+	showTeacherInfo() {
+		return fetch(`/teacherProfile/${this.state.current_teacherId}`, {
+			method: 'GET',
+			headers: {
+				// 'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				// console.log(data);
+				this.setState(
+					{
+						userName: data.name,
+						cvFileUrl: data.cvFile,
+						imgUrl: data.img,
+						email: data.email,
+						phone: data.phone,
+						location: data.location,
+						schedules: data.schedules
+					}
+					// ,() => console.log(this.state)
+				);
+			})
+			.catch((err) => console.log(err));
+	}
+
 	searchTecher(e) {
 		e.preventDefault();
-
-		// Default options are marked with *
 		return fetch(
 			`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`,
 			{
-				method: 'GET', // *GET, POST, PUT, DELETE, etc.
+				method: 'GET',
 				headers: {
-					// 'Content-Type': 'application/json',
 					Accept: 'application/json'
 				}
 			}
@@ -177,7 +271,7 @@ class App extends React.Component {
 			.then((response) => (response = response.json()))
 			.then((data) => {
 				this.setState({ teacherProfiles: data.data });
-				console.log(this.state.teacherProfiles);
+				// console.log(this.state.teacherProfiles);
 			})
 			.catch((err) => console.log(err));
 	}
@@ -208,7 +302,7 @@ class App extends React.Component {
 						} else {
 							///// go to the student profile ///////
 						}
-						console.log(this.state.token, ' ', this.state.is_teacher, ' ', this.state.current_teacherId);
+						// console.log(this.state.token, ' ', this.state.is_teacher, ' ', this.state.current_teacherId);
 					}
 				);
 			})
@@ -227,7 +321,7 @@ class App extends React.Component {
 			.then((response) => (response = response.json()))
 			.then((data) => {
 				this.setState({ classes: data.data });
-				console.log(this.state.classes);
+				// console.log(this.state.classes);
 			})
 			.catch((err) => console.log(err));
 	}
@@ -261,7 +355,7 @@ class App extends React.Component {
 			.then((result) => (result = result.json()))
 			.then((result) => {
 				this.setState({ bookes: result });
-				console.log(this.state.bookes);
+				// console.log(this.state.bookes);
 			})
 			.catch((err) => {
 				console.log({ err: 'error' }, err);
@@ -299,52 +393,55 @@ class App extends React.Component {
 		};
 		return (
 			<div>
+				<Header />
+				<img
+					id="img"
+					src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ"
+				/>
+				<h1>Test by Cyber-Ninjas</h1>
+				<SignUp
+					onchangingSignUp={this.onchangingSignUp.bind(this)}
+					onSignUp={this.onSignUp.bind(this)}
+					is_teacher={this.state.is_teacher}
+					error={this.state.error}
+				/>
+				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
+				<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
+				<ResultSearch resultOfSer={tech} />
+				<Rating
+					RatingVariables={RatingVariables}
+					onChange={(event) => this.change(event)}
+					onClick={(event) => this.rating(event)}
+				/>
+				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
+				<ImageUpload
+					imgUrl={this.state.imgUrl}
+					image={this.state.image}
+					progress={this.state.progress}
+					handleImgChange={(e) => this.handleImgChange(e)}
+					handleImgUpload={() => this.handleImgUpload()}
+				/>
+				<CVUpload
+					cvFileUrl={this.state.cvFileUrl}
+					cvFile={this.state.cvFile}
+					progress={this.state.progress}
+					handleFileChange={(e) => this.handleFileChange(e)}
+					handleFileUpload={() => this.handleFileUpload()}
+				/>
+				<Schedule
+					schedules={this.state.schedules}
+					change={this.change.bind(this)}
+					addSchedule={this.addSchedule.bind(this)}
+					removeSchedule={this.removeSchedule.bind(this)}
+				/>
+				<TeacherProfile teacherInfo={this.state} showTeacherInfo={this.showTeacherInfo.bind(this)} />
 				<Conform
 					conform={this.conform.bind(this)}
 					resultOfBook={this.state.bookes}
 					answer={this.answer.bind(this)}
 				/>
-				{false && (
-					<div>
-						<Header />
-						<img src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ" />
-						<h1>Test by Cyber-Ninjas</h1>
-						<SignUp
-							onchangingSignUp={this.onchangingSignUp.bind(this)}
-							onSignUp={this.onSignUp.bind(this)}
-							is_teacher={this.state.is_teacher}
-							error={this.state.error}
-						/>
-						<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
-						<ImageUpload
-							imgUrl={this.state.imgUrl}
-							image={this.state.image}
-							progress={this.state.progress}
-							handleImgChange={(e) => this.handleImgChange(e)}
-							handleImgUpload={() => this.handleImgUpload()}
-						/>
-						<CVUpload
-							cvFileUrl={this.state.cvFileUrl}
-							cvFile={this.state.cvFile}
-							progress={this.state.progress}
-							handleFileChange={(e) => this.handleFileChange(e)}
-							handleFileUpload={() => this.handleFileUpload()}
-						/>
-
-						<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
-						<ResultSearch resultOfSer={tech} />
-						<Rating
-							RatingVariables={RatingVariables}
-							onChange={(event) => this.onRatingChange(event)}
-							onClick={(event) => this.rating(event)}
-						/>
-						<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
-						<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
-					</div>
-				)}
 			</div>
 		);
 	}
 }
-
 ReactDOM.render(<App />, document.getElementById('app'));

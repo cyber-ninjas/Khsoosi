@@ -22,7 +22,9 @@ const Op = Sequelize.Op;
 exports.rating = (req, res) => {
 	Rating.create({
 		text: req.body.ratingText,
-		rate: req.body.rate
+		rate: req.body.rate,
+		studentId: req.body.current_studentId,
+		teacherId: req.body.current_teacherId
 	})
 		.then(function(data) {
 			res.status(200);
@@ -33,9 +35,70 @@ exports.rating = (req, res) => {
 			res.json({ error: error, stackError: error.stack });
 		});
 };
-// `${{[Op.notLike]:'%=%'}||}`
+
+exports.updateTeacherProfile = (req, res) => {
+	User.update(
+		{
+			name: req.body.userName,
+			email: req.body.email,
+			phone: req.body.phone,
+			location: req.body.location,
+			summary: req.body.summary,
+			cvFile: req.body.cvFileUrl,
+			img: req.body.imgUrl
+		},
+		{ where: { id: req.body.current_teacherId } }
+	)
+		.then(() => {
+			Schedule.destroy({
+				where: {
+					userId: req.body.current_teacherId
+				}
+			});
+		})
+		.then(() => {
+			for (let i = 0; i < req.body.schedules.length; i++) {
+				Schedule.create({
+					day: req.body.schedules[i].day,
+					startHour: req.body.schedules[i].startHour,
+					endHour: req.body.schedules[i].endHour,
+					userId: req.body.current_teacherId
+				});
+			}
+		})
+		.then(function(data) {
+			res.status(500);
+			res.json({ error: error, stackError: error.stack });
+		});
+};
+
+exports.showTeacherInfo = (req, res) => {
+	const id = req.params.number;
+	User.findOne({
+		attributes: [ 'name', 'phone', 'location', 'img', 'cvFile', 'email' ],
+		where: {
+			id: id
+		},
+		include: [
+			{
+				model: Schedule,
+				attributes: [ 'day', 'startHour', 'endHour' ]
+			}
+		]
+	})
+		.then((data) => {
+			console.log(data);
+			res.status(200);
+			res.send(data);
+		})
+		.catch(function(error) {
+			res.status(404);
+			res.json({ error: error, stackError: error.stack });
+		});
+};
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage
+
 exports.search = (req, res) => {
 	const query = req.query;
 	Subject.findAll({
@@ -78,7 +141,7 @@ exports.search = (req, res) => {
 			obj.rate = result[i].users[0].ratings[0].rate;
 			obj.subject = result[0].name;
 			obj.level = result[0].level;
-			console.log(obj);
+			// console.log(obj);
 			// obj.subject = obj1.subject;
 			// obj.level = obj1.level;
 			info.push(obj);
@@ -88,7 +151,7 @@ exports.search = (req, res) => {
 };
 ////this function give the teacher a schedule of the classes he/she have
 exports.seeSchedule = (req, res) => {
-	console.log(req.query, 'req--id');
+	// console.log(req.query, 'req--id');
 
 	User.findAll({
 		where: {
@@ -110,7 +173,7 @@ exports.seeSchedule = (req, res) => {
 			obj.endHour = result[0].schedules[i].endHour;
 			info.push(obj);
 		}
-		console.log({ data: info });
+		// console.log({ data: info });
 		res.send({ data: info });
 	});
 };
