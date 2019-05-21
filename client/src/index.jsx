@@ -29,7 +29,7 @@ class App extends React.Component {
 			phone: '',
 			location: '',
 			teacherProfiles: [],
-			current_teacherId: '',
+			current_teacherId: '5',
 			current_studentId: '',
 			ratingText: '',
 			rate: '',
@@ -147,7 +147,7 @@ class App extends React.Component {
 				this.setState({ ratingText: '', rate: '' });
 			});
 	}
-	gitTeacherProfile() {
+	showTeacherInfo() {
 		return fetch(`/teacherProfile/${this.state.current_teacherId}`, {
 			method: 'GET',
 			headers: {
@@ -155,18 +155,21 @@ class App extends React.Component {
 				Accept: 'application/json'
 			}
 		})
-			.then((response) => (response = response.json()))
+			.then((response) => response.json())
 			.then((data) => {
-				this.setState({
-					userName: data.name,
-					cvFileUrl: data.file,
-					imgUrl: data.img,
-					email: data.email,
-					phone: data.phone,
-					location: data.location,
-					schedules: data.schedules
-				});
-				console.log(this.state);
+				console.log(data);
+				this.setState(
+					{
+						userName: data.name,
+						cvFileUrl: data.cvFile,
+						imgUrl: data.img,
+						email: data.email,
+						phone: data.phone,
+						location: data.location,
+						schedules: data.schedules
+					},
+					() => console.log(this.state)
+				);
 			})
 			.catch((err) => console.log(err));
 	}
@@ -272,7 +275,7 @@ class App extends React.Component {
 				/>
 				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
 				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
-				<TeacherProfile teacherInfo={this.state} gitTeacherProfile={this.gitTeacherProfile.bind(this)} />
+				<TeacherProfile teacherInfo={this.state} showTeacherInfo={this.showTeacherInfo.bind(this)} />
 			</div>
 		);
 	}
