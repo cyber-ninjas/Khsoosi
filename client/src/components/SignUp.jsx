@@ -12,7 +12,7 @@ class SignUp extends React.Component {
           name="is_teacher"
           id="student"
           value="false"
-          onChange={this.props.onchanging.bind(this)}
+          onChange={this.props.change.bind(this)}
         />
         <label htmlFor="taecher">teacher</label>
         <input
@@ -20,37 +20,37 @@ class SignUp extends React.Component {
           name="is_teacher"
           id="teacher"
           value="true"
-          onChange={this.props.onchanging.bind(this)}
+          onChange={this.props.change.bind(this)}
         />
         <input
           type="text"
           name="userName"
           placeholder="your name"
-          onChange={this.props.onchanging.bind(this)}
+          onChange={this.props.change.bind(this)}
         />
         <input
           type="text"
           name="email"
           placeholder="eng.aymanhariri@gmaill.com"
-          onChange={this.props.onchanging.bind(this)}
+          onChange={this.props.change.bind(this)}
         />
         <input
           type="text"
           name="password"
           placeholder="*****"
-          onChange={this.props.onchanging.bind(this)}
+          onChange={this.props.change.bind(this)}
         />
         <input
           type="text"
           name="phone"
           placeholder="780045533"
-          onChange={this.props.onchanging.bind(this)}
+          onChange={this.props.change.bind(this)}
         />
         <input
           type="text"
           name="location"
           placeholder="Amman"
-          onChange={this.props.onchanging.bind(this)}
+          onChange={this.props.change.bind(this)}
         />
         <label id="error">{this.props.error}</label>
         <input

@@ -10,13 +10,13 @@ class Login extends React.Component {
         <h1>login</h1>
         <input
           name="email"
-          onChange={this.props.onchanging.bind(this)}
+          onChange={this.props.change.bind(this)}
           placeholder="exmpl@gmail.com"
         />
         <input
           name="password"
           type="password"
-          onChange={this.props.onchanging.bind(this)}
+          onChange={this.props.change.bind(this)}
           placeholder="*******"
         />
         <button onClick={this.props.loging.bind(this)}> login</button>
