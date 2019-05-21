@@ -35,6 +35,7 @@ exports.rating = (req, res) => {
 		});
 };
 
+
 exports.updateTeacherProfile = (req, res) => {
 	User.update(
 		{
@@ -66,17 +67,39 @@ exports.updateTeacherProfile = (req, res) => {
 			}
 		})
 		.then(function(data) {
-			res.status(200);
-			res.send(data);
-		})
-		.catch(function(error) {
 			res.status(500);
 			res.json({ error: error, stackError: error.stack });
 		});
 };
 
+exports.showTeacherInfo = (req, res) => {
+	const id = req.params.number;
+	User.findOne({
+		attributes: [ 'name', 'phone', 'location', 'img', 'cvFile', 'email' ],
+		where: {
+			id: id
+		},
+		include: [
+			{
+				model: Schedule,
+				attributes: [ 'day', 'startHour', 'endHour' ]
+			}
+		]
+	})
+		.then((data) => {
+			console.log(data);
+			res.status(200);
+			res.send(data);
+		})
+		.catch(function(error) {
+
+			res.status(404);
+			res.json({ error: error, stackError: error.stack });
+		});
+};
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage
+
 exports.search = (req, res) => {
 	const query = req.query;
 	Subject.findAll({

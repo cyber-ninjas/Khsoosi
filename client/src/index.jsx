@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SignUp from './components/SignUp.jsx';
 import ImageUpload from './components/imageUpload.jsx';
 import CVUpload from './components/cvUpload.jsx';
+import SignUp from './components/SignUp.jsx';
 import Rating from './components/Rating.jsx';
 import Search from './components/search.jsx';
 import ResultSearch from './components/resultSearch.jsx';
@@ -11,25 +11,26 @@ import { storage } from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
 import Login from './components/login.jsx';
 import Schedule from './components/Schedule.jsx';
+import TeacherProfile from './components/teacherProfile.jsx';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			userName: '', //
-			cvFile: {},
-			cvFileUrl: '', //
+			userName: '',
+			cvFile: '',
+			cvFileUrl: '',
 			image: null,
-			imgUrl: '', //
+			imgUrl: '',
 			progress: 0,
-			summary: '', //
+			summary: '',
 			is_teacher: false,
 			password: '',
-			email: '', //
-			phone: '', //
-			location: '', //
+			email: '',
+			phone: '',
+			location: '',
 			teacherProfiles: [],
-			current_teacherId: '', //
+			current_teacherId: '5',
 			current_studentId: '',
 			ratingText: '',
 			rate: '',
@@ -39,15 +40,37 @@ class App extends React.Component {
 			startHour: '',
 			endHour: '',
 			error: '',
-			schedule: [], //
+			schedules: [],
 			classes: [],
-			token: '' //
+			token: ''
 		};
 	}
 
 	updateInfo() {
-    const { userName, cvFileUrl, imgUrl, summary, email, phone, location, current_teacherId, schedule, token } = this.state;
-		const body = { userName, cvFileUrl, imgUrl, summary, email, phone, location, current_teacherId, schedule, token };
+		const {
+			userName,
+			cvFileUrl,
+			imgUrl,
+			summary,
+			email,
+			phone,
+			location,
+			current_teacherId,
+			schedule,
+			token
+		} = this.state;
+		const body = {
+			userName,
+			cvFileUrl,
+			imgUrl,
+			summary,
+			email,
+			phone,
+			location,
+			current_teacherId,
+			schedule,
+			token
+		};
 		fetch('/updateTeacherProfile', {
 			method: 'put',
 			body: JSON.stringify(body),
@@ -200,6 +223,33 @@ class App extends React.Component {
 			});
 	}
 
+	showTeacherInfo() {
+		return fetch(`/teacherProfile/${this.state.current_teacherId}`, {
+			method: 'GET',
+			headers: {
+				// 'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				this.setState(
+					{
+						userName: data.name,
+						cvFileUrl: data.cvFile,
+						imgUrl: data.img,
+						email: data.email,
+						phone: data.phone,
+						location: data.location,
+						schedules: data.schedules
+					},
+					() => console.log(this.state)
+				);
+			})
+			.catch((err) => console.log(err));
+	}
+
 	searchTecher(e) {
 		e.preventDefault();
 		return fetch(
@@ -281,7 +331,10 @@ class App extends React.Component {
 		return (
 			<div>
 				<Header />
-				<img id="img"src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ" />
+				<img
+					id="img"
+					src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ"
+				/>
 				<h1>Test by Cyber-Ninjas</h1>
 				<SignUp
 					onchangingSignUp={this.onchangingSignUp.bind(this)}
@@ -289,6 +342,15 @@ class App extends React.Component {
 					is_teacher={this.state.is_teacher}
 					error={this.state.error}
 				/>
+				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
+				<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
+				<ResultSearch resultOfSer={tech} />
+				<Rating
+					RatingVariables={RatingVariables}
+					onChange={(event) => this.onRatingChange(event)}
+					onClick={(event) => this.rating(event)}
+				/>
+				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
 				<ImageUpload
 					imgUrl={this.state.imgUrl}
 					image={this.state.image}
@@ -303,22 +365,13 @@ class App extends React.Component {
 					handleFileChange={(e) => this.handleFileChange(e)}
 					handleFileUpload={() => this.handleFileUpload()}
 				/>
-
-				<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
-				<ResultSearch resultOfSer={tech} />
-				<Rating
-					RatingVariables={RatingVariables}
-					onChange={(event) => this.change(event)}
-					onClick={(event) => this.rating(event)}
-				/>
-				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
-				<Login searchInfo={this.searchInfo.bind(this)} loging={this.loging.bind(this)} />
 				<Schedule
 					schedule={this.state.schedule}
 					change={this.change.bind(this)}
 					addSchedule={this.addSchedule.bind(this)}
 					removeSchedule={this.removeSchedule.bind(this)}
 				/>
+				<TeacherProfile teacherInfo={this.state} showTeacherInfo={this.showTeacherInfo.bind(this)} />
 			</div>
 		);
 	}
