@@ -1,5 +1,6 @@
 import React from "react";
-
+// import Login from "./login.jsx";
+// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 class SignUp extends React.Component {
   render() {
     return (
@@ -11,7 +12,7 @@ class SignUp extends React.Component {
           name="is_teacher"
           id="student"
           value="false"
-          onChange={this.props.onchangingSignUp.bind(this)}
+          onChange={this.props.onchanging.bind(this)}
         />
         <label htmlFor="taecher">taecher</label>
         <input
@@ -19,37 +20,37 @@ class SignUp extends React.Component {
           name="is_teacher"
           id="teacher"
           value="true"
-          onChange={this.props.onchangingSignUp.bind(this)}
+          onChange={this.props.onchanging.bind(this)}
         />
         <input
           type="text"
           name="userName"
           placeholder="your name"
-          onChange={this.props.onchangingSignUp.bind(this)}
+          onChange={this.props.onchanging.bind(this)}
         />
         <input
           type="text"
           name="email"
           placeholder="eng.aymanhariri@gmaill.com"
-          onChange={this.props.onchangingSignUp.bind(this)}
+          onChange={this.props.onchanging.bind(this)}
         />
         <input
           type="text"
           name="password"
           placeholder="*****"
-          onChange={this.props.onchangingSignUp.bind(this)}
+          onChange={this.props.onchanging.bind(this)}
         />
         <input
           type="text"
           name="phone"
           placeholder="780045533"
-          onChange={this.props.onchangingSignUp.bind(this)}
+          onChange={this.props.onchanging.bind(this)}
         />
         <input
           type="text"
           name="location"
           placeholder="Amman"
-          onChange={this.props.onchangingSignUp.bind(this)}
+          onChange={this.props.onchanging.bind(this)}
         />
         <label id="error">{this.props.error}</label>
         <input

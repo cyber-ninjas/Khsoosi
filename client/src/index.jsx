@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import SignUp from "./components/SignUp.jsx";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ImageUpload from "./components/imageUpload.jsx";
 import CVUpload from "./components/cvUpload.jsx";
 import Rating from "./components/Rating.jsx";
@@ -9,7 +9,6 @@ import ResultSearch from "./components/resultSearch.jsx";
 import Header from "./components/Header.jsx";
 import { storage } from "../../server/database/firebase.js";
 import Classes from "./components/classes.jsx";
-import Login from "./components/login.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -111,7 +110,7 @@ class App extends React.Component {
       }
     );
   }
-  onchangingSignUp(e) {
+  onchanging(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
   onSignUp() {
@@ -271,54 +270,47 @@ class App extends React.Component {
       current_teacherId
     };
     return (
-      <div>
-        <Header />
-        <img src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ" />
-        <h1>Test by Cyber-Ninjas</h1>
-        <SignUp
-          onchangingSignUp={this.onchangingSignUp.bind(this)}
-          onSignUp={this.onSignUp.bind(this)}
-          is_teacher={this.state.is_teacher}
-          error={this.state.error}
-        />
-        <Search
-          searchTecher={this.searchTecher.bind(this)}
-          searchInfo={this.searchInfo.bind(this)}
-        />
-        <ImageUpload
-          imgUrl={this.state.imgUrl}
-          image={this.state.image}
-          progress={this.state.progress}
-          handleImgChange={e => this.handleImgChange(e)}
-          handleImgUpload={() => this.handleImgUpload()}
-        />
-        <CVUpload
-          cvFileUrl={this.state.cvFileUrl}
-          cvFile={this.state.cvFile}
-          progress={this.state.progress}
-          handleFileChange={e => this.handleFileChange(e)}
-          handleFileUpload={() => this.handleFileUpload()}
-        />
+      <Router>
+        <div>
+          <Header
+            onchanging={this.onchanging.bind(this)}
+            onSignUp={this.onSignUp.bind(this)}
+            is_teacher={this.state.is_teacher}
+            error={this.state.error}
+            loging={this.loging.bind(this)}
+          />
 
-        <Search
-          searchTecher={this.searchTecher.bind(this)}
-          searchInfo={this.searchInfo.bind(this)}
-        />
-        <ResultSearch resultOfSer={tech} />
-        <Rating
-          RatingVariables={RatingVariables}
-          onChange={event => this.onRatingChange(event)}
-          onClick={event => this.rating(event)}
-        />
-        <Classes
-          searchClasses={this.searchClasses.bind(this)}
-          result={this.state.classes}
-        />
-        <Login
-          searchInfo={this.searchInfo.bind(this)}
-          loging={this.loging.bind(this)}
-        />
-      </div>
+          <ImageUpload
+            imgUrl={this.state.imgUrl}
+            image={this.state.image}
+            progress={this.state.progress}
+            handleImgChange={e => this.handleImgChange(e)}
+            handleImgUpload={() => this.handleImgUpload()}
+          />
+          <CVUpload
+            cvFileUrl={this.state.cvFileUrl}
+            cvFile={this.state.cvFile}
+            progress={this.state.progress}
+            handleFileChange={e => this.handleFileChange(e)}
+            handleFileUpload={() => this.handleFileUpload()}
+          />
+
+          <Search
+            searchTecher={this.searchTecher.bind(this)}
+            searchInfo={this.searchInfo.bind(this)}
+          />
+          <ResultSearch resultOfSer={tech} />
+          <Rating
+            RatingVariables={RatingVariables}
+            onChange={event => this.onRatingChange(event)}
+            onClick={event => this.rating(event)}
+          />
+          <Classes
+            searchClasses={this.searchClasses.bind(this)}
+            result={this.state.classes}
+          />
+        </div>
+      </Router>
     );
   }
 }
