@@ -10,6 +10,7 @@ import Header from './components/Header.jsx';
 import { storage } from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
 import Login from './components/login.jsx';
+import Conform from './components/conform.jsx';
 import Schedule from './components/Schedule.jsx';
 import TeacherProfile from './components/teacherProfile.jsx';
 
@@ -30,7 +31,7 @@ class App extends React.Component {
 			phone: '',
 			location: '',
 			teacherProfiles: [],
-			current_teacherId: '3',
+			current_teacherId: '4',
 			current_studentId: '4',
 			ratingText: '',
 			rate: '',
@@ -41,6 +42,7 @@ class App extends React.Component {
 			endHour: '',
 			error: '',
 			schedules: [],
+			bookes: [],
 			classes: [],
 			token: ''
 		};
@@ -80,7 +82,7 @@ class App extends React.Component {
 				return response.json();
 			})
 			.then((body) => {
-				console.log(body);
+				// console.log(body);
 			});
 	}
 
@@ -108,7 +110,7 @@ class App extends React.Component {
 			},
 			(error) => {
 				// error function ....
-				console.log(error);
+				// console.log(error);
 			},
 			() => {
 				// complete function ....
@@ -144,7 +146,7 @@ class App extends React.Component {
 		this.setState({ [e.target.name]: e.target.value });
 	}
 	onSignUp() {
-		console.log('signup');
+		// console.log('signup');
 		const { userName, is_teacher, password, email, phone, location } = this.state;
 		const body = { userName, is_teacher, password, email, phone, location };
 		fetch('/signup', {
@@ -156,7 +158,7 @@ class App extends React.Component {
 				return response.json();
 			})
 			.then((body) => {
-				console.log(body);
+				// console.log(body);
 				if (body.error) this.setState({ error: body.error });
 				else {
 					this.setState({
@@ -173,7 +175,7 @@ class App extends React.Component {
 	}
 
 	searchInfo(e) {
-		console.log(this.state[e.target.name]);
+		// console.log(this.state[e.target.name]);
 		e.preventDefault();
 		this.setState({ [e.target.name]: e.target.value });
 	}
@@ -191,7 +193,7 @@ class App extends React.Component {
 		this.setState({
 			schedules: [ ...temp, { day, startHour, endHour } ]
 		});
-		console.log(this.state.schedules);
+		// console.log(this.state.schedules);
 	}
 
 	removeSchedule(e) {
@@ -204,11 +206,16 @@ class App extends React.Component {
 		this.setState({
 			schedules: schedules
 		});
-		console.log(this.state.schedules);
+		// console.log(this.state.schedules);
 	}
 
 	rating() {
-		const body = { ratingText: this.state.ratingText, rate: this.state.rate , current_studentId:this.state.current_studentId, current_teacherId:this.state.current_teacherId};
+		const body = {
+			ratingText: this.state.ratingText,
+			rate: this.state.rate,
+			current_studentId: this.state.current_studentId,
+			current_teacherId: this.state.current_teacherId
+		};
 		fetch('/rating', {
 			method: 'post',
 			body: JSON.stringify(body),
@@ -218,7 +225,7 @@ class App extends React.Component {
 				return response.json();
 			})
 			.then((body) => {
-				console.log(body);
+				// console.log(body);
 				this.setState({ ratingText: '', rate: '' });
 			});
 	}
@@ -233,7 +240,7 @@ class App extends React.Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
+				// console.log(data);
 				this.setState(
 					{
 						userName: data.name,
@@ -243,8 +250,8 @@ class App extends React.Component {
 						phone: data.phone,
 						location: data.location,
 						schedules: data.schedules
-					},
-					() => console.log(this.state)
+					}
+					// ,() => console.log(this.state)
 				);
 			})
 			.catch((err) => console.log(err));
@@ -263,8 +270,8 @@ class App extends React.Component {
 		)
 			.then((response) => (response = response.json()))
 			.then((data) => {
-				this.setState({ classes: data.data });
-				console.log(this.state.classes);
+				this.setState({ teacherProfiles: data.data });
+				// console.log(this.state.teacherProfiles);
 			})
 			.catch((err) => console.log(err));
 	}
@@ -295,7 +302,7 @@ class App extends React.Component {
 						} else {
 							///// go to the student profile ///////
 						}
-						console.log(this.state.token, ' ', this.state.is_teacher, ' ', this.state.current_teacherId);
+						// console.log(this.state.token, ' ', this.state.is_teacher, ' ', this.state.current_teacherId);
 					}
 				);
 			})
@@ -314,9 +321,65 @@ class App extends React.Component {
 			.then((response) => (response = response.json()))
 			.then((data) => {
 				this.setState({ classes: data.data });
-				console.log(this.state.classes);
+				// console.log(this.state.classes);
 			})
 			.catch((err) => console.log(err));
+	}
+
+	pick(e) {
+		e.preventDefault();
+		const { data, studentId, teacherId, day, startHour, endHour } = this.state;
+		const info = { data, studentId, teacherId, day, startHour, endHour };
+		return fetch(
+			`/profileUpdata?studentId=${this.state.current_studentId}&teacherId=${this.state
+				.current_teacherId}&day=${this.state.day}&start=${this.state.startHour}&end=${this.state.endHour}`,
+			{
+				method: 'POST',
+				data: JSON.stringify(info),
+				header: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json'
+				}
+			}
+		).then((result) => console.log(result));
+	}
+
+	conform(e) {
+		// e.preventDefault();
+		return fetch(`/conform?teacherId=${this.state.current_teacherId}`, {
+			method: 'GET',
+			header: {
+				Accept: 'application/json'
+			}
+		})
+			.then((result) => (result = result.json()))
+			.then((result) => {
+				this.setState({ bookes: result });
+				// console.log(this.state.bookes);
+			})
+			.catch((err) => {
+				console.log({ err: 'error' }, err);
+			});
+	}
+
+	answer(e) {
+		e.preventDefault();
+		// console.log(e.target.name, e.target.value);
+		fetch(
+			`/conformAnswer?id=${e.target.name}&confirmed=${e.target.value}&teacherId=${this.state.current_teacherId}`,
+			{
+				method: 'GET',
+				header: {
+					Accept: 'application/json'
+				}
+			}
+		)
+			.then((result) => (result = result.json()))
+			.then((result) => {
+				// console.log(this.state.bookes);
+				this.setState({ bookes: result });
+				// console.log(this.state.bookes);
+			});
 	}
 
 	render() {
@@ -372,6 +435,11 @@ class App extends React.Component {
 					removeSchedule={this.removeSchedule.bind(this)}
 				/>
 				<TeacherProfile teacherInfo={this.state} showTeacherInfo={this.showTeacherInfo.bind(this)} />
+				<Conform
+					conform={this.conform.bind(this)}
+					resultOfBook={this.state.bookes}
+					answer={this.answer.bind(this)}
+				/>
 			</div>
 		);
 	}
