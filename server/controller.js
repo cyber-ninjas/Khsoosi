@@ -22,8 +22,8 @@ exports.rating = (req, res) => {
 	Rating.create({
 		text: req.body.ratingText,
 		rate: req.body.rate,
-		studentId: req.body.studentId,
-		teacherId: req.body.teacherId
+		studentId: req.body.current_studentId,
+		teacherId: req.body.current_teacherId
 	})
 		.then(function(data) {
 			res.status(200);
@@ -57,11 +57,11 @@ exports.updateTeacherProfile = (req, res) => {
 			});
 		})
 		.then(() => {
-			for (let i = 0; i < req.body.schedule.length; i++) {
+			for (let i = 0; i < req.body.schedules.length; i++) {
 				Schedule.create({
-					day: req.body.schedule[i].day,
-					startHour: req.body.schedule[i].startHour,
-					endHour: req.body.schedule[i].endHour,
+					day: req.body.schedules[i].day,
+					startHour: req.body.schedules[i].startHour,
+					endHour: req.body.schedules[i].endHour,
 					userId: req.body.current_teacherId
 				});
 			}

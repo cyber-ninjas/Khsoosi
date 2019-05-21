@@ -52,7 +52,8 @@ const Rating = db.define("rating", {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
   text: { type: Sequelize.STRING, required: true },
   rate: { type: Sequelize.INTEGER, required: true },
-  date: { type: Sequelize.DATE, required: true },
+  studentId: { type: Sequelize.INTEGER, required: true },
+  teacherId: { type: Sequelize.INTEGER, required: true },
   createdAt: {
     type: Sequelize.DATE,
     defaultValue: Sequelize.NOW
