@@ -9,7 +9,6 @@ import { storage } from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
 import Login from './components/login.jsx';
 import Conform from './components/conform.jsx';
-import Schedule from './components/Schedule.jsx';
 import TeacherProfile from './components/teacherProfile.jsx';
 import Profile from './components/Profile.jsx';
 
@@ -44,34 +43,23 @@ class App extends React.Component {
 			bookes: [],
 			classes: [],
 			token: '',
-			ratings: []
+			ratings: [],
+			message: ''
 		};
 	}
 
 	updateInfo() {
-		const {
-			userName,
-			cvFileUrl,
-			imgUrl,
-			summary,
-			email,
-			phone,
-			location,
-			current_teacherId,
-			schedule,
-			token
-		} = this.state;
 		const body = {
-			userName,
-			cvFileUrl,
-			imgUrl,
-			summary,
-			email,
-			phone,
-			location,
-			current_teacherId,
-			schedule,
-			token
+			userName: this.state.userName,
+			cvFileUrl: this.state.cvFileUrl,
+			imgUrl: this.state.imgUrl,
+			summary: this.state.summary,
+			email: this.state.email,
+			phone: this.state.phone,
+			location: this.state.location,
+			current_teacherId: this.state.current_teacherId,
+			schedules: this.state.schedules,
+			token: this.state.token
 		};
 		fetch('/updateTeacherProfile', {
 			method: 'put',
@@ -82,7 +70,7 @@ class App extends React.Component {
 				return response.json();
 			})
 			.then((body) => {
-				// console.log(body);
+				console.log(body);
 			});
 	}
 
@@ -190,10 +178,19 @@ class App extends React.Component {
 		e.preventDefault();
 		const { day, startHour, endHour } = this.state;
 		const temp = this.state.schedules;
-		this.setState({
-			schedules: [ ...temp, { day, startHour, endHour } ]
-		});
-		// console.log(this.state.schedules);
+		if (startHour >= endHour) {
+			console.log(startHour, endHour);
+			this.setState({
+				startHour: '',
+				endHour: '',
+				message: 'error'
+			});
+		} else {
+			this.setState({
+				schedules: [ ...temp, { day, startHour, endHour } ]
+			});
+		}
+		//console.log(this.state.startHour, this.state.endHour);
 	}
 
 	removeSchedule(e) {
@@ -446,7 +443,10 @@ class App extends React.Component {
 					pick={this.pick.bind(this)}
 				/>
 				<Profile
+					message={this.state.message}
 					ProfileVariables={ProfileVariables}
+					startHour={this.state.startHour}
+					endHour={this.state.endHour}
 					change={this.change.bind(this)}
 					handleImgChange={(e) => this.handleImgChange(e)}
 					handleImgUpload={() => this.handleImgUpload()}
@@ -454,6 +454,7 @@ class App extends React.Component {
 					handleFileUpload={() => this.handleFileUpload()}
 					addSchedule={this.addSchedule.bind(this)}
 					removeSchedule={this.removeSchedule.bind(this)}
+					updateInfo={this.updateInfo.bind(this)}
 				/>
 
 				<Conform
