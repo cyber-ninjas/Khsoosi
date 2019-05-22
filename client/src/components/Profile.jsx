@@ -13,10 +13,7 @@ class Profile extends React.Component {
 		const { ProfileVariables } = this.props;
 		return (
 			<div>
-<<<<<<< HEAD
-=======
 				<label>User Name:</label>
->>>>>>> 0e6fe776841d0d6a906c0700c1039595a428404d
 				<input
 					type="text"
 					placeholder="user name"
@@ -24,23 +21,16 @@ class Profile extends React.Component {
 					onChange={(event) => this.props.change(event)}
 					name="userName"
 				/>
-<<<<<<< HEAD
-				<input
-=======
 				<label>Email:</label>
 				<input
 					readOnly
->>>>>>> 0e6fe776841d0d6a906c0700c1039595a428404d
 					type="text"
 					placeholder="email"
 					value={ProfileVariables.email}
 					onChange={(event) => this.props.change(event)}
 					name="email"
 				/>
-<<<<<<< HEAD
-=======
 				<label>Phone Number:</label>
->>>>>>> 0e6fe776841d0d6a906c0700c1039595a428404d
 				<input
 					type="text"
 					placeholder="phone"
@@ -48,10 +38,7 @@ class Profile extends React.Component {
 					onChange={(event) => this.props.change(event)}
 					name="phone"
 				/>
-<<<<<<< HEAD
-=======
 				<label>Location:</label>
->>>>>>> 0e6fe776841d0d6a906c0700c1039595a428404d
 				<input
 					type="text"
 					placeholder="location"
@@ -59,10 +46,7 @@ class Profile extends React.Component {
 					onChange={(event) => this.props.change(event)}
 					name="location"
 				/>
-<<<<<<< HEAD
-=======
 				<label>Summary:</label>
->>>>>>> 0e6fe776841d0d6a906c0700c1039595a428404d
 				<input
 					type="text"
 					placeholder="summary"
@@ -97,14 +81,9 @@ class Profile extends React.Component {
 					conform={this.props.conform.bind(this)}
 					resultOfBook={this.props.resultOfBook}
 					answer={this.props.answer.bind(this)}
-<<<<<<< HEAD
-				/>
-				<button onClick={this.props.updateInfo.bind(this)}>Update</button>
-=======
 				/>{' '}
 				<button onClick={this.props.updateInfo.bind(this)}>Update</button>
 				<label>{this.props.updatedMsg}</label>
->>>>>>> 0e6fe776841d0d6a906c0700c1039595a428404d
 			</div>
 		);
 	}
