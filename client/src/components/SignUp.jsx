@@ -4,7 +4,7 @@ import React from "react";
 class SignUp extends React.Component {
   render() {
     return (
-      <div class="form-control form-control-lg">
+      <div className="form-control form-control-lg">
         <h2>SignUp</h2>
         <label htmlFor="student">student</label>
         <input

@@ -1,13 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
 import Search from "./components/search.jsx";
 import ResultSearch from "./components/resultSearch.jsx";
 import Header from "./components/Header.jsx";
 import { storage } from "../../server/database/firebase.js";
 import Classes from "./components/classes.jsx";
-
-import Conform from "./components/conform.jsx";
 import Schedule from "./components/Schedule.jsx";
 import TeacherProfile from "./components/teacherProfile.jsx";
 import Profile from "./components/Profile.jsx";
@@ -496,6 +493,7 @@ class App extends React.Component {
             pick={this.pick.bind(this)}
           />
           <Profile
+            conform={this.props.conform}
             ProfileVariables={ProfileVariables}
             change={this.change.bind(this)}
             handleImgChange={e => this.handleImgChange(e)}
@@ -504,6 +502,9 @@ class App extends React.Component {
             handleFileUpload={() => this.handleFileUpload()}
             addSchedule={this.addSchedule.bind(this)}
             removeSchedule={this.removeSchedule.bind(this)}
+            conform={this.conform.bind(this)}
+            resultOfBook={this.state.bookes}
+            answer={this.answer.bind(this)}
           />
         </div>
       </div>
