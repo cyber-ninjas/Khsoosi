@@ -33,7 +33,7 @@ class App extends React.Component {
 			rate: '',
 			subjectName: '',
 			subjectLevel: '',
-			day: 'Sunday',
+			day: '',
 			startHour: '',
 			endHour: '',
 			error: '',
