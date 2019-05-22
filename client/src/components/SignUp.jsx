@@ -4,7 +4,7 @@ import React from "react";
 class SignUp extends React.Component {
   render() {
     return (
-      <div>
+      <div class="form-control form-control-lg">
         <h2>SignUp</h2>
         <label htmlFor="student">student</label>
         <input
@@ -31,7 +31,7 @@ class SignUp extends React.Component {
         <input
           type="text"
           name="email"
-          placeholder="eng.aymanhariri@gmaill.com"
+          placeholder="example@gmaill.com"
           onChange={this.props.change.bind(this)}
         />
         <input
@@ -43,7 +43,7 @@ class SignUp extends React.Component {
         <input
           type="text"
           name="phone"
-          placeholder="780045533"
+          placeholder="7777788888"
           onChange={this.props.change.bind(this)}
         />
         <input

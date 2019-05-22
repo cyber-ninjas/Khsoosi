@@ -28,7 +28,7 @@ class Header extends React.Component {
     return (
       <div>
         <img src="https://www.trentu.ca/english/sites/trentu.ca.english/files/styles/header_image/public/header_images/header_creative_writing2.jpg?itok=qqMcjzSZ" />
-        <div className="topnav">
+        <div className="nav">
           <input
             type="button"
             value="SignUp"
@@ -46,7 +46,7 @@ class Header extends React.Component {
           visible={this.state.SignUp}
           width="400"
           height="300"
-          effect="fadeInUp"
+          effect="fadeInDown"
           onClickAway={() => this.closeModal("SignUp")}
         >
           <div>
@@ -62,11 +62,12 @@ class Header extends React.Component {
           visible={this.state.Login}
           width="400"
           height="300"
-          effect="fadeInUp"
+          effect="fadeInDown"
           onClickAway={() => this.closeModal("Login")}
         >
           <div>
             <Login
+              errorLogin={this.props.errorLogin}
               change={this.props.change.bind(this)}
               loging={this.props.loging.bind(this)}
             />
