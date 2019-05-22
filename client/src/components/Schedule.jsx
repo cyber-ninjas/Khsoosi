@@ -2,8 +2,16 @@ import React from 'react';
 
 class Schedule extends React.Component {
 	render() {
+		const style = {
+			float: 'left',
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			justifyContent: 'center'
+		};
+
 		return (
-			<div>
+			<div style={style}>
 				<br />
 				<br />
 				<form>
