@@ -41,6 +41,7 @@ class App extends React.Component {
       classes: [],
       token: "",
       ratings: [],
+      message: "",
       rateMessage: "",
       loginMessage: "",
       errorLogin: ""
@@ -48,29 +49,17 @@ class App extends React.Component {
   }
 
   updateInfo() {
-    const {
-      userName,
-      cvFileUrl,
-      imgUrl,
-      summary,
-      email,
-      phone,
-      location,
-      current_teacherId,
-      schedule,
-      token
-    } = this.state;
     const body = {
-      userName,
-      cvFileUrl,
-      imgUrl,
-      summary,
-      email,
-      phone,
-      location,
-      current_teacherId,
-      schedule,
-      token
+      userName: this.state.userName,
+      cvFileUrl: this.state.cvFileUrl,
+      imgUrl: this.state.imgUrl,
+      summary: this.state.summary,
+      email: this.state.email,
+      phone: this.state.phone,
+      location: this.state.location,
+      current_teacherId: this.state.current_teacherId,
+      schedules: this.state.schedules,
+      token: this.state.token
     };
     fetch("/updateTeacherProfile", {
       method: "put",
@@ -209,10 +198,19 @@ class App extends React.Component {
     e.preventDefault();
     const { day, startHour, endHour } = this.state;
     const temp = this.state.schedules;
-    this.setState({
-      schedules: [...temp, { day, startHour, endHour }]
-    });
-    // console.log(this.state.schedules);
+    if (startHour >= endHour) {
+      console.log(startHour, endHour);
+      this.setState({
+        startHour: "",
+        endHour: "",
+        message: "error"
+      });
+    } else {
+      this.setState({
+        schedules: [...temp, { day, startHour, endHour }]
+      });
+    }
+    //console.log(this.state.startHour, this.state.endHour);
   }
 
   removeSchedule(e) {
@@ -493,8 +491,10 @@ class App extends React.Component {
             pick={this.pick.bind(this)}
           />
           <Profile
-            conform={this.props.conform}
+            message={this.state.message}
             ProfileVariables={ProfileVariables}
+            startHour={this.state.startHour}
+            endHour={this.state.endHour}
             change={this.change.bind(this)}
             handleImgChange={e => this.handleImgChange(e)}
             handleImgUpload={() => this.handleImgUpload()}
@@ -502,6 +502,7 @@ class App extends React.Component {
             handleFileUpload={() => this.handleFileUpload()}
             addSchedule={this.addSchedule.bind(this)}
             removeSchedule={this.removeSchedule.bind(this)}
+            updateInfo={this.updateInfo.bind(this)}
             conform={this.conform.bind(this)}
             resultOfBook={this.state.bookes}
             answer={this.answer.bind(this)}

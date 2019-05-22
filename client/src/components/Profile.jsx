@@ -28,7 +28,7 @@ class Profile extends React.Component {
           name="email"
         />
         <input
-          type="number"
+          type="text"
           placeholder="phone"
           value={ProfileVariables.phone}
           onChange={event => this.props.change(event)}
@@ -63,6 +63,9 @@ class Profile extends React.Component {
           handleFileUpload={() => this.props.handleFileUpload()}
         />
         <Schedule
+          message={this.props.message}
+          startHour={this.props.startHour}
+          endHour={this.props.endHour}
           schedules={ProfileVariables.schedules}
           change={this.props.change.bind(this)}
           addSchedule={this.props.addSchedule.bind(this)}
@@ -73,6 +76,7 @@ class Profile extends React.Component {
           resultOfBook={this.props.resultOfBook}
           answer={this.props.answer.bind(this)}
         />
+        <button onClick={this.props.updateInfo.bind(this)}>Update</button>
       </div>
     );
   }

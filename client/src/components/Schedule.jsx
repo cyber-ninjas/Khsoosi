@@ -16,13 +16,24 @@ class Schedule extends React.Component {
 						<option value="Friday">Friday </option>
 						<option value="Saturday">Saturday </option>
 					</select>
-					<input placeholder="from" name="startHour" onChange={this.props.change.bind(this)} />
-					<input placeholder="to" name="endHour" onChange={this.props.change.bind(this)} />
+					<input
+						placeholder="from"
+						name="startHour"
+						onChange={this.props.change.bind(this)}
+						value={this.props.startHour}
+					/>
+					<input
+						placeholder="to"
+						name="endHour"
+						onChange={this.props.change.bind(this)}
+						value={this.props.endHour}
+					/>
 					<button onClick={this.props.addSchedule.bind(this)}>Add</button>
 				</form>
 				<br />
 				{this.props.schedules.length > 0 ? (
 					<div>
+						<label>{this.props.message}</label>
 						<h3>Schedule</h3>
 						<table>
 							<tbody>

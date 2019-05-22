@@ -1,7 +1,11 @@
 /* Add a black background color to the top navigation */
 .topnav {
-	background-color: #333;
+	background-color: #272c34;
 	overflow: hidden;
+	height: 50px;
+	width: 100%;
+	position: fixed;
+	top: 0;
 }
 
 /* Style the links inside the navigation bar */
@@ -25,10 +29,38 @@
 	color: white;
 }
 
-.sign {
-	margin-left: 1250px;
+.signbtn {
+	margin-left: auto;
+	float: right;
+	margin-top: 15px;
+	margin-right: 50px;
+	background-color: #272c34;
+	color: white;
+	font-size: 20px;
+	font-family: 'Times New Roman', Times, serif;
+	border: none;
 }
 
+button {
+	border-radius: 5px;
+	background-color: #f4f4ef;
+	color: #272c34;
+	font-size: 20px;
+	font-family: 'Times New Roman', Times, serif;
+}
+/* .inputLogin {
+	display: block;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	margin-left: 50%;
+	font-size: initial;
+} */
+
+h1,
+h2 {
+	text-align: center;
+	color: #272c34;
+}
 .inputs {
 	float: right;
 	/* margin-left: 1350px; */
@@ -50,9 +82,7 @@
 	margin-right: 30px;
 	margin-top: 2%;
 }
-button {
-	border-radius: 8px;
-}
+
 #img {
 	width: 100%;
 }
@@ -62,12 +92,11 @@ th,
 td {
 	border: 1px solid black;
 }
-th, td {
-  padding: 10px;
+th,
+td {
+	padding: 10px;
 }
 
 #pickLabel {
-
-  display:none;
-  
-  }
+	display: none;
+}
