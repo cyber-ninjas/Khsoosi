@@ -428,8 +428,6 @@ radioChange(e) {
 			startHour: values[1],
 			endHour: values[2]
 		});
-
-		console.log(this.state);
 	}
 
   render() {
@@ -500,7 +498,8 @@ radioChange(e) {
             showTeacherInfo={this.showTeacherInfo.bind(this)}
             change={this.change.bind(this)}
             rating={this.rating.bind(this)}
-            pick={this.pick.bind(this)}
+						pick={this.pick.bind(this)}
+						radioChange={this.radioChange.bind(this)}
           />
           <Profile
             message={this.state.message}
