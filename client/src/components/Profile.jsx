@@ -2,6 +2,7 @@ import React from 'react';
 import ImageUpload from './imageUpload.jsx';
 import CVUpload from './cvUpload.jsx';
 import Schedule from './Schedule.jsx';
+import Conform from './conform.jsx';
 
 class Profile extends React.Component {
 	constructor(props) {
@@ -76,11 +77,11 @@ class Profile extends React.Component {
 					addSchedule={this.props.addSchedule.bind(this)}
 					removeSchedule={this.props.removeSchedule.bind(this)}
 				/>
-				{/* <Conform
-          conform={this.conform.bind(this)}
-          resultOfBook={this.state.bookes}
-          answer={this.answer.bind(this)}
-        /> */}{' '}
+				<Conform
+					conform={this.props.conform.bind(this)}
+					resultOfBook={this.props.resultOfBook}
+					answer={this.props.answer.bind(this)}
+				/>{' '}
 				<button onClick={this.props.updateInfo.bind(this)}>Update</button>
 				<label>{this.props.updatedMsg}</label>
 			</div>
