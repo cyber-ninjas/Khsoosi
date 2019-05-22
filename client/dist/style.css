@@ -1,7 +1,11 @@
 /* Add a black background color to the top navigation */
 .topnav {
-	background-color: #333;
+	background-color: #272c34;
 	overflow: hidden;
+	height: 50px;
+	width: 100%;
+	position: fixed;
+	top: 0;
 }
 
 /* Style the links inside the navigation bar */
@@ -25,10 +29,38 @@
 	color: white;
 }
 
-.sign {
-	margin-left: 1250px;
+.signbtn {
+	margin-left: auto;
+	float: right;
+	margin-top: 15px;
+	margin-right: 50px;
+	background-color: #272c34;
+	color: white;
+	font-size: 20px;
+	font-family: 'Times New Roman', Times, serif;
+	border: none;
 }
 
+button {
+	border-radius: 5px;
+	background-color: #f4f4ef;
+	color: #272c34;
+	font-size: 20px;
+	font-family: 'Times New Roman', Times, serif;
+}
+/* .inputLogin {
+	display: block;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	margin-left: 50%;
+	font-size: initial;
+} */
+
+h1,
+h2 {
+	text-align: center;
+	color: #272c34;
+}
 .inputs {
 	float: right;
 	/* margin-left: 1350px; */
@@ -50,10 +82,13 @@
 	margin-right: 30px;
 	margin-top: 2%;
 }
-button {
-	border-radius: 8px;
-}
+
 #img {
+	position: static;
+	top: 0;
+	right: 0;
+	left: 0;
+	border: 1px solid #73ad21;
 	width: 100%;
 }
 
@@ -71,6 +106,7 @@ td {
 	display: none;
 }
 .card {
+	float: left;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	max-width: 300px;
 	margin: auto;
@@ -82,11 +118,19 @@ td {
 	color: grey;
 	font-size: 18px;
 }
-.footer {
-	grid-row-start: 2;
-	grid-row-end: 3;
-	color: rgb(0, 0, 255);
-	background-color: beige;
+footer {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	background-color: rgb(0, 0, 0);
+	left: 0px;
+	color: white;
+}
+
+a {
+	position: absolute;
+	bottom: 0px;
+	color: blue;
 }
 
 /* 
@@ -108,6 +152,10 @@ a {
 	font-size: 22px;
 	color: black;
 }
+
+/* img {
+	border-radius: 50%;
+} */
 
 /* button:hover,
 a:hover {

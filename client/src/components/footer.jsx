@@ -3,10 +3,12 @@ import React from 'react';
 class Footer extends React.Component {
 	render() {
 		return (
-			<footer className="footer">
-				<a href="#">faceboke</a>
-				{'   '} <a href="#">instgram</a> {'   '} <a href="#">twitter</a> {'   '} <a href="#">gamil</a> {'   '}
-				<a href="#">slack</a>
+			<footer className="">
+				<div>
+					<p>faceboke</p>
+				</div>
+				{'   '} <p>instgram</p> {'   '} <p>twitter</p> {'   '} <p>gamil</p> {'   '}
+				<p>slack</p>
 				{''}
 				<p>call us:0787401829</p>
 			</footer>

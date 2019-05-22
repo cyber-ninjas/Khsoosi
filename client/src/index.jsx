@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SignUp from './components/SignUp.jsx';
-import Rating from './components/Rating.jsx';
 import Search from './components/search.jsx';
 import ResultSearch from './components/resultSearch.jsx';
 import Header from './components/Header.jsx';
 import { storage } from '../../server/database/firebase.js';
 import Classes from './components/classes.jsx';
-import Login from './components/login.jsx';
-import Conform from './components/conform.jsx';
 import Schedule from './components/Schedule.jsx';
 import TeacherProfile from './components/teacherProfile.jsx';
 import Profile from './components/Profile.jsx';
@@ -45,34 +41,26 @@ class App extends React.Component {
 			bookes: [],
 			classes: [],
 			token: '',
-			ratings: []
+			ratings: [],
+			message: '',
+			rateMessage: '',
+			loginMessage: '',
+			errorLogin: ''
 		};
 	}
 
 	updateInfo() {
-		const {
-			userName,
-			cvFileUrl,
-			imgUrl,
-			summary,
-			email,
-			phone,
-			location,
-			current_teacherId,
-			schedule,
-			token
-		} = this.state;
 		const body = {
-			userName,
-			cvFileUrl,
-			imgUrl,
-			summary,
-			email,
-			phone,
-			location,
-			current_teacherId,
-			schedule,
-			token
+			userName: this.state.userName,
+			cvFileUrl: this.state.cvFileUrl,
+			imgUrl: this.state.imgUrl,
+			summary: this.state.summary,
+			email: this.state.email,
+			phone: this.state.phone,
+			location: this.state.location,
+			current_teacherId: this.state.current_teacherId,
+			schedules: this.state.schedules,
+			token: this.state.token
 		};
 		fetch('/updateTeacherProfile', {
 			method: 'put',
@@ -162,6 +150,7 @@ class App extends React.Component {
 				// console.log(body);
 				if (body.error) this.setState({ error: body.error });
 				else {
+					this.setState({ error: 'Thank you please Login Now!' });
 					this.setState({
 						userName: '',
 						is_teacher: '',
@@ -191,10 +180,19 @@ class App extends React.Component {
 		e.preventDefault();
 		const { day, startHour, endHour } = this.state;
 		const temp = this.state.schedules;
-		this.setState({
-			schedules: [ ...temp, { day, startHour, endHour } ]
-		});
-		// console.log(this.state.schedules);
+		if (startHour >= endHour) {
+			console.log(startHour, endHour);
+			this.setState({
+				startHour: '',
+				endHour: '',
+				message: 'error'
+			});
+		} else {
+			this.setState({
+				schedules: [ ...temp, { day, startHour, endHour } ]
+			});
+		}
+		//console.log(this.state.startHour, this.state.endHour);
 	}
 
 	removeSchedule(e) {
@@ -227,7 +225,11 @@ class App extends React.Component {
 			})
 			.then((body) => {
 				// console.log(body);
-				this.setState({ ratingText: '', rate: '' });
+				this.setState({
+					ratingText: '',
+					rate: '',
+					rateMessage: 'Thank you for ypur Rating!'
+				});
 			});
 	}
 
@@ -281,8 +283,12 @@ class App extends React.Component {
 
 	loging(e) {
 		e.preventDefault();
-		return fetch(`/login?email=${this.state.email}&password=${this.state.password}`, {
-			method: 'GET',
+		return fetch(`/login`, {
+			method: 'post',
+			body: JSON.stringify({
+				email: this.state.email,
+				password: this.state.password
+			}),
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json'
@@ -290,11 +296,15 @@ class App extends React.Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				if (data.err) return console.log(data);
+				if (data.error)
+					return this.setState({
+						errorLogin: data.error
+					});
 				let user_id = 'current_studentId';
 				if (data.is_teacher) user_id = 'current_teacherId';
 				this.setState(
 					{
+						loginMessage: 'Welccome in Khsoosi!',
 						token: data.token,
 						[user_id]: data.user_id,
 						is_teacher: data.is_teacher
@@ -432,37 +442,45 @@ class App extends React.Component {
 					is_teacher={this.state.is_teacher}
 					loging={this.loging.bind(this)}
 					error={this.state.error}
+					loginMessage={this.state.loginMessage}
+					errorLogin={this.state.errorLogin}
 				/>
-				<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
-				<ResultSearch resultOfSer={tech} />
-				<Rating
-					RatingVariables={RatingVariables}
-					onChange={(event) => this.change(event)}
-					onClick={(event) => this.rating(event)}
-				/>
-				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
-				<TeacherProfile
-					teacherInfo={this.state}
-					showTeacherInfo={this.showTeacherInfo.bind(this)}
-					pick={this.pick.bind(this)}
-				/>
-				<Profile
-					ProfileVariables={ProfileVariables}
-					change={this.change.bind(this)}
-					handleImgChange={(e) => this.handleImgChange(e)}
-					handleImgUpload={() => this.handleImgUpload()}
-					handleFileChange={(e) => this.handleFileChange(e)}
-					handleFileUpload={() => this.handleFileUpload()}
-					addSchedule={this.addSchedule.bind(this)}
-					removeSchedule={this.removeSchedule.bind(this)}
-				/>
+				<div className="container">
+					<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
+					<ResultSearch resultOfSer={tech} />
 
-				<Conform
-					conform={this.conform.bind(this)}
-					resultOfBook={this.state.bookes}
-					answer={this.answer.bind(this)}
-				/>
-				<Footer />
+					{/* <Classes
+          searchClasses={this.searchClasses.bind(this)}
+          result={this.state.classes}
+        /> */}
+					<TeacherProfile
+						rateMessage={this.state.rateMessage}
+						RatingVariables={RatingVariables}
+						teacherInfo={this.state}
+						showTeacherInfo={this.showTeacherInfo.bind(this)}
+						change={this.change.bind(this)}
+						rating={this.rating.bind(this)}
+						pick={this.pick.bind(this)}
+					/>
+					<Profile
+						message={this.state.message}
+						ProfileVariables={ProfileVariables}
+						startHour={this.state.startHour}
+						endHour={this.state.endHour}
+						change={this.change.bind(this)}
+						handleImgChange={(e) => this.handleImgChange(e)}
+						handleImgUpload={() => this.handleImgUpload()}
+						handleFileChange={(e) => this.handleFileChange(e)}
+						handleFileUpload={() => this.handleFileUpload()}
+						addSchedule={this.addSchedule.bind(this)}
+						removeSchedule={this.removeSchedule.bind(this)}
+						updateInfo={this.updateInfo.bind(this)}
+						conform={this.conform.bind(this)}
+						resultOfBook={this.state.bookes}
+						answer={this.answer.bind(this)}
+					/>
+				</div>
+				{/* <Footer /> */}
 			</div>
 		);
 	}

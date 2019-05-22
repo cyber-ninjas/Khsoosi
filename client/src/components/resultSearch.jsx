@@ -13,7 +13,7 @@ class ResultSearch extends Component {
 							<h1>{name.name}</h1>
 							<p className="title">{name.summary}</p>
 							<p>{name.reatingText}</p>
-							<div style={{ margin: 24 + 'px' + 0 }}>{name.rate}</div>
+							<div style={{ margin: 24 + 'px' + 0 }}>{name.rate}/10</div>
 							<br />
 						</div>
 					);
