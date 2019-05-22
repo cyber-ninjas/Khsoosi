@@ -24,12 +24,6 @@ class TeacherProfile extends React.Component {
 		this.props.showTeacherInfo();
 	}
 	render() {
-		// .pick&rateBtn {
-		//   display: 'flex',
-		//   flexDirection: 'column',
-		//   alignItems: 'center',
-		//   justifyContent: 'center'
-		// };
 		// const schedules = this.props.teacherInfo.schedules;
 		var that = this;
 		return (
@@ -69,7 +63,7 @@ class TeacherProfile extends React.Component {
 						<legend>Summary</legend>
 						<label htmlFor="">Summary: </label> <p>{this.props.teacherInfo.summary}</p>
 						<legend>Teacher CV</legend>
-						<iframe src={this.props.teacherInfo.cvFileUrl}>
+						<iframe className="cv" src={this.props.teacherInfo.cvFileUrl}>
 							<p>{"javascript:alert('No file exist');"}</p>
 						</iframe>
 					</div>
@@ -95,10 +89,13 @@ class TeacherProfile extends React.Component {
 								);
 							})}
 						</ul>
-						<button onClick={this.props.pick.bind(this)}>Pick</button>
+						<button className="pickRateBtn" onClick={this.props.pick.bind(this)}>
+							Pick
+						</button>
+
 						<label id="pickLabel">your request was send ...wait for confirm </label>
-						<br />
-						<button className="sign" onClick={() => this.openModal('Rate')}>
+
+						<button className="pickRateBtn" onClick={() => this.openModal('Rate')}>
 							Rate
 						</button>
 						<Modal
