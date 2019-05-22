@@ -4,11 +4,9 @@ import Search from "./components/search.jsx";
 import ResultSearch from "./components/resultSearch.jsx";
 import Header from "./components/Header.jsx";
 import { storage } from "../../server/database/firebase.js";
-import Classes from "./components/classes.jsx";
-import Schedule from "./components/Schedule.jsx";
 import TeacherProfile from "./components/teacherProfile.jsx";
 import Profile from "./components/Profile.jsx";
-
+import Modal from "react-awesome-modal";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -26,8 +24,8 @@ class App extends React.Component {
       phone: "",
       location: "",
       teacherProfiles: [],
-      current_teacherId: "4",
-      current_studentId: "4",
+      current_teacherId: "",
+      current_studentId: "",
       ratingText: "",
       rate: "",
       subjectName: "",
@@ -44,7 +42,8 @@ class App extends React.Component {
       message: "",
       rateMessage: "",
       loginMessage: "",
-      errorLogin: ""
+      errorLogin: "",
+      modal: false
     };
   }
 
@@ -145,16 +144,9 @@ class App extends React.Component {
   // onchangingSignUp(e) {
   // 	this.setState({ [e.target.name]: e.target.value });
   // }
-  onSignUp() {
+  onSignUp(is_teacher) {
     // console.log('signup');
-    const {
-      userName,
-      is_teacher,
-      password,
-      email,
-      phone,
-      location
-    } = this.state;
+    const { userName, password, email, phone, location } = this.state;
     const body = { userName, is_teacher, password, email, phone, location };
     fetch("/signup", {
       method: "post",
@@ -182,13 +174,8 @@ class App extends React.Component {
       .catch(err => console.log("Error"));
   }
 
-  searchInfo(e) {
-    // console.log(this.state[e.target.name]);
-    e.preventDefault();
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
   change(e) {
+    // e.preventDefault();
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -252,7 +239,7 @@ class App extends React.Component {
   }
 
   showTeacherInfo() {
-    return fetch(`/teacherProfile/${this.state.current_teacherId}`, {
+    return fetch(`/teacherProfile/?id=${this.state.current_teacherId}`, {
       method: "GET",
       headers: {
         // 'Content-Type': 'application/json',
@@ -281,7 +268,7 @@ class App extends React.Component {
   }
 
   searchTecher(e) {
-    e.preventDefault();
+    // e.preventDefault();
     return fetch(
       `/search/?location=${this.state.location}&name=${
         this.state.subjectName
@@ -431,7 +418,20 @@ class App extends React.Component {
 
     console.log(this.state);
   }
+  componentWillMount() {
+    this.searchTecher();
+  }
+  openModal(e) {
+    this.setState({
+      [e]: true
+    });
+  }
 
+  closeModal(e) {
+    this.setState({
+      [e]: false
+    });
+  }
   render() {
     var tech = this.state.teacherProfiles;
     var { ratingText, rate, current_studentId, current_teacherId } = this.state;
@@ -483,46 +483,62 @@ class App extends React.Component {
           errorLogin={this.state.errorLogin}
         />
         <div className="container">
-          <Search
-            searchTecher={this.searchTecher.bind(this)}
-            searchInfo={this.searchInfo.bind(this)}
-          />
-          <ResultSearch resultOfSer={tech} />
-
-          {/* <Classes
-          searchClasses={this.searchClasses.bind(this)}
-          result={this.state.classes}
-        /> */}
-          <TeacherProfile
-            rateMessage={this.state.rateMessage}
-            RatingVariables={RatingVariables}
-            teacherInfo={this.state}
-            showTeacherInfo={this.showTeacherInfo.bind(this)}
-            change={this.change.bind(this)}
-            rating={this.rating.bind(this)}
-            pick={this.pick.bind(this)}
-          />
-          <Profile
-            message={this.state.message}
-            ProfileVariables={ProfileVariables}
-            startHour={this.state.startHour}
-            endHour={this.state.endHour}
-            change={this.change.bind(this)}
-            handleImgChange={e => this.handleImgChange(e)}
-            handleImgUpload={() => this.handleImgUpload()}
-            handleFileChange={e => this.handleFileChange(e)}
-            handleFileUpload={() => this.handleFileUpload()}
-            addSchedule={this.addSchedule.bind(this)}
-            removeSchedule={this.removeSchedule.bind(this)}
-            updateInfo={this.updateInfo.bind(this)}
-            conform={this.conform.bind(this)}
-            resultOfBook={this.state.bookes}
-            answer={this.answer.bind(this)}
-            updatedMsg={this.state.updatedMsg}
-          />
+          {!this.state.is_teacher ? (
+            <div>
+              <Search
+                searchTecher={this.searchTecher.bind(this)}
+                change={this.change.bind(this)}
+              />
+              <ResultSearch resultOfSer={tech} />
+              <Modal
+                visible={this.state.SignUp}
+                width="400"
+                height="300"
+                effect="fadeInDown"
+                onClickAway={() => this.closeModal("modal")}
+              >
+                <TeacherProfile
+                  rateMessage={this.state.rateMessage}
+                  RatingVariables={RatingVariables}
+                  teacherInfo={this.state}
+                  showTeacherInfo={this.showTeacherInfo.bind(this)}
+                  change={this.change.bind(this)}
+                  rating={this.rating.bind(this)}
+                  pick={this.pick.bind(this)}
+                  radioChange={this.radioChange.bind(this)}
+                />
+              </Modal>
+            </div>
+          ) : (
+            <Profile
+              message={this.state.message}
+              ProfileVariables={ProfileVariables}
+              startHour={this.state.startHour}
+              endHour={this.state.endHour}
+              change={this.change.bind(this)}
+              handleImgChange={e => this.handleImgChange(e)}
+              handleImgUpload={() => this.handleImgUpload()}
+              handleFileChange={e => this.handleFileChange(e)}
+              handleFileUpload={() => this.handleFileUpload()}
+              addSchedule={this.addSchedule.bind(this)}
+              removeSchedule={this.removeSchedule.bind(this)}
+              updateInfo={this.updateInfo.bind(this)}
+              conform={this.conform.bind(this)}
+              resultOfBook={this.state.bookes}
+              answer={this.answer.bind(this)}
+              updatedMsg={this.state.updatedMsg}
+            />
+          )}
         </div>
       </div>
     );
   }
 }
 ReactDOM.render(<App />, document.getElementById("app"));
+
+{
+  /* <Classes
+          searchClasses={this.searchClasses.bind(this)}
+          result={this.state.classes}
+        /> */
+}

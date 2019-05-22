@@ -12,7 +12,7 @@ class Search extends Component {
             className="inputs"
             type="text"
             name="subjectLevel"
-            onChange={this.props.searchInfo.bind(this)}
+            onChange={this.props.change.bind(this)}
             placeholder="level"
           />
           <br />
@@ -22,7 +22,7 @@ class Search extends Component {
             className="inputs"
             type="text"
             name="subjectName"
-            onChange={this.props.searchInfo.bind(this)}
+            onChange={this.props.change.bind(this)}
             placeholder="subject"
           />
           <br />
@@ -32,7 +32,7 @@ class Search extends Component {
             className="inputs"
             type="text"
             name="location"
-            onChange={this.props.searchInfo.bind(this)}
+            onChange={this.props.change.bind(this)}
             placeholder="location"
           />
           <br />

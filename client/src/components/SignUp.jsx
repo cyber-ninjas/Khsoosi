@@ -2,6 +2,18 @@ import React from "react";
 // import Login from "./login.jsx";
 // import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 class SignUp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      is_teacher: false
+    };
+  }
+  change1(e) {
+    // e.preventDefault();
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
   render() {
     return (
       <div className="form-control form-control-lg">
@@ -12,7 +24,7 @@ class SignUp extends React.Component {
           name="is_teacher"
           id="student"
           value="false"
-          onChange={this.props.change.bind(this)}
+          onChange={this.change1.bind(this)}
         />
         <label htmlFor="taecher">teacher</label>
         <input
@@ -20,7 +32,7 @@ class SignUp extends React.Component {
           name="is_teacher"
           id="teacher"
           value="true"
-          onChange={this.props.change.bind(this)}
+          onChange={this.change1.bind(this)}
         />
         <input
           type="text"
@@ -56,7 +68,7 @@ class SignUp extends React.Component {
         <input
           type="button"
           value="SignUp"
-          onClick={this.props.onSignUp.bind(this)}
+          onClick={this.props.onSignUp.bind(this, this.state.is_teacher)}
         />
       </div>
     );

@@ -5,7 +5,7 @@ class ResultSearch extends Component {
     return (
       <div>
         {this.props.resultOfSer.map(function(name, index) {
-          console.log("hello");
+          // console.log("hello");
           return (
             <div key={index}>
               <div>{name.img}</div>

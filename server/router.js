@@ -13,5 +13,5 @@ khsoosiRouter.route("/profileUpdata").get(controller.pick);
 khsoosiRouter.route("/conform").get(controller.conform);
 khsoosiRouter.route("/conformAnswer").get(controller.conformAnswer);
 
-khsoosiRouter.route("/teacherProfile/:number").get(controller.showTeacherInfo);
+khsoosiRouter.route("/teacherProfile").get(controller.showTeacherInfo);
 module.exports = khsoosiRouter;
