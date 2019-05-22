@@ -100,3 +100,9 @@ td {
 #pickLabel {
 	display: none;
 }
+
+.teacherInfo,
+.teacherCV,
+.teacherSchedule {
+	background-color: lavender;
+}
