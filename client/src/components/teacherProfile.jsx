@@ -1,6 +1,25 @@
 import React from "react";
-
+import Modal from "react-awesome-modal";
+import Rating from "./Rating.jsx";
 class TeacherProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      Rate: false
+    };
+  }
+
+  openModal(e) {
+    this.setState({
+      [e]: true
+    });
+  }
+
+  closeModal(e) {
+    this.setState({
+      [e]: false
+    });
+  }
   componentWillMount() {
     this.props.showTeacherInfo();
   }
@@ -76,7 +95,28 @@ class TeacherProfile extends React.Component {
           </label>
         </fieldset>
         <br />
-        <button>Rate</button>
+        <input
+          type="button"
+          value="Rate"
+          className="sign"
+          onClick={() => this.openModal("Rate")}
+        />
+        <Modal
+          visible={this.state.Rate}
+          width="400"
+          height="300"
+          effect="fadeInDown"
+          onClickAway={() => this.closeModal("Rate")}
+        >
+          <div>
+            <Rating
+              rateMessage={this.props.rateMessage}
+              RatingVariables={this.props.RatingVariables}
+              change={this.props.change.bind(this)}
+              rating={this.props.rating.bind(this)}
+            />
+          </div>
+        </Modal>
       </div>
     );
   }

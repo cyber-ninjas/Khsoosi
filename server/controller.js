@@ -24,7 +24,8 @@ exports.rating = (req, res) => {
     text: req.body.ratingText,
     rate: req.body.rate,
     studentId: req.body.current_studentId,
-    teacherId: req.body.current_teacherId
+    teacherId: req.body.current_teacherId,
+    userId: req.body.current_teacherId
   })
     .then(function(data) {
       res.status(200);
@@ -190,7 +191,7 @@ exports.seeSchedule = (req, res) => {
 };
 
 exports.login = (req, res) => {
-  const query = req.query;
+  const query = req.body;
 
   User.findOne({
     where: {
@@ -221,10 +222,10 @@ exports.login = (req, res) => {
             is_teacher: data.is_teacher
           });
         } else {
-          res.send({ err: "you'r password wrong" });
+          res.send({ error: "Your Input not correct" });
         }
       } else {
-        res.send({ err: "please sigunup" });
+        res.send({ error: "Please SignUp" });
       }
     })
     .catch(err => {
