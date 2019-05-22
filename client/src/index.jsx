@@ -7,6 +7,7 @@ import { storage } from "../../server/database/firebase.js";
 import TeacherProfile from "./components/teacherProfile.jsx";
 import Profile from "./components/Profile.jsx";
 import Modal from "react-awesome-modal";
+import Footer from "./components/footer.jsx";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -24,13 +25,13 @@ class App extends React.Component {
       phone: "",
       location: "",
       teacherProfiles: [],
-      current_teacherId: "",
-      current_studentId: "",
+      current_teacherId: "4",
+      current_studentId: "4",
       ratingText: "",
       rate: "",
       subjectName: "",
       subjectLevel: "",
-      day: "",
+      day: "Sunday",
       startHour: "",
       endHour: "",
       error: "",
@@ -426,12 +427,6 @@ class App extends React.Component {
       [e]: true
     });
   }
-
-  closeModal(e) {
-    this.setState({
-      [e]: false
-    });
-  }
   render() {
     var tech = this.state.teacherProfiles;
     var { ratingText, rate, current_studentId, current_teacherId } = this.state;
@@ -483,6 +478,11 @@ class App extends React.Component {
           errorLogin={this.state.errorLogin}
         />
         <div className="container">
+          <Search
+            searchTecher={this.searchTecher.bind(this)}
+            searchInfo={this.searchInfo.bind(this)}
+          />
+          <ResultSearch resultOfSer={tech} />
           {!this.state.is_teacher ? (
             <div>
               <Search
@@ -529,6 +529,39 @@ class App extends React.Component {
               updatedMsg={this.state.updatedMsg}
             />
           )}
+
+          {/* <Classes
+          searchClasses={this.searchClasses.bind(this)}
+          result={this.state.classes}
+        /> */}
+          <TeacherProfile
+            rateMessage={this.state.rateMessage}
+            RatingVariables={RatingVariables}
+            teacherInfo={this.state}
+            showTeacherInfo={this.showTeacherInfo.bind(this)}
+            change={this.change.bind(this)}
+            rating={this.rating.bind(this)}
+            pick={this.pick.bind(this)}
+            radioChange={this.radioChange.bind(this)}
+          />
+          <Profile
+            message={this.state.message}
+            ProfileVariables={ProfileVariables}
+            startHour={this.state.startHour}
+            endHour={this.state.endHour}
+            change={this.change.bind(this)}
+            handleImgChange={e => this.handleImgChange(e)}
+            handleImgUpload={() => this.handleImgUpload()}
+            handleFileChange={e => this.handleFileChange(e)}
+            handleFileUpload={() => this.handleFileUpload()}
+            addSchedule={this.addSchedule.bind(this)}
+            removeSchedule={this.removeSchedule.bind(this)}
+            updateInfo={this.updateInfo.bind(this)}
+            conform={this.conform.bind(this)}
+            resultOfBook={this.state.bookes}
+            answer={this.answer.bind(this)}
+            updatedMsg={this.state.updatedMsg}
+          />
         </div>
       </div>
     );
