@@ -198,7 +198,6 @@ exports.seeSchedule = (req, res) => {
 exports.login = (req, res) => {
   const query = req.body;
 
-<<<<<<< HEAD
   User.findOne({
     where: {
       email: query.email
@@ -218,10 +217,7 @@ exports.login = (req, res) => {
               expiresIn: "1h"
             }
           );
-          console.log(
-            { token: token, user_id: data.id, is_teacher: data.is_teacher },
-            "hello"
-          );
+          // console.log({ token: token, user_id: data.id, is_teacher: data.is_teacher }, 'hello');
           res.send({
             token: token,
             user_id: data.id,
@@ -242,7 +238,7 @@ exports.login = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-  console.log("ok");
+  // console.log('ok');
   const info = req.body;
   User.findOne({ where: { email: info.email } })
     .then(exist => {
@@ -266,69 +262,6 @@ exports.signup = (req, res) => {
         .catch(err => res.send({ error: "can't store the account" }));
     })
     .catch(err => res.send({ error: "server error" }));
-=======
-	User.findOne({
-		where: {
-			email: query.email
-		}
-	})
-		.then((data) => {
-			if (data) {
-				let hash = data.password;
-				if (bcrypt.compareSync(query.password, hash)) {
-					const token = jwt.sign(
-						{
-							email: query.email,
-							userId: query.id
-						},
-						SECRET_KEY,
-						{
-							expiresIn: '1h'
-						}
-					);
-					// console.log({ token: token, user_id: data.id, is_teacher: data.is_teacher }, 'hello');
-					res.send({
-						token: token,
-						user_id: data.id,
-						is_teacher: data.is_teacher
-					});
-				} else {
-					res.send({ error: 'Your Input not correct' });
-				}
-			} else {
-				res.send({ error: 'Please SignUp' });
-			}
-		})
-		.catch((err) => {
-			res.status(500).json({
-				error: err
-			});
-		});
-};
-
-exports.signup = (req, res) => {
-	// console.log('ok');
-	const info = req.body;
-	User.findOne({ where: { email: info.email } })
-		.then((exist) => {
-			if (exist) return res.status(401).send({ error: 'The email already exist pleas signIn!' });
-			password = bcrypt.hashSync(info.password, 10);
-			User.create({
-				email: info.email,
-				password: password,
-				name: info.userName,
-				phone: info.phone,
-				location: info.location,
-				is_teacher: info.is_teacher
-			})
-				.then((user) => {})
-				.then((created) => {
-					return res.send({ created: created });
-				})
-				.catch((err) => res.send({ error: "can't store the account" }));
-		})
-		.catch((err) => res.send({ error: 'server error' }));
->>>>>>> e6d22ec7e205ff4495e7a98db61f2c04a6653612
 };
 
 exports.pick = (req, res) => {
@@ -367,9 +300,8 @@ exports.conform = (req, res) => {
 };
 
 exports.conformAnswer = (req, res) => {
-<<<<<<< HEAD
   let query = req.query;
-  console.log(query, "gfhgfh");
+  // console.log(query, 'gfhgfh');
   Confirm.update(
     { confirmed: query.confirmed },
     {
@@ -387,27 +319,4 @@ exports.conformAnswer = (req, res) => {
     .catch(function(err) {
       req.server.log(["error"], err.stack);
     });
-=======
-	let query = req.query;
-	// console.log(query, 'gfhgfh');
-	Confirm.update(
-		{ confirmed: query.confirmed },
-		{
-			where: {
-				id: query.id
-			}
-		}
-	)
-		.then((result) => {
-			const id = req.query.teacherId;
-			db
-				.query(
-					`select TeacherConfirms.id, users.name, TeacherConfirms.start, TeacherConfirms.end, TeacherConfirms.day, TeacherConfirms.confirmed from TeacherConfirms  JOIN users on TeacherConfirms.studentId = users.id and   TeacherConfirms.teacherId = ${id} `
-				)
-				.then(([ result, metadata ]) => res.send(result));
-		})
-		.catch(function(err) {
-			req.server.log([ 'error' ], err.stack);
-		});
->>>>>>> e6d22ec7e205ff4495e7a98db61f2c04a6653612
 };
