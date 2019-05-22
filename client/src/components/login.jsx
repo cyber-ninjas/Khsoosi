@@ -26,7 +26,7 @@ class Login extends React.Component {
 					/>
 				</div>
 				<button className="btn btn-primary" onClick={this.props.loging.bind(this)}>
-					submit
+					Submit
 				</button>
 				<label>{this.props.loginMessage}</label>
 				<label id="error">{this.props.errorLogin}</label>

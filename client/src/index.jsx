@@ -458,40 +458,40 @@ class App extends React.Component {
 				<div className="container">
 					<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
 					<ResultSearch resultOfSer={tech} />
-
-					{/* <Classes
+				</div>
+				{/* <Classes
           searchClasses={this.searchClasses.bind(this)}
           result={this.state.classes}
         /> */}
-					<TeacherProfile
-						rateMessage={this.state.rateMessage}
-						RatingVariables={RatingVariables}
-						teacherInfo={this.state}
-						showTeacherInfo={this.showTeacherInfo.bind(this)}
-						change={this.change.bind(this)}
-						rating={this.rating.bind(this)}
-						pick={this.pick.bind(this)}
-						radioChange={this.radioChange.bind(this)}
-					/>
-					<Profile
-						message={this.state.message}
-						ProfileVariables={ProfileVariables}
-						startHour={this.state.startHour}
-						endHour={this.state.endHour}
-						change={this.change.bind(this)}
-						handleImgChange={(e) => this.handleImgChange(e)}
-						handleImgUpload={() => this.handleImgUpload()}
-						handleFileChange={(e) => this.handleFileChange(e)}
-						handleFileUpload={() => this.handleFileUpload()}
-						addSchedule={this.addSchedule.bind(this)}
-						removeSchedule={this.removeSchedule.bind(this)}
-						updateInfo={this.updateInfo.bind(this)}
-						conform={this.conform.bind(this)}
-						resultOfBook={this.state.bookes}
-						answer={this.answer.bind(this)}
-						updatedMsg={this.state.updatedMsg}
-					/>
-				</div>
+				<TeacherProfile
+					rateMessage={this.state.rateMessage}
+					RatingVariables={RatingVariables}
+					teacherInfo={this.state}
+					showTeacherInfo={this.showTeacherInfo.bind(this)}
+					change={this.change.bind(this)}
+					rating={this.rating.bind(this)}
+					pick={this.pick.bind(this)}
+					radioChange={this.radioChange.bind(this)}
+				/>
+				<Profile
+					message={this.state.message}
+					ProfileVariables={ProfileVariables}
+					startHour={this.state.startHour}
+					endHour={this.state.endHour}
+					change={this.change.bind(this)}
+					handleImgChange={(e) => this.handleImgChange(e)}
+					handleImgUpload={() => this.handleImgUpload()}
+					handleFileChange={(e) => this.handleFileChange(e)}
+					handleFileUpload={() => this.handleFileUpload()}
+					addSchedule={this.addSchedule.bind(this)}
+					removeSchedule={this.removeSchedule.bind(this)}
+					updateInfo={this.updateInfo.bind(this)}
+					conform={this.conform.bind(this)}
+					resultOfBook={this.state.bookes}
+					answer={this.answer.bind(this)}
+					updatedMsg={this.state.updatedMsg}
+				/>
+				<Footer />
 			</div>
 		);
 	}

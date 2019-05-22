@@ -3,15 +3,14 @@ import React from 'react';
 class Footer extends React.Component {
 	render() {
 		return (
-			<footer className="">
-				<div>
-					<p>faceboke</p>
+			<div class="card text-center">
+				<div class="card-header">Featured</div>
+				<div class="card-body">
+					<h5 class="card-title">Special title treatment</h5>
+					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 				</div>
-				{'   '} <p>instgram</p> {'   '} <p>twitter</p> {'   '} <p>gamil</p> {'   '}
-				<p>slack</p>
-				{''}
-				<p>call us:0787401829</p>
-			</footer>
+				<div class="card-footer text-muted">2 days ago</div>
+			</div>
 		);
 	}
 }

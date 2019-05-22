@@ -1,10 +1,12 @@
-.topnav {
+.topnav,
+.card {
 	background-color: #272c34;
 	overflow: hidden;
 	height: 50px;
 	width: 100%;
 	position: fixed;
 	top: 0;
+	z-index: 2;
 }
 
 .signbtn {
@@ -58,7 +60,6 @@ h2 {
 	top: 0;
 	right: 0;
 	left: 0;
-	border: 1px solid #73ad21;
 	width: 100%;
 }
 
@@ -154,3 +155,7 @@ a {
 a:hover {
 	opacity: 0.7;
 } */
+
+.form-control {
+	margin-top: 15px;
+}
