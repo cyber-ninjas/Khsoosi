@@ -39,7 +39,7 @@ class Header extends React.Component {
 					visible={this.state.SignUp}
 					width="400"
 					height="300"
-					effect="fadeInUp"
+					effect="fadeInDown"
 					onClickAway={() => this.closeModal('SignUp')}
 				>
 					<div>
@@ -55,11 +55,15 @@ class Header extends React.Component {
 					visible={this.state.Login}
 					width="400"
 					height="300"
-					effect="fadeInUp"
+					effect="fadeInDown"
 					onClickAway={() => this.closeModal('Login')}
 				>
 					<div>
-						<Login change={this.props.change.bind(this)} loging={this.props.loging.bind(this)} />
+						<Login
+							errorLogin={this.props.errorLogin}
+							change={this.props.change.bind(this)}
+							loging={this.props.loging.bind(this)}
+						/>
 					</div>
 				</Modal>
 			</div>

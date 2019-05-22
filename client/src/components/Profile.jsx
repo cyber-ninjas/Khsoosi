@@ -70,6 +70,11 @@ class Profile extends React.Component {
 					addSchedule={this.props.addSchedule.bind(this)}
 					removeSchedule={this.props.removeSchedule.bind(this)}
 				/>
+				{/* <Conform
+          conform={this.conform.bind(this)}
+          resultOfBook={this.state.bookes}
+          answer={this.answer.bind(this)}
+        /> */}
 				<button onClick={this.props.updateInfo.bind(this)}>Update</button>
 			</div>
 		);
