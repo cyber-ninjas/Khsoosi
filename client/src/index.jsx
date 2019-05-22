@@ -420,17 +420,17 @@ class App extends React.Component {
       });
   }
 
-radioChange(e) {
-		let values = e.target.value;
-		values = values.split(' ');
-		this.setState({
-			day: values[0],
-			startHour: values[1],
-			endHour: values[2]
-		});
+  radioChange(e) {
+    let values = e.target.value;
+    values = values.split(" ");
+    this.setState({
+      day: values[0],
+      startHour: values[1],
+      endHour: values[2]
+    });
 
-		console.log(this.state);
-	}
+    console.log(this.state);
+  }
 
   render() {
     var tech = this.state.teacherProfiles;
@@ -517,8 +517,8 @@ radioChange(e) {
             updateInfo={this.updateInfo.bind(this)}
             conform={this.conform.bind(this)}
             resultOfBook={this.state.bookes}
-						answer={this.answer.bind(this)}
-						updatedMsg={this.state.updatedMsg}
+            answer={this.answer.bind(this)}
+            updatedMsg={this.state.updatedMsg}
           />
         </div>
       </div>
