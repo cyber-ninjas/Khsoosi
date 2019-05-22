@@ -11,7 +11,6 @@ import Profile from './components/Profile.jsx';
 import Footer from './components/footer.jsx';
 
 class App extends React.Component {
-<<<<<<< HEAD
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -49,45 +48,6 @@ class App extends React.Component {
 			errorLogin: ''
 		};
 	}
-=======
-  constructor(props) {
-    super(props);
-    this.state = {
-      userName: "",
-      cvFile: "",
-      cvFileUrl: "",
-      image: null,
-      imgUrl: "",
-      progress: 0,
-      summary: "",
-      is_teacher: false,
-      password: "",
-      email: "",
-      phone: "",
-      location: "",
-      teacherProfiles: [],
-      current_teacherId: "4",
-      current_studentId: "4",
-      ratingText: "",
-      rate: "",
-      subjectName: "",
-      subjectLevel: "",
-      day: "",
-      startHour: "",
-      endHour: "",
-      error: "",
-      schedules: [],
-      bookes: [],
-      classes: [],
-      token: "",
-      ratings: [],
-      message: "",
-      rateMessage: "",
-      loginMessage: "",
-      errorLogin: ""
-    };
-  }
->>>>>>> 0e6fe776841d0d6a906c0700c1039595a428404d
 
 	updateInfo() {
 		const body = {
@@ -435,7 +395,16 @@ class App extends React.Component {
 			});
 	}
 
-<<<<<<< HEAD
+	radioChange(e) {
+		let values = e.target.value;
+		values = values.split(' ');
+		this.setState({
+			day: values[0],
+			startHour: values[1],
+			endHour: values[2]
+		});
+	}
+
 	render() {
 		var tech = this.state.teacherProfiles;
 		var { ratingText, rate, current_studentId, current_teacherId } = this.state;
@@ -489,80 +458,11 @@ class App extends React.Component {
 				<div className="container">
 					<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
 					<ResultSearch resultOfSer={tech} />
-=======
-radioChange(e) {
-		let values = e.target.value;
-		values = values.split(' ');
-		this.setState({
-			day: values[0],
-			startHour: values[1],
-			endHour: values[2]
-		});
-	}
-
-  render() {
-    var tech = this.state.teacherProfiles;
-    var { ratingText, rate, current_studentId, current_teacherId } = this.state;
-    var RatingVariables = {
-      ratingText,
-      rate,
-      current_studentId,
-      current_teacherId
-    };
-    var {
-      userName,
-      cvFileUrl,
-      imgUrl,
-      summary,
-      email,
-      phone,
-      location,
-      current_teacherId,
-      schedules,
-      token,
-      cvFile,
-      image,
-      progress
-    } = this.state;
-    var ProfileVariables = {
-      userName,
-      cvFileUrl,
-      imgUrl,
-      summary,
-      email,
-      phone,
-      location,
-      current_teacherId,
-      schedules,
-      token,
-      cvFile,
-      image,
-      progress
-    };
-    return (
-      <div>
-        <Header
-          change={this.change.bind(this)}
-          onSignUp={this.onSignUp.bind(this)}
-          is_teacher={this.state.is_teacher}
-          loging={this.loging.bind(this)}
-          error={this.state.error}
-          loginMessage={this.state.loginMessage}
-          errorLogin={this.state.errorLogin}
-        />
-        <div className="container">
-          <Search
-            searchTecher={this.searchTecher.bind(this)}
-            searchInfo={this.searchInfo.bind(this)}
-          />
-          <ResultSearch resultOfSer={tech} />
->>>>>>> 0e6fe776841d0d6a906c0700c1039595a428404d
 
 					{/* <Classes
           searchClasses={this.searchClasses.bind(this)}
           result={this.state.classes}
         /> */}
-<<<<<<< HEAD
 					<TeacherProfile
 						rateMessage={this.state.rateMessage}
 						RatingVariables={RatingVariables}
@@ -571,6 +471,7 @@ radioChange(e) {
 						change={this.change.bind(this)}
 						rating={this.rating.bind(this)}
 						pick={this.pick.bind(this)}
+						radioChange={this.radioChange.bind(this)}
 					/>
 					<Profile
 						message={this.state.message}
@@ -588,45 +489,11 @@ radioChange(e) {
 						conform={this.conform.bind(this)}
 						resultOfBook={this.state.bookes}
 						answer={this.answer.bind(this)}
+						updatedMsg={this.state.updatedMsg}
 					/>
 				</div>
-				{/* <Footer /> */}
 			</div>
 		);
 	}
-=======
-          <TeacherProfile
-            rateMessage={this.state.rateMessage}
-            RatingVariables={RatingVariables}
-            teacherInfo={this.state}
-            showTeacherInfo={this.showTeacherInfo.bind(this)}
-            change={this.change.bind(this)}
-            rating={this.rating.bind(this)}
-						pick={this.pick.bind(this)}
-						radioChange={this.radioChange.bind(this)}
-          />
-          <Profile
-            message={this.state.message}
-            ProfileVariables={ProfileVariables}
-            startHour={this.state.startHour}
-            endHour={this.state.endHour}
-            change={this.change.bind(this)}
-            handleImgChange={e => this.handleImgChange(e)}
-            handleImgUpload={() => this.handleImgUpload()}
-            handleFileChange={e => this.handleFileChange(e)}
-            handleFileUpload={() => this.handleFileUpload()}
-            addSchedule={this.addSchedule.bind(this)}
-            removeSchedule={this.removeSchedule.bind(this)}
-            updateInfo={this.updateInfo.bind(this)}
-            conform={this.conform.bind(this)}
-            resultOfBook={this.state.bookes}
-						answer={this.answer.bind(this)}
-						updatedMsg={this.state.updatedMsg}
-          />
-        </div>
-      </div>
-    );
-  }
->>>>>>> 0e6fe776841d0d6a906c0700c1039595a428404d
 }
 ReactDOM.render(<App />, document.getElementById('app'));
