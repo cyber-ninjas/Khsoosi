@@ -12,6 +12,7 @@ class Profile extends React.Component {
 		const { ProfileVariables } = this.props;
 		return (
 			<div>
+				<label>User Name:</label>
 				<input
 					type="text"
 					placeholder="user name"
@@ -19,13 +20,16 @@ class Profile extends React.Component {
 					onChange={(event) => this.props.change(event)}
 					name="userName"
 				/>
+				<label>Email:</label>
 				<input
+					readOnly
 					type="text"
 					placeholder="email"
 					value={ProfileVariables.email}
 					onChange={(event) => this.props.change(event)}
 					name="email"
 				/>
+				<label>Phone Number:</label>
 				<input
 					type="text"
 					placeholder="phone"
@@ -33,6 +37,7 @@ class Profile extends React.Component {
 					onChange={(event) => this.props.change(event)}
 					name="phone"
 				/>
+				<label>Location:</label>
 				<input
 					type="text"
 					placeholder="location"
@@ -40,6 +45,7 @@ class Profile extends React.Component {
 					onChange={(event) => this.props.change(event)}
 					name="location"
 				/>
+				<label>Summary:</label>
 				<input
 					type="text"
 					placeholder="summary"
@@ -74,8 +80,9 @@ class Profile extends React.Component {
           conform={this.conform.bind(this)}
           resultOfBook={this.state.bookes}
           answer={this.answer.bind(this)}
-        /> */}
+        /> */}{' '}
 				<button onClick={this.props.updateInfo.bind(this)}>Update</button>
+				<label>{this.props.updatedMsg}</label>
 			</div>
 		);
 	}

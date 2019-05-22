@@ -47,7 +47,8 @@ class App extends React.Component {
 			message: '',
 			rateMessage: '',
 			loginMessage: '',
-			errorLogin: ''
+			errorLogin: '',
+			updatedMsg: ''
 		};
 	}
 
@@ -74,6 +75,9 @@ class App extends React.Component {
 			})
 			.then((body) => {
 				// console.log(body);
+				this.setState({
+					updatedMsg: 'The information was successfully updated'
+				});
 			});
 	}
 
@@ -465,6 +469,7 @@ class App extends React.Component {
 						pick={this.pick.bind(this)}
 					/>
 					<Profile
+						updatedMsg={this.state.updatedMsg}
 						message={this.state.message}
 						ProfileVariables={ProfileVariables}
 						startHour={this.state.startHour}
