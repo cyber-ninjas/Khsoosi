@@ -10,41 +10,6 @@ import TeacherProfile from "./components/teacherProfile.jsx";
 import Profile from "./components/Profile.jsx";
 
 class App extends React.Component {
-<<<<<<< HEAD
-	constructor(props) {
-		super(props);
-		this.state = {
-			userName: '',
-			cvFile: '',
-			cvFileUrl: '',
-			image: null,
-			imgUrl: '',
-			progress: 0,
-			summary: '',
-			is_teacher: false,
-			password: '',
-			email: '',
-			phone: '',
-			location: '',
-			teacherProfiles: [],
-			current_teacherId: '4',
-			current_studentId: '4',
-			ratingText: '',
-			rate: '',
-			subjectName: '',
-			subjectLevel: '',
-			day: '',
-			startHour: '',
-			endHour: '',
-			error: '',
-			schedules: [],
-			bookes: [],
-			classes: [],
-			token: '',
-			ratings: []
-		};
-	}
-=======
   constructor(props) {
     super(props);
     this.state = {
@@ -67,7 +32,7 @@ class App extends React.Component {
       rate: "",
       subjectName: "",
       subjectLevel: "",
-      day: "Sunday",
+      day: "",
       startHour: "",
       endHour: "",
       error: "",
@@ -82,7 +47,6 @@ class App extends React.Component {
       errorLogin: ""
     };
   }
->>>>>>> bac4404f1bb885bc797f020cd727cd7120b21ebb
 
   updateInfo() {
     const body = {
@@ -456,8 +420,7 @@ class App extends React.Component {
       });
   }
 
-<<<<<<< HEAD
-	radioChange(e) {
+radioChange(e) {
 		let values = e.target.value;
 		values = values.split(' ');
 		this.setState({
@@ -469,79 +432,6 @@ class App extends React.Component {
 		console.log(this.state);
 	}
 
-	render() {
-		var tech = this.state.teacherProfiles;
-		var { ratingText, rate, current_studentId, current_teacherId } = this.state;
-		var RatingVariables = {
-			ratingText,
-			rate,
-			current_studentId,
-			current_teacherId
-		};
-		var {
-			userName,
-			cvFileUrl,
-			imgUrl,
-			summary,
-			email,
-			phone,
-			location,
-			current_teacherId,
-			schedules,
-			token,
-			cvFile,
-			image,
-			progress
-		} = this.state;
-		var ProfileVariables = {
-			userName,
-			cvFileUrl,
-			imgUrl,
-			summary,
-			email,
-			phone,
-			location,
-			current_teacherId,
-			schedules,
-			token,
-			cvFile,
-			image,
-			progress
-		};
-		return (
-			<div>
-				<Header
-					change={this.change.bind(this)}
-					onSignUp={this.onSignUp.bind(this)}
-					is_teacher={this.state.is_teacher}
-					loging={this.loging.bind(this)}
-					error={this.state.error}
-				/>
-				<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
-				<ResultSearch resultOfSer={tech} />
-				<Rating
-					RatingVariables={RatingVariables}
-					onChange={(event) => this.change(event)}
-					onClick={(event) => this.rating(event)}
-				/>
-				<Classes searchClasses={this.searchClasses.bind(this)} result={this.state.classes} />
-				<TeacherProfile
-					teacherInfo={this.state}
-					showTeacherInfo={this.showTeacherInfo.bind(this)}
-					pick={this.pick.bind(this)}
-					radioChange={this.radioChange.bind(this)}
-				/>
-				<Profile
-					ProfileVariables={ProfileVariables}
-					change={this.change.bind(this)}
-					handleImgChange={(e) => this.handleImgChange(e)}
-					handleImgUpload={() => this.handleImgUpload()}
-					handleFileChange={(e) => this.handleFileChange(e)}
-					handleFileUpload={() => this.handleFileUpload()}
-					addSchedule={this.addSchedule.bind(this)}
-					removeSchedule={this.removeSchedule.bind(this)}
-				/>
-=======
   render() {
     var tech = this.state.teacherProfiles;
     var { ratingText, rate, current_studentId, current_teacherId } = this.state;
@@ -598,7 +488,6 @@ class App extends React.Component {
             searchInfo={this.searchInfo.bind(this)}
           />
           <ResultSearch resultOfSer={tech} />
->>>>>>> bac4404f1bb885bc797f020cd727cd7120b21ebb
 
           {/* <Classes
           searchClasses={this.searchClasses.bind(this)}
@@ -628,7 +517,8 @@ class App extends React.Component {
             updateInfo={this.updateInfo.bind(this)}
             conform={this.conform.bind(this)}
             resultOfBook={this.state.bookes}
-            answer={this.answer.bind(this)}
+						answer={this.answer.bind(this)}
+						updatedMsg={this.state.updatedMsg}
           />
         </div>
       </div>
