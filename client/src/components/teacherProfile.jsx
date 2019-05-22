@@ -66,7 +66,7 @@ class TeacherProfile extends React.Component {
 							);
 						})}
 					</ul>
-					<button onClick={this.props.pickDate.bind(this)}>Pick</button>
+					<button onClick={this.props.pick.bind(this)}>Pick</button>
 					<label id="pickLabel">your request was send ...wait for confirm </label>
 				</fieldset>
 				<br />
