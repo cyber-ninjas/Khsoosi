@@ -1,4 +1,3 @@
-/* Add a black background color to the top navigation */
 .topnav {
 	background-color: #272c34;
 	overflow: hidden;
@@ -8,34 +7,13 @@
 	top: 0;
 }
 
-/* Style the links inside the navigation bar */
-.topnav a {
-	float: left;
-	color: #f2f2f2;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-	font-size: 17px;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-	background-color: #ddd;
-	color: black;
-}
-
-/* Add a color to the active/current link */
-.topnav a.active {
-	color: white;
-}
-
 .signbtn {
 	margin-left: auto;
 	float: right;
 	margin-top: 15px;
 	margin-right: 50px;
 	background-color: #272c34;
-	color: white;
+	color: #e9e6df;
 	font-size: 20px;
 	font-family: 'Times New Roman', Times, serif;
 	border: none;
@@ -43,34 +21,26 @@
 
 button {
 	border-radius: 5px;
-	background-color: #f4f4ef;
-	color: #272c34;
+	background-color: #272c34;
+	color: #e9e6df;
 	font-size: 20px;
 	font-family: 'Times New Roman', Times, serif;
 }
-/* .inputLogin {
-	display: block;
-	margin-top: 30px;
-	margin-bottom: 30px;
-	margin-left: 50%;
-	font-size: initial;
-} */
 
 h1,
 h2 {
 	text-align: center;
-	color: #272c34;
+	color: #e9e6df;
+	font-family: 'Times New Roman', Times, serif;
 }
 .inputs {
-	float: right;
-	/* margin-left: 1350px; */
-
-	width: 135px;
+	margin-left: 20px;
+	width: 250px;
 	height: 24px;
 }
 #search {
-	float: right;
-
+	width: 100px;
+	margin: 50px;
 	font-size: 20px;
 	font-family: 'Times New Roman', Times, serif;
 }
@@ -105,11 +75,28 @@ td {
 #pickLabel {
 	display: none;
 }
+.sign {
+	padding: 20px;
+	background-color: #272c34;
+	color: #e9e6df;
+}
 
-.teacherInfo,
-.teacherCV,
-.teacherSchedule {
-	background-color: lavender;
+#teacher {
+	margin-left: 80px;
+}
+
+#Tlabel {
+	margin-left: 100px;
+}
+
+.btn {
+	background-color: #f4f4ef;
+	color: #272c34;
+	border-color: #272c34;
+}
+
+body {
+	background-color: #e9e6df;
 }
 .card {
 	float: left;
@@ -137,6 +124,11 @@ a {
 	position: absolute;
 	bottom: 0px;
 	color: blue;
+}
+.teacherInfo,
+.teacherCV,
+.teacherSchedule {
+	background-color: lavender;
 }
 
 /* 
@@ -167,3 +159,8 @@ a {
 a:hover {
 	opacity: 0.7;
 } */
+div.ratingScroll {
+	width: 100%;
+	height: 120px;
+	overflow: scroll;
+}

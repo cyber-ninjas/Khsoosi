@@ -24,7 +24,7 @@ class TeacherProfile extends React.Component {
 		this.props.showTeacherInfo();
 	}
 	render() {
-		// const style = {
+		// .pick&rateBtn {
 		//   display: 'flex',
 		//   flexDirection: 'column',
 		//   alignItems: 'center',
@@ -52,27 +52,28 @@ class TeacherProfile extends React.Component {
 						<br />
 						<label htmlFor="">Location: </label> {this.props.teacherInfo.location}
 						<br />
-						{this.props.teacherInfo.ratings.map((rates, index) => {
-							return (
-								<div key={index}>
-									<label htmlFor="">Compliment: </label> {rates.text} <br />
-									<label htmlFor="">Rating level: </label> {rates.rate} <br />
-								</div>
-							);
-						})}
-						<label htmlFor="">Summary: </label> <p>{this.props.teacherInfo.summary}</p>
+						<legend>Students feedback</legend>
+						<div className="ratingScroll">
+							{this.props.teacherInfo.ratings.map((rates, index) => {
+								return (
+									<div key={index}>
+										<label htmlFor="">Compliment: </label> {rates.text} <br />
+										<label htmlFor="">Rating level: </label> {rates.rate} <br />
+									</div>
+								);
+							})}
+						</div>
 					</div>
-				</div>
-				<div className="row">
+
 					<div className="teacherCV col-sm-4">
+						<legend>Summary</legend>
+						<label htmlFor="">Summary: </label> <p>{this.props.teacherInfo.summary}</p>
 						<legend>Teacher CV</legend>
 						<iframe src={this.props.teacherInfo.cvFileUrl}>
 							<p>{"javascript:alert('No file exist');"}</p>
 						</iframe>
 					</div>
-				</div>
 
-				<div className="row">
 					<div className="teacherSchedule col-sm-4">
 						<legend>Teacher Schedule</legend>
 						<ul>
@@ -97,7 +98,9 @@ class TeacherProfile extends React.Component {
 						<button onClick={this.props.pick.bind(this)}>Pick</button>
 						<label id="pickLabel">your request was send ...wait for confirm </label>
 						<br />
-						<input type="button" value="Rate" className="sign" onClick={() => this.openModal('Rate')} />
+						<button className="sign" onClick={() => this.openModal('Rate')}>
+							Rate
+						</button>
 						<Modal
 							visible={this.state.Rate}
 							width="400"
