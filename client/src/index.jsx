@@ -36,7 +36,7 @@ class App extends React.Component {
 			rate: '',
 			subjectName: '',
 			subjectLevel: '',
-			day: 'Sunday',
+			day: '',
 			startHour: '',
 			endHour: '',
 			error: '',
@@ -384,6 +384,18 @@ class App extends React.Component {
 			});
 	}
 
+	radioChange(e) {
+		let values = e.target.value;
+		values = values.split(' ');
+		this.setState({
+			day: values[0],
+			startHour: values[1],
+			endHour: values[2]
+		});
+
+		console.log(this.state);
+	}
+
 	render() {
 		var tech = this.state.teacherProfiles;
 		var { ratingText, rate, current_studentId, current_teacherId } = this.state;
@@ -444,6 +456,7 @@ class App extends React.Component {
 					teacherInfo={this.state}
 					showTeacherInfo={this.showTeacherInfo.bind(this)}
 					pick={this.pick.bind(this)}
+					radioChange={this.radioChange.bind(this)}
 				/>
 				<Profile
 					ProfileVariables={ProfileVariables}

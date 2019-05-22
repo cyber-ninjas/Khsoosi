@@ -11,7 +11,6 @@ class TeacherProfile extends React.Component {
 		//   alignItems: 'center',
 		//   justifyContent: 'center'
 		// };
-		// const schedules = this.props.teacherInfo.schedules;
 		var that = this;
 		return (
 			<div>
@@ -60,7 +59,14 @@ class TeacherProfile extends React.Component {
 							return (
 								<li key={index}>
 									{' '}
-									<input type="radio" name="gender" value="added" /> {time.day}
+									<input
+										type="radio"
+										name="day"
+										value={`${time.day} ${time.startHour} ${time.endHour}`}
+										onClick={this.props.radioChange.bind(this)}
+										id={`radio${index}`}
+									/>{' '}
+									{time.day}
 									{' start at:'} {time.startHour} {' end at:'} {time.endHour}
 								</li>
 							);
@@ -71,6 +77,7 @@ class TeacherProfile extends React.Component {
 				</fieldset>
 				<br />
 				<button>Rate</button>
+				{/* <input readOnly={true} /> */}
 			</div>
 		);
 	}
