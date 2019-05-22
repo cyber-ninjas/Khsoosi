@@ -204,7 +204,7 @@ exports.login = (req, res) => {
 							expiresIn: '1h'
 						}
 					);
-					console.log({ token: token, user_id: data.id, is_teacher: data.is_teacher }, 'hello');
+					// console.log({ token: token, user_id: data.id, is_teacher: data.is_teacher }, 'hello');
 					res.send({
 						token: token,
 						user_id: data.id,
@@ -225,7 +225,7 @@ exports.login = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-	console.log('ok');
+	// console.log('ok');
 	const info = req.body;
 	User.findOne({ where: { email: info.email } })
 		.then((exist) => {
@@ -287,7 +287,7 @@ exports.conform = (req, res) => {
 
 exports.conformAnswer = (req, res) => {
 	let query = req.query;
-	console.log(query, 'gfhgfh');
+	// console.log(query, 'gfhgfh');
 	Confirm.update(
 		{ confirmed: query.confirmed },
 		{
