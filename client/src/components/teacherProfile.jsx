@@ -12,7 +12,7 @@ class TeacherProfile extends React.Component {
 		//   justifyContent: 'center'
 		// };
 		// const schedules = this.props.teacherInfo.schedules;
-
+		var that = this;
 		return (
 			<div>
 				<img
@@ -34,7 +34,7 @@ class TeacherProfile extends React.Component {
 					<br />
 					{this.props.teacherInfo.ratings.map((rates, index) => {
 						return (
-							<div>
+							<div key={index}>
 								<label htmlFor="">Compliment: </label> {rates.text} <br />
 								<label htmlFor="">Rating level: </label> {rates.rate} <br />
 							</div>
