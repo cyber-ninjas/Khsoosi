@@ -98,9 +98,7 @@ class TeacherProfile extends React.Component {
 						<button onClick={this.props.pick.bind(this)}>Pick</button>
 						<label id="pickLabel">your request was send ...wait for confirm </label>
 						<br />
-						<button className="sign" onClick={() => this.openModal('Rate')}>
-							Rate
-						</button>
+						<button onClick={() => this.openModal('Rate')}>Rate</button>
 						<Modal
 							visible={this.state.Rate}
 							width="400"

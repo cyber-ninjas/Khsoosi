@@ -1,5 +1,4 @@
-.topnav,
-.card {
+.topnav {
 	background-color: #272c34;
 	overflow: hidden;
 	height: 50px;
@@ -129,7 +128,7 @@ a {
 .teacherInfo,
 .teacherCV,
 .teacherSchedule {
-	background-color: lavender;
+	background-color: #e9e6df;
 }
 
 /* 
