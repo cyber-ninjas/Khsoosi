@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ImageUpload from "./components/imageUpload.jsx";
-import CVUpload from "./components/cvUpload.jsx";
 import SignUp from "./components/SignUp.jsx";
 import Rating from "./components/Rating.jsx";
 import Search from "./components/search.jsx";
@@ -13,6 +11,7 @@ import Login from "./components/login.jsx";
 import Conform from "./components/conform.jsx";
 import Schedule from "./components/Schedule.jsx";
 import TeacherProfile from "./components/teacherProfile.jsx";
+import Profile from "./components/Profile.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -423,6 +422,36 @@ class App extends React.Component {
       current_studentId,
       current_teacherId
     };
+    var {
+      userName,
+      cvFileUrl,
+      imgUrl,
+      summary,
+      email,
+      phone,
+      location,
+      current_teacherId,
+      schedules,
+      token,
+      cvFile,
+      image,
+      progress
+    } = this.state;
+    var ProfileVariables = {
+      userName,
+      cvFileUrl,
+      imgUrl,
+      summary,
+      email,
+      phone,
+      location,
+      current_teacherId,
+      schedules,
+      token,
+      cvFile,
+      image,
+      progress
+    };
     return (
       <div>
         <Header
@@ -446,31 +475,22 @@ class App extends React.Component {
           searchClasses={this.searchClasses.bind(this)}
           result={this.state.classes}
         />
-        <ImageUpload
-          imgUrl={this.state.imgUrl}
-          image={this.state.image}
-          progress={this.state.progress}
-          handleImgChange={e => this.handleImgChange(e)}
-          handleImgUpload={() => this.handleImgUpload()}
-        />
-        <CVUpload
-          cvFileUrl={this.state.cvFileUrl}
-          cvFile={this.state.cvFile}
-          progress={this.state.progress}
-          handleFileChange={e => this.handleFileChange(e)}
-          handleFileUpload={() => this.handleFileUpload()}
-        />
-        <Schedule
-          schedules={this.state.schedules}
-          change={this.change.bind(this)}
-          addSchedule={this.addSchedule.bind(this)}
-          removeSchedule={this.removeSchedule.bind(this)}
-        />
         <TeacherProfile
           teacherInfo={this.state}
           showTeacherInfo={this.showTeacherInfo.bind(this)}
           pick={this.pick.bind(this)}
         />
+        <Profile
+          ProfileVariables={ProfileVariables}
+          change={this.change.bind(this)}
+          handleImgChange={e => this.handleImgChange(e)}
+          handleImgUpload={() => this.handleImgUpload()}
+          handleFileChange={e => this.handleFileChange(e)}
+          handleFileUpload={() => this.handleFileUpload()}
+          addSchedule={this.addSchedule.bind(this)}
+          removeSchedule={this.removeSchedule.bind(this)}
+        />
+
         <Conform
           conform={this.conform.bind(this)}
           resultOfBook={this.state.bookes}

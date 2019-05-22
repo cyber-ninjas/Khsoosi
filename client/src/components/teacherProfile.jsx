@@ -12,7 +12,7 @@ class TeacherProfile extends React.Component {
     //   justifyContent: 'center'
     // };
     // const schedules = this.props.teacherInfo.schedules;
-
+    var that = this;
     return (
       <div>
         <img
