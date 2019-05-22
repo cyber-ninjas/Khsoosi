@@ -31,7 +31,7 @@ class App extends React.Component {
       rate: "",
       subjectName: "",
       subjectLevel: "",
-      day: "Sunday",
+      day: "",
       startHour: "",
       endHour: "",
       error: "",
@@ -46,6 +46,32 @@ class App extends React.Component {
       errorLogin: "",
       modal: false
     };
+  }
+
+  updateInfo() {
+    const body = {
+      userName: this.state.userName,
+      cvFileUrl: this.state.cvFileUrl,
+      imgUrl: this.state.imgUrl,
+      summary: this.state.summary,
+      email: this.state.email,
+      phone: this.state.phone,
+      location: this.state.location,
+      current_teacherId: this.state.current_teacherId,
+      schedules: this.state.schedules,
+      token: this.state.token
+    };
+    fetch("/updateTeacherProfile", {
+      method: "put",
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(body => {
+        // console.log(body);
+      });
   }
 
   updateInfo() {
