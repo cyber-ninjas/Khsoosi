@@ -12,6 +12,7 @@ import Conform from './components/conform.jsx';
 import Schedule from './components/Schedule.jsx';
 import TeacherProfile from './components/teacherProfile.jsx';
 import Profile from './components/Profile.jsx';
+import Footer from './components/footer.jsx';
 
 class App extends React.Component {
 	constructor(props) {
@@ -461,6 +462,7 @@ class App extends React.Component {
 					resultOfBook={this.state.bookes}
 					answer={this.answer.bind(this)}
 				/>
+				<Footer />
 			</div>
 		);
 	}
