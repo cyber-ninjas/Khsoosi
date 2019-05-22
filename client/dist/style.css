@@ -41,13 +41,20 @@
 	border: none;
 }
 
-.inputLogin {
+button {
+	border-radius: 5px;
+	background-color: #f4f4ef;
+	color: #272c34;
+	font-size: 20px;
+	font-family: 'Times New Roman', Times, serif;
+}
+/* .inputLogin {
 	display: block;
 	margin-top: 30px;
 	margin-bottom: 30px;
 	margin-left: 50%;
 	font-size: initial;
-}
+} */
 
 h1,
 h2 {
@@ -75,9 +82,7 @@ h2 {
 	margin-right: 30px;
 	margin-top: 2%;
 }
-button {
-	border-radius: 8px;
-}
+
 #img {
 	width: 100%;
 }

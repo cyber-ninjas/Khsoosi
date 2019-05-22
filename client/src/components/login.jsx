@@ -8,12 +8,14 @@ class Login extends React.Component {
 		return (
 			<div>
 				<h1 id="login">login</h1>
+				<label>User Name:</label>
 				<input
 					className="inputLogin"
 					name="email"
 					onChange={this.props.change.bind(this)}
 					placeholder="example@gmail.com"
 				/>
+				<label>Password:</label>
 				<input
 					className="inputLogin"
 					name="password"
