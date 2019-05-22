@@ -105,14 +105,12 @@ td {
 #pickLabel {
 	display: none;
 }
-<<<<<<< HEAD
 
 .teacherInfo,
 .teacherCV,
 .teacherSchedule {
 	background-color: lavender;
 }
-=======
 .card {
 	float: left;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -169,4 +167,3 @@ a {
 a:hover {
 	opacity: 0.7;
 } */
->>>>>>> 6d90a4c5c862b93a1ff9523acbca2fe5e7f9db16
