@@ -231,7 +231,7 @@ class App extends React.Component {
 				this.setState({
 					ratingText: '',
 					rate: '',
-					rateMessage: 'Thank you for ypur Rating!'
+					rateMessage: 'Thank you for your Rating!'
 				});
 			});
 	}

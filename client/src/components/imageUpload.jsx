@@ -11,7 +11,7 @@ class ImageUpload extends React.Component {
 		};
 
 		return (
-			<div style={style}>
+			<div className="imgDiv input-group">
 				<progress value={this.props.imageProgress} max="100" />
 				<br />
 				<input
