@@ -13,58 +13,65 @@ class Profile extends React.Component {
 		const { ProfileVariables } = this.props;
 		return (
 			<div>
-				<label>User Name:</label>
-				<input
-					type="text"
-					placeholder="user name"
-					value={ProfileVariables.userName}
-					onChange={(event) => this.props.change(event)}
-					name="userName"
-				/>
-				<label>Email:</label>
-				<input
-					readOnly
-					type="text"
-					placeholder="email"
-					value={ProfileVariables.email}
-					onChange={(event) => this.props.change(event)}
-					name="email"
-				/>
-				<label>Phone Number:</label>
-				<input
-					type="text"
-					placeholder="phone"
-					value={ProfileVariables.phone}
-					onChange={(event) => this.props.change(event)}
-					name="phone"
-				/>
-				<label>Location:</label>
-				<input
-					type="text"
-					placeholder="location"
-					value={ProfileVariables.location}
-					onChange={(event) => this.props.change(event)}
-					name="location"
-				/>
-				<label>Summary:</label>
-				<input
-					type="text"
-					placeholder="summary"
-					value={ProfileVariables.summary}
-					onChange={(event) => this.props.change(event)}
-					name="summary"
-				/>
-				<ImageUpload
-					imgUrl={ProfileVariables.imgUrl}
-					image={ProfileVariables.image}
-					progress={ProfileVariables.progress}
-					handleImgChange={(e) => this.props.handleImgChange(e)}
-					handleImgUpload={() => this.props.handleImgUpload()}
-				/>
+				<span className="form-group">
+					<label>User Name:</label>
+					<input
+						className="form-control"
+						type="text"
+						placeholder="user name"
+						value={ProfileVariables.userName}
+						onChange={(event) => this.props.change(event)}
+						name="userName"
+					/>
+					<label>Email:</label>
+					<input
+						readOnly
+						className="form-control"
+						type="text"
+						placeholder="email"
+						value={ProfileVariables.email}
+						onChange={(event) => this.props.change(event)}
+						name="email"
+					/>
+					<label>Phone Number:</label>
+					<input
+						className="form-control"
+						type="text"
+						placeholder="phone"
+						value={ProfileVariables.phone}
+						onChange={(event) => this.props.change(event)}
+						name="phone"
+					/>
+					<label>Location:</label>
+					<input
+						className="form-control"
+						type="text"
+						placeholder="location"
+						value={ProfileVariables.location}
+						onChange={(event) => this.props.change(event)}
+						name="location"
+					/>
+					<label>Summary:</label>
+					<input
+						className="form-control"
+						type="text"
+						placeholder="summary"
+						value={ProfileVariables.summary}
+						onChange={(event) => this.props.change(event)}
+						name="summary"
+					/>
+					<ImageUpload
+						imgUrl={ProfileVariables.imgUrl}
+						image={ProfileVariables.image}
+						imageProgress={ProfileVariables.imageProgress}
+						handleImgChange={(e) => this.props.handleImgChange(e)}
+						handleImgUpload={() => this.props.handleImgUpload()}
+					/>
+				</span>
 				<CVUpload
 					cvFileUrl={ProfileVariables.cvFileUrl}
 					cvFile={ProfileVariables.cvFile}
-					progress={ProfileVariables.progress}
+					cvProgress={ProfileVariables.cvProgress}
 					handleFileChange={(e) => this.props.handleFileChange(e)}
 					handleFileUpload={() => this.props.handleFileUpload()}
 				/>
@@ -82,7 +89,9 @@ class Profile extends React.Component {
 					resultOfBook={this.props.resultOfBook}
 					answer={this.props.answer.bind(this)}
 				/>{' '}
-				<button onClick={this.props.updateInfo.bind(this)}>Update</button>
+				<button className="btn btn-primary" onClick={this.props.updateInfo.bind(this)}>
+					Update
+				</button>
 				<label>{this.props.updatedMsg}</label>
 			</div>
 		);

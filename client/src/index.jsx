@@ -19,7 +19,8 @@ class App extends React.Component {
 			cvFileUrl: '',
 			image: null,
 			imgUrl: '',
-			progress: 0,
+			imageProgress: 0,
+			cvProgress: 0,
 			summary: '',
 			is_teacher: false,
 			password: '',
@@ -95,7 +96,7 @@ class App extends React.Component {
 			(snapshot) => {
 				//progress function ....
 				const progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
-				this.setState({ progress });
+				this.setState({ cvProgress: progress });
 			},
 			(error) => {
 				// error function ....
@@ -117,7 +118,7 @@ class App extends React.Component {
 			(snapshot) => {
 				//progress function ....
 				const progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
-				this.setState({ progress });
+				this.setState({ imageProgress: progress });
 			},
 			(error) => {
 				// error function ....
@@ -427,7 +428,8 @@ class App extends React.Component {
 			token,
 			cvFile,
 			image,
-			progress
+			imageProgress,
+			cvProgress
 		} = this.state;
 		var ProfileVariables = {
 			userName,
@@ -442,7 +444,8 @@ class App extends React.Component {
 			token,
 			cvFile,
 			image,
-			progress
+			imageProgress,
+			cvProgress
 		};
 		return (
 			<div>

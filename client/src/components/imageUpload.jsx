@@ -12,7 +12,7 @@ class ImageUpload extends React.Component {
 
 		return (
 			<div style={style}>
-				<progress value={this.props.progress} max="100" />
+				<progress value={this.props.imageProgress} max="100" />
 				<br />
 				<input
 					type="file"
