@@ -41,7 +41,10 @@ class ImageUpload extends React.Component {
 				<div className="row">
 					<div className="col-sm-4">
 						<img
-							src={this.props.imgUrl || 'https://via.placeholder.com/100x100'}
+							src={
+								this.props.imgUrl ||
+								'https://firebasestorage.googleapis.com/v0/b/khsoosi-upload-file-img.appspot.com/o/images%2Fcbde4e59089dcada08218b49a815175d.svg?alt=media&token=0804202d-9e8f-4a41-9be6-836a37a5475e'
+							}
 							alt="uploaded images"
 							height="100"
 							width="100"
