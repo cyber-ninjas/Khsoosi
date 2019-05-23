@@ -51,7 +51,7 @@ class TeacherProfile extends React.Component {
 							{this.props.teacherInfo.ratings.map((rates, index) => {
 								return (
 									<div key={index}>
-										<label htmlFor="">Compliment: </label> {rates.text} <br />
+										<label htmlFor="">Testimonial: </label> {rates.text} <br />
 										<label htmlFor="">Rating level: </label> {rates.rate} <br />
 									</div>
 								);

@@ -5,15 +5,20 @@ class ResultSearch extends Component {
 		return (
 			<div>
 				<br />
+				{console.log(this.props.resultOfSer)}
 				{this.props.resultOfSer.map(function(name, index) {
-					console.log('hello');
 					return (
 						<div className="card" name={name.id} key={index}>
-							<img src={name.img} alt="John" style={{ width: 100 + '%' }} />
+							<img src={name.img} style={{ width: 100 + '%' }} />
 							<h1>{name.name}</h1>
 							<p className="title">{name.summary}</p>
 							<p>{name.reatingText}</p>
-							<div style={{ margin: 24 + 'px' + 0 }}>{name.rate}/10</div>
+							<span>
+								{name.rate - Math.floor(name.rate) == 0 ? 'Rate:' : <i className="fa fa-star-half" />}
+
+								{Array(Math.floor(name.rate / 2)).fill(<i className="fa fa-star" />)}
+							</span>
+
 							<br />
 						</div>
 					);

@@ -5,6 +5,7 @@
 	width: 100%;
 	position: fixed;
 	top: 0;
+	z-index: 2;
 }
 
 .signbtn {
@@ -58,7 +59,6 @@ h2 {
 	top: 0;
 	right: 0;
 	left: 0;
-	border: 1px solid #73ad21;
 	width: 100%;
 }
 
@@ -84,6 +84,10 @@ td {
 	margin-left: 100px;
 }
 
+#rate {
+	background-color: #272c34;
+}
+
 .btn {
 	background-color: #f4f4ef;
 	color: #272c34;
@@ -106,14 +110,14 @@ body {
 	color: grey;
 	font-size: 18px;
 }
-footer {
-	position: absolute;
+/* footer {
+	display: inline-block;
 	bottom: 0px;
 	right: 0px;
 	background-color: rgb(0, 0, 0);
 	left: 0px;
 	color: white;
-}
+} */
 
 a {
 	position: absolute;
@@ -127,34 +131,15 @@ a {
 	color: 272c34;
 }
 
-/* 
-button {
-	border: none;
-	outline: 0;
-	display: inline-block;
-	padding: 8px;
-	color: white;
-	background-color: #000;
-	text-align: center;
-	cursor: pointer;
-	width: 100%;
-	font-size: 18px;
-} */
-
 a {
 	text-decoration: none;
 	font-size: 22px;
 	color: black;
 }
 
-/* img {
-	border-radius: 50%;
-} */
-
-/* button:hover,
-a:hover {
-	opacity: 0.7;
-} */
+.form-control {
+	margin-top: 15px;
+}
 div.ratingScroll {
 	width: 100%;
 	height: 30%;
@@ -211,4 +196,21 @@ progress[value]::-webkit-progress-value {
 		-webkit-linear-gradient(left, #272c34, #e9e6df);
 	/* with stripe pattern*/
 	background-size: 25px 14px, 100% 100%, 100% 100%;
+}
+footer {
+	background-color: #272c34;
+	color: #e9e6df;
+	font-family: 'Times New Roman', Times, serif;
+	text-align: center;
+	overflow: hidden;
+	width: 100%;
+	bottom: 0;
+	z-index: 2;
+	padding: 3px;
+	display: inline-block;
+}
+
+#social {
+	width: 250px;
+	padding: 2px;
 }
