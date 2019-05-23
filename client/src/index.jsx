@@ -165,7 +165,7 @@ class App extends React.Component {
 	}
 
 	searchInfo(e) {
-		// console.log(this.state[e.target.name]);
+		console.log('hello');
 		e.preventDefault();
 		this.setState({ [e.target.name]: e.target.value });
 	}
@@ -263,6 +263,7 @@ class App extends React.Component {
 	}
 
 	searchTecher(e) {
+		// console.log("I'am in search click");
 		e.preventDefault();
 		return fetch(
 			`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`,
@@ -275,6 +276,7 @@ class App extends React.Component {
 		)
 			.then((response) => (response = response.json()))
 			.then((data) => {
+				console.log(data);
 				this.setState({ teacherProfiles: data.data });
 				// console.log(this.state.teacherProfiles);
 			})
@@ -491,7 +493,11 @@ class App extends React.Component {
 						updatedMsg={this.state.updatedMsg}
 					/>{' '}
 				</div>
-				<Footer />
+				{/* <Footer /> */}
+				<span>
+					{Array(Math.floor(3)).fill(<i className="fa fa-star" />)}
+					{3 - Math.floor(3) == 0 ? '' : <i className="fa fa-star-half" />}
+				</span>
 			</div>
 		);
 	}

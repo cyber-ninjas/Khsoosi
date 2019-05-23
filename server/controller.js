@@ -104,7 +104,9 @@ exports.showTeacherInfo = (req, res) => {
 //that the student ask for in the search feild in the homepage
 
 exports.search = (req, res) => {
-	const query = req.query;
+	// console.log('search start');
+	const query = req.body;
+	// var not = 'NOT LIKE %=%';
 	Subject.findAll({
 		where: {
 			name: `${query.name}` || { [Op.notLike]: '%=%' },
@@ -123,7 +125,25 @@ exports.search = (req, res) => {
 				]
 			}
 		]
+		// db
+		// 	.query(
+		// 		`select
+		// users.id,
+		// users.name,
+		// users.img,
+		// users.summary,
+		// users.location,
+		// ratings.rate,
+		// subjects.level,
+		// subjects.name AS subjectname
+		// from users
+		// join ratings on users.id= ratings.teacherId
+		// join TeacherSubjects on users.id= TeacherSubjects.userId
+		// join subjects on subjects.id= TeacherSubjects.subjectId
+		// where users.location like '${query.location}' OR users.location not like '%=%' and subjects.name like ${query.name}
+		// 			or subjects.name NOT LIKE '%=%' and subjects.level like ${query.level} or subjects.level NOT LIKE '%=%'`
 	}).then((result) => {
+		// res.send(result);
 		// if(result.length < 1)return res.send({err:'please fill the field'})
 
 		// res.send(result);
@@ -134,22 +154,26 @@ exports.search = (req, res) => {
 		// res.send(result[0])
 		for (let i = 0; i < result.length; i++) {
 			let obj = {};
-			obj.id = result[i].users[0].id;
-			obj.name = result[i].users[0].name;
-			obj.phone = result[i].users[0].phone;
-			obj.location = result[i].users[0].location;
-			obj.img = result[i].users[0].img;
-			obj.cvFile = result[i].users[0].cvFile;
-			obj.summary = result[i].users[0].summary;
-			obj.reatingText = result[i].users[0].ratings[0].text;
-			obj.rate = result[i].users[0].ratings[0].rate;
-			obj.subject = result[0].name;
-			obj.level = result[0].level;
-			// console.log(obj);
-			// obj.subject = obj1.subject;
-			// obj.level = obj1.level;
-			info.push(obj);
+			for (let j = 0; j < result[i].users.length; j++) {
+				obj.id = result[i].users[j].id;
+				obj.name = result[i].users[j].name;
+				obj.phone = result[i].users[j].phone;
+				obj.location = result[i].users[j].location;
+				obj.img = result[i].users[j].img;
+				obj.cvFile = result[i].users[j].cvFile;
+				obj.summary = result[i].users[j].summary;
+				obj.reatingText = result[i].users[j].ratings[0].text;
+				obj.rate = result[i].users[j].ratings[0].rate;
+				obj.subject = result[i].name;
+				obj.level = result[i].level;
+				// console.log(obj);
+				// obj.subject = obj1.subject;
+				// obj.level = obj1.level;
+				console.log(info, j);
+				info.push(obj);
+			}
 		}
+		// console.log( );
 		res.send({ data: info });
 	});
 };

@@ -37,8 +37,8 @@ class Header extends React.Component {
 				/>
 				<Modal
 					visible={this.state.SignUp}
-					width="400"
-					height="300"
+					width="600"
+					height="350"
 					effect="fadeInDown"
 					onClickAway={() => this.closeModal('SignUp')}
 				>
