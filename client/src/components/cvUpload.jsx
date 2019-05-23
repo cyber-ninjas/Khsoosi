@@ -12,7 +12,7 @@ class CVUpload extends React.Component {
 		};
 
 		return (
-			<div style={style}>
+			<div style={style} className="cvDiv">
 				<progress value={this.props.cvProgress} max="100" />
 				<br />
 				<input
@@ -22,15 +22,6 @@ class CVUpload extends React.Component {
 					onChange={this.props.handleFileChange.bind(this)}
 				/>
 				<button onClick={this.props.handleFileUpload.bind(this)}>Upload Your CV Here</button>
-				<br />
-				<input
-					type="text"
-					value={this.props.cvFile || 'uploaded file'}
-					height="100"
-					width="100"
-					readOnly
-					disabled
-				/>
 			</div>
 		);
 	}

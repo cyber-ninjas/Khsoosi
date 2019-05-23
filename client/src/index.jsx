@@ -9,6 +9,7 @@ import Schedule from './components/Schedule.jsx';
 import TeacherProfile from './components/teacherProfile.jsx';
 import Profile from './components/Profile.jsx';
 import Footer from './components/footer.jsx';
+import $ from 'jquery';
 
 class App extends React.Component {
 	constructor(props) {
@@ -109,6 +110,7 @@ class App extends React.Component {
 				});
 			}
 		);
+		$('.cvDiv').append('<label>Your cv was uploaded successfully </label>');
 	}
 	handleImgUpload() {
 		const { image } = this.state;
