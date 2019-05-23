@@ -6,7 +6,9 @@ class Schedule extends React.Component {
     this.state = {
       day: "Sunday",
       startHour: "",
-      endHour: ""
+      endHour: "",
+      message: "",
+      schedules: []
     };
   }
 
@@ -19,14 +21,21 @@ class Schedule extends React.Component {
       this.setState({
         startHour: "",
         endHour: "",
-        message: "error"
+        message: "start with correct Hour"
       });
     } else {
-      this.setState({
-        schedules: [...temp, { day, startHour, endHour }]
-      });
+      this.setState(
+        {
+          schedules: [...temp, { day, startHour, endHour }],
+          message: "",
+          startHour: "",
+          endHour: ""
+        },
+        () => {
+          this.props.changeSchedules(this.state.schedules);
+        }
+      );
     }
-    //console.log(this.state.startHour, this.state.endHour);
   }
 
   removeSchedule(e) {
@@ -36,9 +45,14 @@ class Schedule extends React.Component {
         schedules.splice(index, 1);
       }
     });
-    this.setState({
-      schedules: schedules
-    });
+    this.setState(
+      {
+        schedules: schedules
+      },
+      () => {
+        this.props.changeSchedules(this.state.schedules);
+      }
+    );
     // console.log(this.state.schedules);
   }
   change(e) {
@@ -58,7 +72,7 @@ class Schedule extends React.Component {
                 className="form-control"
                 id="selectDate"
                 name="day"
-                onChange={this.props.change.bind(this)}
+                onChange={this.change.bind(this)}
               >
                 <option value="Sunday"> Sunday</option>
                 <option value="Monday"> Monday</option>
@@ -74,8 +88,8 @@ class Schedule extends React.Component {
                 id="selectStartHour"
                 placeholder="from"
                 name="startHour"
-                onChange={this.props.change.bind(this)}
-                value={this.props.startHour}
+                onChange={this.change.bind(this)}
+                value={this.state.startHour}
               />
               <label htmlFor="selectEndHour">Select end hour:</label>
               <input
@@ -83,16 +97,16 @@ class Schedule extends React.Component {
                 className="form-control"
                 placeholder="to"
                 name="endHour"
-                onChange={this.props.change.bind(this)}
-                value={this.props.endHour}
+                onChange={this.change.bind(this)}
+                value={this.state.endHour}
               />
-              <button onClick={this.props.addSchedule.bind(this)}>Add</button>
+              <button onClick={this.addSchedule.bind(this)}>Add</button>
             </form>
           </div>
           <div className="col-sm-6">
+            <label>{this.state.message}</label>
             {this.props.schedules.length > 0 ? (
               <div>
-                <label>{this.props.message}</label>
                 <h3>Schedule</h3>
                 <table className="table table-hover table-dark">
                   <thead>
@@ -114,7 +128,7 @@ class Schedule extends React.Component {
                             <button
                               className="btn btn-primary"
                               value={sch.day}
-                              onClick={this.props.removeSchedule.bind(this)}
+                              onClick={this.removeSchedule.bind(this)}
                             >
                               remove
                             </button>

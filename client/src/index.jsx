@@ -125,39 +125,6 @@ class App extends React.Component {
   // onchangingSignUp(e) {
   // 	this.setState({ [e.target.name]: e.target.value });
   // }
-
-  addSchedule(e) {
-    e.preventDefault();
-    const { day, startHour, endHour } = this.state;
-    const temp = this.state.schedules;
-    if (startHour >= endHour) {
-      // console.log(startHour, endHour);
-      this.setState({
-        startHour: "",
-        endHour: "",
-        message: "error"
-      });
-    } else {
-      this.setState({
-        schedules: [...temp, { day, startHour, endHour }]
-      });
-    }
-    //console.log(this.state.startHour, this.state.endHour);
-  }
-
-  removeSchedule(e) {
-    let { schedules } = this.state;
-    schedules.forEach((element, index) => {
-      if (element.day === e.target.value) {
-        schedules.splice(index, 1);
-      }
-    });
-    this.setState({
-      schedules: schedules
-    });
-    // console.log(this.state.schedules);
-  }
-
   rating(e) {
     e.preventDefault();
     const body = {
@@ -406,15 +373,11 @@ class App extends React.Component {
               current_teacherId={this.state.current_teacherId}
               message={this.state.message}
               ProfileVariables={ProfileVariables}
-              startHour={this.state.startHour}
-              endHour={this.state.endHour}
               change={this.change.bind(this)}
               handleImgChange={e => this.handleImgChange(e)}
               handleImgUpload={() => this.handleImgUpload()}
               handleFileChange={e => this.handleFileChange(e)}
               handleFileUpload={() => this.handleFileUpload()}
-              addSchedule={this.addSchedule.bind(this)}
-              removeSchedule={this.removeSchedule.bind(this)}
               updateInfo={this.updateInfo.bind(this)}
               updatedMsg={this.state.updatedMsg}
             />

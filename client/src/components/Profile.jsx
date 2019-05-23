@@ -54,7 +54,11 @@ class Profile extends React.Component {
         // console.log(body);
       });
   }
-
+  changeSchedules(schedules) {
+    this.setState({
+      schedules: schedules
+    });
+  }
   render() {
     const { ProfileVariables } = this.props;
     return (
@@ -65,8 +69,8 @@ class Profile extends React.Component {
             className="form-control"
             type="text"
             placeholder="user name"
-            value={ProfileVariables.userName}
-            onChange={event => this.props.change(event)}
+            value={this.state.userName}
+            onChange={event => this.change(event)}
             name="userName"
           />
           <label>Email:</label>
@@ -75,8 +79,8 @@ class Profile extends React.Component {
             className="form-control"
             type="text"
             placeholder="email"
-            value={ProfileVariables.email}
-            onChange={event => this.props.change(event)}
+            value={this.state.email}
+            onChange={event => this.change(event)}
             name="email"
           />
           <label>Phone Number:</label>
@@ -123,13 +127,8 @@ class Profile extends React.Component {
             handleFileUpload={() => this.props.handleFileUpload()}
           />
           <Schedule
-            message={this.props.message}
-            startHour={this.props.startHour}
-            endHour={this.props.endHour}
-            schedules={ProfileVariables.schedules}
-            change={this.props.change.bind(this)}
-            addSchedule={this.props.addSchedule.bind(this)}
-            removeSchedule={this.props.removeSchedule.bind(this)}
+            changeSchedules={this.changeSchedules.bind(this)}
+            schedules={this.state.schedules}
           />
           <Confirm current_teacherId={this.props.current_teacherId} />
         </span>
