@@ -8,6 +8,8 @@ import TeacherProfile from './components/teacherProfile.jsx';
 import Profile from './components/Profile.jsx';
 import Modal from 'react-awesome-modal';
 import Footer from './components/footer.jsx';
+import $ from 'jquery';
+
 class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -15,9 +17,10 @@ class App extends React.Component {
 			userName: '',
 			cvFile: '',
 			cvFileUrl: '',
-			image: null,
+			image: '',
 			imgUrl: '',
-			progress: 0,
+			imageProgress: 0,
+			cvProgress: 0,
 			summary: '',
 			is_teacher: false,
 			password: '',
@@ -31,7 +34,7 @@ class App extends React.Component {
 			rate: '',
 			subjectName: '',
 			subjectLevel: '',
-			day: '',
+			day: 'Sunday',
 			startHour: '',
 			endHour: '',
 			error: '',
@@ -120,7 +123,7 @@ class App extends React.Component {
 			(snapshot) => {
 				//progress function ....
 				const progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
-				this.setState({ progress });
+				this.setState({ cvProgress: progress });
 			},
 			(error) => {
 				// error function ....
@@ -133,6 +136,7 @@ class App extends React.Component {
 				});
 			}
 		);
+		$('.cvDiv').append('<label className="center"> Your cv was uploaded successfully </label>');
 	}
 	handleImgUpload() {
 		const { image } = this.state;
@@ -142,7 +146,7 @@ class App extends React.Component {
 			(snapshot) => {
 				//progress function ....
 				const progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
-				this.setState({ progress });
+				this.setState({ imageProgress: progress });
 			},
 			(error) => {
 				// error function ....
@@ -472,7 +476,8 @@ class App extends React.Component {
 			token,
 			cvFile,
 			image,
-			progress
+			imageProgress,
+			cvProgress
 		} = this.state;
 		var ProfileVariables = {
 			userName,
@@ -487,7 +492,8 @@ class App extends React.Component {
 			token,
 			cvFile,
 			image,
-			progress
+			imageProgress,
+			cvProgress
 		};
 		return (
 			<div>
