@@ -189,6 +189,12 @@ class App extends React.Component {
 			.catch((err) => console.log('Error'));
 	}
 
+	searchInfo(e) {
+		console.log('hello');
+		e.preventDefault();
+		this.setState({ [e.target.name]: e.target.value });
+	}
+
 	change(e) {
 		// e.preventDefault();
 		this.setState({
@@ -538,11 +544,11 @@ class App extends React.Component {
 							updatedMsg={this.state.updatedMsg}
 						/>
 					)}
-
 					{/* <Classes
-          searchClasses={this.searchClasses.bind(this)}
-          result={this.state.classes}
-        /> */}
+// //           searchClasses={this.searchClasses.bind(this)}
+// //           result={this.state.classes}
+// //         /> {/* //  */}{' '}
+					*/}
 				</div>
 				<Footer />
 			</div>
