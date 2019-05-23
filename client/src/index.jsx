@@ -208,7 +208,8 @@ class App extends React.Component {
 		// console.log(this.state.schedules);
 	}
 
-	rating() {
+	rating(e) {
+		e.preventDefault();
 		const body = {
 			ratingText: this.state.ratingText,
 			rate: this.state.rate,
@@ -228,7 +229,7 @@ class App extends React.Component {
 				this.setState({
 					ratingText: '',
 					rate: '',
-					rateMessage: 'Thank you for ypur Rating!'
+					rateMessage: 'Thank you for your feedback!'
 				});
 			});
 	}
