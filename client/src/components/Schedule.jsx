@@ -2,73 +2,88 @@ import React from 'react';
 
 class Schedule extends React.Component {
 	render() {
-		const style = {
-			float: 'left',
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'center'
-		};
-
 		return (
-			<div style={style}>
-				<br />
-				<br />
-				<form>
-					<select name="day" onChange={this.props.change.bind(this)}>
-						<option value="Sunday"> Sunday</option>
-						<option value="Monday"> Monday</option>
-						<option value="Tuesday"> Tuesday</option>
-						<option value="Wedensday">Wedensday </option>
-						<option value="Thursday">Thursday </option>
-						<option value="Friday">Friday </option>
-						<option value="Saturday">Saturday </option>
-					</select>
-					<input
-						placeholder="from"
-						name="startHour"
-						onChange={this.props.change.bind(this)}
-						value={this.props.startHour}
-					/>
-					<input
-						placeholder="to"
-						name="endHour"
-						onChange={this.props.change.bind(this)}
-						value={this.props.endHour}
-					/>
-					<button onClick={this.props.addSchedule.bind(this)}>Add</button>
-				</form>
-				<br />
-				{this.props.schedules.length > 0 ? (
-					<div>
-						<label>{this.props.message}</label>
-						<h3>Schedule</h3>
-						<table>
-							<tbody>
-								<tr>
-									<th>Day</th>
-									<th>Start</th>
-									<th>End</th>
-									<th>Cancel</th>
-								</tr>
-								{this.props.schedules.map((sch, index) => {
-									return (
-										<tr key={sch.day}>
-											<td>{sch.day}</td>
-											<td>{sch.startHour}</td>
-											<td>{sch.endHour}</td>
-											<td>
-												<button value={sch.day} onClick={this.props.removeSchedule.bind(this)}>
-													remove
-												</button>
-											</td>
-										</tr>
-									);
-								})}
-							</tbody>
-						</table>
+			<div>
+				<div className="row">
+					<div className="col-sm-6">
+						<form className="form-group">
+							<label htmlFor="selectDate">Select day:</label>
+							<select
+								className="form-control"
+								id="selectDate"
+								name="day"
+								onChange={this.props.change.bind(this)}
+							>
+								<option value="Sunday"> Sunday</option>
+								<option value="Monday"> Monday</option>
+								<option value="Tuesday"> Tuesday</option>
+								<option value="Wedensday">Wedensday </option>
+								<option value="Thursday">Thursday </option>
+								<option value="Friday">Friday </option>
+								<option value="Saturday">Saturday </option>
+							</select>
+							<label htmlFor="selectStartHour">Select start hour:</label>
+							<input
+								className="form-control"
+								id="selectStartHour"
+								placeholder="from"
+								name="startHour"
+								onChange={this.props.change.bind(this)}
+								value={this.props.startHour}
+							/>
+							<label htmlFor="selectEndHour">Select end hour:</label>
+							<input
+								id="selectEndHour"
+								className="form-control"
+								placeholder="to"
+								name="endHour"
+								onChange={this.props.change.bind(this)}
+								value={this.props.endHour}
+							/>
+							<button onClick={this.props.addSchedule.bind(this)}>Add</button>
+						</form>
 					</div>
-				) : null}
+					<div className="col-sm-6">
+						{this.props.schedules.length > 0 ? (
+							<div>
+								<label>{this.props.message}</label>
+								<h3>Schedule</h3>
+								<table className="table table-hover table-dark">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Day</th>
+											<th scope="col">Start</th>
+											<th scope="col">End</th>
+											<th scope="col">Cancel</th>
+										</tr>
+									</thead>
+									<tbody>
+										{this.props.schedules.map((sch, index) => {
+											return (
+												<tr key={sch.day}>
+													<th scope="row">{index + 1}</th>
+													<td>{sch.day}</td>
+													<td>{sch.startHour}</td>
+													<td>{sch.endHour}</td>
+													<td>
+														<button
+															className="btn btn-primary"
+															value={sch.day}
+															onClick={this.props.removeSchedule.bind(this)}
+														>
+															remove
+														</button>
+													</td>
+												</tr>
+											);
+										})}
+									</tbody>
+								</table>
+							</div>
+						) : null}
+					</div>
+				</div>
 			</div>
 		);
 	}

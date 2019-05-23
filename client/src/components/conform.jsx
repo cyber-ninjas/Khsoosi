@@ -5,17 +5,11 @@ class Conform extends React.Component {
 		this.props.conform();
 	}
 	render() {
-		const style = {
-			float: 'left',
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'center'
-		};
 		var is_disabled = true;
 		return (
-			<div style={style}>
-				<table>
+			<div>
+				<h3>Confirm</h3>
+				<table className="table table-hover table-dark">
 					<thead>
 						<tr>
 							<th>Student Name</th>

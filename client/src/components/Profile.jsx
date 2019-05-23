@@ -60,6 +60,7 @@ class Profile extends React.Component {
 						onChange={(event) => this.props.change(event)}
 						name="summary"
 					/>
+					<label>Upload your image:</label>
 					<ImageUpload
 						imgUrl={ProfileVariables.imgUrl}
 						image={ProfileVariables.image}
@@ -67,31 +68,30 @@ class Profile extends React.Component {
 						handleImgChange={(e) => this.props.handleImgChange(e)}
 						handleImgUpload={() => this.props.handleImgUpload()}
 					/>
+					<label>Upload your CV:</label>
+					<CVUpload
+						cvFileUrl={ProfileVariables.cvFileUrl}
+						cvFile={ProfileVariables.cvFile}
+						cvProgress={ProfileVariables.cvProgress}
+						handleFileChange={(e) => this.props.handleFileChange(e)}
+						handleFileUpload={() => this.props.handleFileUpload()}
+					/>
+					<Schedule
+						message={this.props.message}
+						startHour={this.props.startHour}
+						endHour={this.props.endHour}
+						schedules={ProfileVariables.schedules}
+						change={this.props.change.bind(this)}
+						addSchedule={this.props.addSchedule.bind(this)}
+						removeSchedule={this.props.removeSchedule.bind(this)}
+					/>
 				</span>
-				<CVUpload
-					cvFileUrl={ProfileVariables.cvFileUrl}
-					cvFile={ProfileVariables.cvFile}
-					cvProgress={ProfileVariables.cvProgress}
-					handleFileChange={(e) => this.props.handleFileChange(e)}
-					handleFileUpload={() => this.props.handleFileUpload()}
-				/>
-				<Schedule
-					message={this.props.message}
-					startHour={this.props.startHour}
-					endHour={this.props.endHour}
-					schedules={ProfileVariables.schedules}
-					change={this.props.change.bind(this)}
-					addSchedule={this.props.addSchedule.bind(this)}
-					removeSchedule={this.props.removeSchedule.bind(this)}
-				/>
 				<Conform
 					conform={this.props.conform.bind(this)}
 					resultOfBook={this.props.resultOfBook}
 					answer={this.props.answer.bind(this)}
 				/>{' '}
-				<button className="btn btn-primary" onClick={this.props.updateInfo.bind(this)}>
-					Update
-				</button>
+				<button onClick={this.props.updateInfo.bind(this)}>Update</button>
 				<label>{this.props.updatedMsg}</label>
 			</div>
 		);

@@ -15,7 +15,6 @@ class ImageUpload extends React.Component {
 				<div className="input-group mb-3">
 					<div className="input-group-prepend">
 						<button
-							className="uploadBtn btn btn-outline-primary btn-sm"
 							type="button"
 							id="inputGroupFileAddon01"
 							onClick={this.props.handleImgUpload.bind(this)}

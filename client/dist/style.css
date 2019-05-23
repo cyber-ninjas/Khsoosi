@@ -174,7 +174,7 @@ div.teacherProfileView {
 	border-style: dotted;
 	height: 500px;
 }
-progress.progBar {
+.center {
 	display: flex;
 	align-items: absolute;
 }
@@ -211,9 +211,4 @@ progress[value]::-webkit-progress-value {
 		-webkit-linear-gradient(left, #272c34, #e9e6df);
 	/* with stripe pattern*/
 	background-size: 25px 14px, 100% 100%, 100% 100%;
-}
-
-button.uploadBtn {
-	border-radius: 5px;
-	font-size: 20px;
 }

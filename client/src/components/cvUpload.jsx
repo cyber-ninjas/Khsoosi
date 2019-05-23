@@ -3,11 +3,10 @@ import React from 'react';
 class CVUpload extends React.Component {
 	render() {
 		return (
-			<div className="cvDiv">
+			<div>
 				<div className="input-group">
 					<div className="input-group-prepend">
 						<button
-							className="uploadBtn btn btn-outline-primary btn-sm"
 							type="button"
 							id="inputGroupFileAddon01"
 							onClick={this.props.handleFileUpload.bind(this)}
@@ -31,9 +30,11 @@ class CVUpload extends React.Component {
 					</div>
 				</div>
 				<div className="row">
-					<div className="col-sm-12">
-						<progress className="progBar" value={this.props.cvProgress} max="100" />
+					<div className="cvDiv col-sm-4"> </div>
+					<div className="col-sm-4">
+						<progress className="center" value={this.props.cvProgress} max="100" />
 					</div>
+					<div className="col-sm-4" />
 				</div>
 			</div>
 		);

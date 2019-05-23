@@ -110,7 +110,7 @@ class App extends React.Component {
 				});
 			}
 		);
-		$('.cvDiv').append('<label>Your cv was uploaded successfully </label>');
+		$('.cvDiv').append('<label className="center"> Your cv was uploaded successfully </label>');
 	}
 	handleImgUpload() {
 		const { image } = this.state;
