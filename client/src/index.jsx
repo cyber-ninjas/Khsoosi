@@ -48,6 +48,18 @@ class App extends React.Component {
       errorLogin: "",
       modal: false
     };
+    const is_teacher = localStorage.getItem("is_teacher");
+    if (is_teacher !== undefined) {
+      if (is_teacher) {
+        var user_id = "current_teacherId";
+      } else {
+        var user_id = "current_studentId";
+      }
+      this.setState({
+        is_teacher: is_teacher,
+        [user_id]: localStorage.getItem("user_id")
+      });
+    }
   }
 
   updateInfo() {
@@ -357,22 +369,15 @@ class App extends React.Component {
           });
         let user_id = "current_studentId";
         if (data.is_teacher) user_id = "current_teacherId";
-        this.setState(
-          {
-            loginMessage: "Welcome to Khsoosi!",
-            token: data.token,
-            [user_id]: data.user_id,
-            is_teacher: data.is_teacher
-          },
-          () => {
-            if (this.state.is_teacher) {
-              ///// go to the teacher profile ///////
-            } else {
-              ///// go to the student profile ///////
-            }
-            // console.log(this.state.token, ' ', this.state.is_teacher, ' ', this.state.current_teacherId);
-          }
-        );
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user_id", data.user_id);
+
+        this.setState({
+          loginMessage: "Welcome to Khsoosi!",
+          token: data.token,
+          [user_id]: data.user_id,
+          is_teacher: data.is_teacher
+        });
       })
       .catch();
   }
@@ -466,9 +471,15 @@ class App extends React.Component {
 
     console.log(this.state);
   }
-  componentWillMount() {
-    this.searchTecher();
-  }
+  // componentWillMount() {
+  //   this.searchTecher();
+  //   const is_teacher = localStorage.getItem("is_teacher");
+  //   console.log(is_teacher);
+  //   if (is_teacher !== undefined) {
+  //     const is_teacher = localStorage.getItem("is_teacher");
+  //     this.setState({ is_teacher: is_teacher });
+  //   }
+  // }
   openModal(id) {
     console.log(id);
     this.showTeacherInfo(id);
@@ -487,6 +498,7 @@ class App extends React.Component {
       modal: false
     });
   }
+
   render() {
     var { ratingText, rate, current_studentId, current_teacherId } = this.state;
     var RatingVariables = {
