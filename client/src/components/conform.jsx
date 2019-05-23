@@ -12,13 +12,13 @@ class Conform extends React.Component {
 				<table className="table table-hover table-dark">
 					<thead>
 						<tr>
-							<th>Student Name</th>
-							<th>Day</th>
-							<th>Start Hour</th>
-							<th>End Hour</th>
-							<th>Confirmed</th>
-							<th>-</th>
-							<th>-</th>
+							<th scope="col">Student Name</th>
+							<th scope="col">Day</th>
+							<th scope="col">Start Hour</th>
+							<th scope="col">End Hour</th>
+							<th scope="col">Confirmed</th>
+							<th scope="col">-</th>
+							<th scope="col">-</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -37,6 +37,7 @@ class Conform extends React.Component {
 									)}
 									<td>
 										<button
+											className="btn btn-primary"
 											name={data.id}
 											value="Yes"
 											disabled={is_disabled}
@@ -47,6 +48,7 @@ class Conform extends React.Component {
 									</td>
 									<td>
 										<button
+											className="btn btn-primary"
 											name={data.id}
 											value="No"
 											disabled={is_disabled}

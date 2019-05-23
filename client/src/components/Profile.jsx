@@ -85,12 +85,12 @@ class Profile extends React.Component {
 						addSchedule={this.props.addSchedule.bind(this)}
 						removeSchedule={this.props.removeSchedule.bind(this)}
 					/>
+					<Conform
+						conform={this.props.conform.bind(this)}
+						resultOfBook={this.props.resultOfBook}
+						answer={this.props.answer.bind(this)}
+					/>
 				</span>
-				<Conform
-					conform={this.props.conform.bind(this)}
-					resultOfBook={this.props.resultOfBook}
-					answer={this.props.answer.bind(this)}
-				/>{' '}
 				<button onClick={this.props.updateInfo.bind(this)}>Update</button>
 				<label>{this.props.updatedMsg}</label>
 			</div>

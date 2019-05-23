@@ -51,7 +51,6 @@ class Schedule extends React.Component {
 								<table className="table table-hover table-dark">
 									<thead>
 										<tr>
-											<th scope="col">#</th>
 											<th scope="col">Day</th>
 											<th scope="col">Start</th>
 											<th scope="col">End</th>
@@ -62,7 +61,6 @@ class Schedule extends React.Component {
 										{this.props.schedules.map((sch, index) => {
 											return (
 												<tr key={sch.day}>
-													<th scope="row">{index + 1}</th>
 													<td>{sch.day}</td>
 													<td>{sch.startHour}</td>
 													<td>{sch.endHour}</td>
