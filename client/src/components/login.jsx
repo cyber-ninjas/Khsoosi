@@ -3,6 +3,10 @@ import React from "react";
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      email: "",
+      password: ""
+    };
   }
   render() {
     return (
@@ -13,26 +17,27 @@ class Login extends React.Component {
           <input
             className="form-control"
             name="email"
-            value={this.props.info.email}
+            value={this.state.email}
             onChange={this.props.change.bind(this)}
             placeholder="example@gmail.com"
           />
           <label>Password</label>
           <input
             className="form-control"
-            value={this.props.info.password}
+            value={this.state.password}
             name="password"
             type="password"
             onChange={this.props.change.bind(this)}
             placeholder="*******"
           />
         </div>
-        <button
+        <input
+          type="submit"
           className="btn btn-primary"
+          value="submit"
           onClick={this.props.loging.bind(this)}
-        >
-          submit
-        </button>
+        />
+
         <label>{this.props.info.loginMessage}</label>
         <label id="error">{this.props.info.errorLogin}</label>
       </form>

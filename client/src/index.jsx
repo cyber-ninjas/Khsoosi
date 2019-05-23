@@ -13,6 +13,7 @@ import $ from "jquery";
 class App extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       userName: "",
       cvFile: "",
@@ -33,7 +34,7 @@ class App extends React.Component {
       rate: "",
       subjectName: "",
       subjectLevel: "",
-      day: "",
+      day: "Sunday",
       startHour: "",
       endHour: "",
       error: "",
@@ -48,18 +49,6 @@ class App extends React.Component {
       errorLogin: "",
       modal: false
     };
-    const is_teacher = localStorage.getItem("is_teacher");
-    if (is_teacher !== undefined) {
-      if (is_teacher) {
-        var user_id = "current_teacherId";
-      } else {
-        var user_id = "current_studentId";
-      }
-      this.setState({
-        is_teacher: is_teacher,
-        [user_id]: localStorage.getItem("user_id")
-      });
-    }
   }
 
   updateInfo() {
@@ -188,57 +177,13 @@ class App extends React.Component {
   // onchangingSignUp(e) {
   // 	this.setState({ [e.target.name]: e.target.value });
   // }
-  onSignUp(is_teacher) {
-    const { userName, password, email, phone, location } = this.state;
-    const body = { userName, is_teacher, password, email, phone, location };
-    fetch("/signup", {
-      method: "post",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(body => {
-        if (body.error)
-          this.setState({
-            error: body.error,
-            userName: "",
-            is_teacher: "",
-            password: "",
-            email: "",
-            phone: "",
-            location: ""
-          });
-        else {
-          this.setState({
-            error: "Thank you please Login Now!",
-            userName: "",
-            is_teacher: "",
-            password: "",
-            email: "",
-            phone: "",
-            location: ""
-          });
-        }
-      })
-      .catch(err => console.log("Error"));
-  }
-
-  change(e) {
-    console.log(e.target.value);
-    // e.preventDefault();
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  }
 
   addSchedule(e) {
     e.preventDefault();
     const { day, startHour, endHour } = this.state;
     const temp = this.state.schedules;
     if (startHour >= endHour) {
-      console.log(startHour, endHour);
+      // console.log(startHour, endHour);
       this.setState({
         startHour: "",
         endHour: "",
@@ -301,21 +246,18 @@ class App extends React.Component {
     })
       .then(response => (response = response.json()))
       .then(data => {
-        console.log(data);
-        this.setState(
-          {
-            userName: data.name,
-            cvFileUrl: data.cvFile,
-            imgUrl: data.img,
-            email: data.email,
-            phone: data.phone,
-            location: data.location,
-            summary: data.summary,
-            ratings: data.ratings,
-            schedules: data.schedules
-          },
-          () => console.log(this.state)
-        );
+        // console.log(data);
+        this.setState({
+          userName: data.name,
+          cvFileUrl: data.cvFile,
+          imgUrl: data.img,
+          email: data.email,
+          phone: data.phone,
+          location: data.location,
+          summary: data.summary,
+          ratings: data.ratings,
+          schedules: data.schedules
+        });
       })
       .catch(err => console.log(err));
   }
@@ -327,7 +269,7 @@ class App extends React.Component {
       name: this.state.subjectName,
       level: this.state.subjectLevel
     };
-    console.log(body.location, body.name, body.level);
+    // console.log(body.location, body.name, body.level);
     return fetch("/search", {
       method: "post",
       body: JSON.stringify({
@@ -469,19 +411,19 @@ class App extends React.Component {
       endHour: values[2]
     });
 
-    console.log(this.state);
+    // console.log(this.state);
   }
-  // componentWillMount() {
-  //   this.searchTecher();
-  //   const is_teacher = localStorage.getItem("is_teacher");
-  //   console.log(is_teacher);
-  //   if (is_teacher !== undefined) {
-  //     const is_teacher = localStorage.getItem("is_teacher");
-  //     this.setState({ is_teacher: is_teacher });
-  //   }
-  // }
+  componentWillMount() {
+    this.searchTecher();
+    // const is_teacher = localStorage.getItem("is_teacher");
+    // console.log(is_teacher);
+    // if (is_teacher !== undefined) {
+    //   const is_teacher = localStorage.getItem("is_teacher");
+    //   this.setState({ is_teacher: is_teacher });
+    // }
+  }
   openModal(id) {
-    console.log(id);
+    // console.log(id);
     this.showTeacherInfo(id);
     this.setState(
       {
@@ -542,8 +484,8 @@ class App extends React.Component {
     return (
       <div>
         <Header
-          change={this.change.bind(this)}
-          onSignUp={this.onSignUp.bind(this)}
+          // change={this.change.bind(this)}
+          // onSignUp={this.onSignUp.bind(this)}
           // is_teacher={this.state.is_teacher}
           loging={this.loging.bind(this)}
           info={this.state}
