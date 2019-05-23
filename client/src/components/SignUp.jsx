@@ -1,6 +1,4 @@
 import React from "react";
-// import Login from "./login.jsx";
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
@@ -10,9 +8,15 @@ class SignUp extends React.Component {
   }
   change1(e) {
     // e.preventDefault();
-    this.setState({
-      [e.target.name]: e.target.value
-    });
+
+    this.setState(
+      {
+        [e.target.name]: e.target.value
+      },
+      () => {
+        console.log(this.props.info);
+      }
+    );
   }
   render() {
     return (
@@ -47,19 +51,22 @@ class SignUp extends React.Component {
             className="form-control"
             type="text"
             name="userName"
+            value={this.props.info.userName}
             placeholder="your name"
             onChange={this.props.change.bind(this)}
           />
           <input
             className="form-control"
             type="text"
+            value={this.props.info.email}
             name="email"
             placeholder="example@gmaill.com"
             onChange={this.props.change.bind(this)}
           />
           <input
-            type="text"
+            type="password"
             name="password"
+            value={this.props.info.password}
             placeholder="*****"
             onChange={this.props.change.bind(this)}
             className="form-control"
@@ -67,6 +74,7 @@ class SignUp extends React.Component {
           <input
             type="text"
             name="phone"
+            value={this.props.info.phone}
             placeholder="7777788888"
             onChange={this.props.change.bind(this)}
             className="form-control"
@@ -74,6 +82,7 @@ class SignUp extends React.Component {
           <input
             type="text"
             name="location"
+            value={this.props.info.location}
             placeholder="Amman"
             onChange={this.props.change.bind(this)}
             className="form-control"
@@ -83,9 +92,13 @@ class SignUp extends React.Component {
           className="btn btn-primary"
           type="button"
           value="SignUp"
-          onClick={this.props.onSignUp.bind(this)}
+          onClick={this.props.onSignUp.bind(this, this.state.is_teacher)}
         />
-        <label id="error">{this.props.error}</label>
+        <label id="error">{this.props.info.error}</label>
+        <br />
+        <label className="form-check-label" htmlFor="login">
+          Already have an account? Login
+        </label>
       </form>
     );
   }
