@@ -56,8 +56,10 @@ class Header extends React.Component {
             <SignUp
               change={this.props.change.bind(this)}
               onSignUp={this.props.onSignUp.bind(this)}
-              is_teacher={this.props.is_teacher}
-              error={this.props.error}
+              // is_teacher={this.props.is_teacher}
+              // error={this.props.error}
+              info={this.props.info}
+              closeModal={this.closeModal.bind(this)}
             />
           </div>
         </Modal>
@@ -70,7 +72,7 @@ class Header extends React.Component {
         >
           <div>
             <Login
-              errorLogin={this.props.errorLogin}
+              info={this.props.info}
               change={this.props.change.bind(this)}
               loging={this.props.loging.bind(this)}
             />

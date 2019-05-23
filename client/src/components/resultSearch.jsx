@@ -8,7 +8,12 @@ class ResultSearch extends Component {
 				{this.props.resultOfSer.length > 0 ? (
 					this.props.resultOfSer.map(function(name, index) {
 						return (
-							<div className="card" name={name.id} key={index}>
+							<div
+								className="card"
+								name={name.id}
+								key={index}
+								onClick={that.props.openModal.bind(this, name.id)}
+							>
 								<img src={name.img} style={{ width: 100 + '%' }} />
 								<h2 className="cardtext">{name.name}</h2>
 								<h3 className="cardtext">{name.summary}</h3>

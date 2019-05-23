@@ -18,7 +18,7 @@
 	background-color: #272c34;
 	color: #e9e6df;
 	font-size: 20px;
-	font-family: 'Times New Roman', Times, serif;
+	font-family: "Times New Roman", Times, serif;
 	border: none;
 }
 
@@ -27,13 +27,13 @@ button {
 	background-color: #272c34;
 	color: #e9e6df;
 	font-size: 20px;
-	font-family: 'Times New Roman', Times, serif;
+	font-family: "Times New Roman", Times, serif;
 }
 h1,
 h2 {
 	text-align: center;
 	color: #e9e6df;
-	font-family: 'Times New Roman', Times, serif;
+	font-family: "Times New Roman", Times, serif;
 }
 .inputs {
 	margin-left: 20px;
@@ -44,11 +44,12 @@ h2 {
 	width: 100px;
 	margin: 50px;
 	font-size: 20px;
-	font-family: 'Times New Roman', Times, serif;
+	font-family: "Times New Roman", Times, serif;
 }
 #searchForm {
 	float: right;
 	margin-top: 3%;
+	border-style: solid;
 	padding: 1%;
 	margin-right: 30px;
 	margin-top: 2%;
@@ -75,11 +76,6 @@ td {
 #pickLabel {
 	display: none;
 }
-.sign {
-	padding: 20px;
-	background-color: #272c34;
-	color: #e9e6df;
-}
 
 #teacher {
 	margin-left: 80px;
@@ -104,15 +100,17 @@ body {
 }
 .card {
 	float: left;
-	border-color: #272c34;
-	border-style: double;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	max-width: 300px;
-	margin: auto;
+	min-width: 300px;
+	max-height: 400px;
+	min-height: 400px;
+	margin: 15px 15px;
 	text-align: center;
+	float: left;
+	border-color: #272c34;
+	border-style: double;
 	font-family: 'Times New Roman', Times, serif;
-	margin-bottom: 20px;
-	margin-left: 50px;
 	color: #272c34;
 }
 
@@ -129,7 +127,8 @@ a {
 .teacherInfo,
 .teacherCV,
 .teacherSchedule {
-	background-color: #e9e6df;
+	background-color: e9e6df;
+	color: 272c34;
 }
 
 a {
@@ -143,14 +142,65 @@ a {
 }
 div.ratingScroll {
 	width: 100%;
-	height: 120px;
+	height: 30%;
 	overflow: scroll;
 }
+iframe.cv {
+	color: 272c34;
+	width: 100%;
+	height: 57%;
+}
+.pickRateBtn {
+	position: absolute;
+	bottom: 100px;
+}
+div.teacherProfileView {
+	position: relative;
+	border-style: dotted;
+	height: 500px;
+}
+.center {
+	display: flex;
+	align-items: absolute;
+}
 
+progress[value] {
+	width: 300px;
+	height: 14px;
+	margin: 50px auto;
+	display: block;
+	/* Important Thing */
+	-webkit-appearance: none;
+	appearance: none;
+	border: none;
+}
+
+progress[value]::-webkit-progress-bar {
+	background-color: lightgray;
+	border-radius: 50px;
+	box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.2);
+}
+
+progress[value]::-webkit-progress-value {
+	border-radius: 50px;
+	box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.5);
+	background-image: -webkit-linear-gradient(
+			45deg,
+			transparent,
+			transparent 33%,
+			rgba(0, 0, 0, 0.1) 33%,
+			rgba(0, 0, 0, 0.1) 66%,
+			transparent 66%
+		),
+		-webkit-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.3)),
+		-webkit-linear-gradient(left, #272c34, #e9e6df);
+	/* with stripe pattern*/
+	background-size: 25px 14px, 100% 100%, 100% 100%;
+}
 footer {
 	background-color: #272c34;
 	color: #e9e6df;
-	font-family: 'Times New Roman', Times, serif;
+	font-family: "Times New Roman", Times, serif;
 	text-align: center;
 	overflow: hidden;
 	width: 100%;
