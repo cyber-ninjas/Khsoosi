@@ -13,7 +13,15 @@ class ResultSearch extends Component {
 								<h2 className="cardtext">{name.name}</h2>
 								<h3 className="cardtext">{name.summary}</h3>
 								<h3 className="cardtext">{name.reatingText}</h3>
-								<div className="cardtext">{name.rate}/10</div>
+								<span>
+									{name.rate - Math.floor(name.rate) == 0 ? (
+										'Rate:'
+									) : (
+										<i className="fa fa-star-half" />
+									)}
+
+									{Array(Math.floor(name.rate / 2)).fill(<i className="fa fa-star" />)}
+								</span>
 								<br />
 							</div>
 						);

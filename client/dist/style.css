@@ -157,6 +157,7 @@ footer {
 	bottom: 0;
 	z-index: 2;
 	padding: 3px;
+	display: inline-block;
 }
 
 #social {
