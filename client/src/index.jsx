@@ -8,6 +8,8 @@ import TeacherProfile from "./components/teacherProfile.jsx";
 import Profile from "./components/Profile.jsx";
 import Modal from "react-awesome-modal";
 import Footer from "./components/footer.jsx";
+import $ from "jquery";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,7 @@ class App extends React.Component {
       cvFileUrl: "",
       image: null,
       imgUrl: "",
-      progress: 0,
+      imageProgress: 0,
       summary: "",
       is_teacher: false,
       password: "",
@@ -138,6 +140,9 @@ class App extends React.Component {
             this.setState({ cvFileUrl, cvFile: cvFile.name });
           });
       }
+    );
+    $(".cvDiv").append(
+      '<label className="center"> Your cv was uploaded successfully </label>'
     );
   }
   handleImgUpload() {
@@ -503,7 +508,8 @@ class App extends React.Component {
       token,
       cvFile,
       image,
-      progress
+      imageProgress,
+      cvProgress
     } = this.state;
     var ProfileVariables = {
       userName,
@@ -518,7 +524,8 @@ class App extends React.Component {
       token,
       cvFile,
       image,
-      progress
+      imageProgress,
+      cvProgress
     };
     return (
       <div>

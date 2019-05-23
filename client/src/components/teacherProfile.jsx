@@ -24,17 +24,11 @@ class TeacherProfile extends React.Component {
     this.props.showTeacherInfo();
   }
   render() {
-    // .pick&rateBtn {
-    //   display: 'flex',
-    //   flexDirection: 'column',
-    //   alignItems: 'center',
-    //   justifyContent: 'center'
-    // };
     // const schedules = this.props.teacherInfo.schedules;
     var that = this;
     return (
       <div className="container-fluid">
-        <div className="row">
+        <div className="teacherProfileView row">
           <div className="teacherInfo col-sm-4">
             <legend>Teacher Info</legend>
             <img
@@ -43,7 +37,7 @@ class TeacherProfile extends React.Component {
                 "https://via.placeholder.com/100x100"
               }
               alt="uploaded images"
-              height="200"
+              height="100"
               width="100"
             />
             <br />
@@ -74,7 +68,7 @@ class TeacherProfile extends React.Component {
             <label htmlFor="">Summary: </label>{" "}
             <p>{this.props.teacherInfo.summary}</p>
             <legend>Teacher CV</legend>
-            <iframe src={this.props.teacherInfo.cvFileUrl}>
+            <iframe className="cv" src={this.props.teacherInfo.cvFileUrl}>
               <p>{"javascript:alert('No file exist');"}</p>
             </iframe>
           </div>
@@ -100,28 +94,31 @@ class TeacherProfile extends React.Component {
                 );
               })}
             </ul>
-            <button onClick={this.props.pick.bind(this)}>Pick</button>
-            <label id="pickLabel">
-              your request was send ...wait for confirm{" "}
-            </label>
-            <br />
-            <button onClick={() => this.openModal("Rate")}>Rate</button>
-            <Modal
-              visible={this.state.Rate}
-              width="400"
-              height="300"
-              effect="fadeInDown"
-              onClickAway={() => this.closeModal("Rate")}
-            >
-              <div>
-                <Rating
-                  rateMessage={this.props.rateMessage}
-                  RatingVariables={this.props.RatingVariables}
-                  change={this.props.change.bind(this)}
-                  rating={this.props.rating.bind(this)}
-                />
-              </div>
-            </Modal>
+            <span className="pickRateBtn">
+              <button onClick={this.props.pick.bind(this)}>Pick</button>
+
+              <label id="pickLabel">
+                your request was send ...wait for confirm{" "}
+              </label>
+
+              <button onClick={() => this.openModal("Rate")}>Rate</button>
+              <Modal
+                visible={this.state.Rate}
+                width="400"
+                height="300"
+                effect="fadeInDown"
+                onClickAway={() => this.closeModal("Rate")}
+              >
+                <div>
+                  <Rating
+                    rateMessage={this.props.rateMessage}
+                    RatingVariables={this.props.RatingVariables}
+                    change={this.props.change.bind(this)}
+                    rating={this.props.rating.bind(this)}
+                  />
+                </div>
+              </Modal>
+            </span>
           </div>
         </div>
       </div>
