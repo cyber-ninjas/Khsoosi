@@ -4,12 +4,10 @@ import Search from './components/search.jsx';
 import ResultSearch from './components/resultSearch.jsx';
 import Header from './components/Header.jsx';
 import { storage } from '../../server/database/firebase.js';
-import Classes from './components/classes.jsx';
-import Schedule from './components/Schedule.jsx';
 import TeacherProfile from './components/teacherProfile.jsx';
 import Profile from './components/Profile.jsx';
+import Modal from 'react-awesome-modal';
 import Footer from './components/footer.jsx';
-
 class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -27,8 +25,8 @@ class App extends React.Component {
 			phone: '',
 			location: '',
 			teacherProfiles: [],
-			current_teacherId: '4',
-			current_studentId: '4',
+			current_teacherId: '',
+			current_studentId: '',
 			ratingText: '',
 			rate: '',
 			subjectName: '',
@@ -45,8 +43,35 @@ class App extends React.Component {
 			message: '',
 			rateMessage: '',
 			loginMessage: '',
-			errorLogin: ''
+			errorLogin: '',
+			modal: false
 		};
+	}
+
+	updateInfo() {
+		const body = {
+			userName: this.state.userName,
+			cvFileUrl: this.state.cvFileUrl,
+			imgUrl: this.state.imgUrl,
+			summary: this.state.summary,
+			email: this.state.email,
+			phone: this.state.phone,
+			location: this.state.location,
+			current_teacherId: this.state.current_teacherId,
+			schedules: this.state.schedules,
+			token: this.state.token
+		};
+		fetch('/updateTeacherProfile', {
+			method: 'put',
+			body: JSON.stringify(body),
+			headers: { 'Content-Type': 'application/json' }
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((body) => {
+				// console.log(body);
+			});
 	}
 
 	updateInfo() {
@@ -134,9 +159,9 @@ class App extends React.Component {
 	// onchangingSignUp(e) {
 	// 	this.setState({ [e.target.name]: e.target.value });
 	// }
-	onSignUp() {
+	onSignUp(is_teacher) {
 		// console.log('signup');
-		const { userName, is_teacher, password, email, phone, location } = this.state;
+		const { userName, password, email, phone, location } = this.state;
 		const body = { userName, is_teacher, password, email, phone, location };
 		fetch('/signup', {
 			method: 'post',
@@ -164,13 +189,8 @@ class App extends React.Component {
 			.catch((err) => console.log('Error'));
 	}
 
-	searchInfo(e) {
-		// console.log(this.state[e.target.name]);
-		e.preventDefault();
-		this.setState({ [e.target.name]: e.target.value });
-	}
-
 	change(e) {
+		// e.preventDefault();
 		this.setState({
 			[e.target.name]: e.target.value
 		});
@@ -238,11 +258,11 @@ class App extends React.Component {
 		return fetch(`/teacherProfile/${this.state.current_teacherId}`, {
 			method: 'GET',
 			headers: {
-				// 'Content-Type': 'application/json',
+				'Content-Type': 'application/json',
 				Accept: 'application/json'
 			}
 		})
-			.then((response) => response.json())
+			.then((response) => (response = response.json()))
 			.then((data) => {
 				// console.log(data);
 				this.setState(
@@ -264,20 +284,29 @@ class App extends React.Component {
 	}
 
 	searchTecher(e) {
-		e.preventDefault();
-		return fetch(
-			`/search/?location=${this.state.location}&name=${this.state.subjectName}&level=${this.state.subjectLevel}`,
-			{
-				method: 'GET',
-				headers: {
-					Accept: 'application/json'
-				}
+		e ? e.preventDefault() : null;
+		const body = {
+			location: this.state.location,
+			name: this.state.subjectName,
+			level: this.state.subjectLevel
+		};
+		console.log(body.location, body.name, body.level);
+		return fetch('/search', {
+			method: 'post',
+			body: JSON.stringify({
+				location: this.state.location,
+				name: this.state.subjectName,
+				level: this.state.subjectLevel
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
 			}
-		)
-			.then((response) => (response = response.json()))
+		})
+			.then((response) => response.json())
 			.then((data) => {
-				this.setState({ teacherProfiles: data.data });
-				// console.log(this.state.teacherProfiles);
+				// console.log(data);
+				this.setState({ teacherProfiles: data });
 			})
 			.catch((err) => console.log(err));
 	}
@@ -404,8 +433,17 @@ class App extends React.Component {
 			startHour: values[1],
 			endHour: values[2]
 		});
-	}
 
+		console.log(this.state);
+	}
+	componentWillMount() {
+		this.searchTecher();
+	}
+	openModal(e) {
+		this.setState({
+			[e]: true
+		});
+	}
 	render() {
 		var tech = this.state.teacherProfiles;
 		var { ratingText, rate, current_studentId, current_teacherId } = this.state;
@@ -457,44 +495,65 @@ class App extends React.Component {
 					errorLogin={this.state.errorLogin}
 				/>
 				<div className="container">
-					<Search searchTecher={this.searchTecher.bind(this)} searchInfo={this.searchInfo.bind(this)} />
-					<ResultSearch resultOfSer={tech} />
-				</div>
-				{/* <Classes
+					{!this.state.is_teacher ? (
+						<div>
+							<Search searchTecher={this.searchTecher.bind(this)} change={this.change.bind(this)} />
+							<ResultSearch resultOfSer={tech} />
+							<Modal
+								visible={this.state.SignUp}
+								width="400"
+								height="300"
+								effect="fadeInDown"
+								onClickAway={() => this.closeModal('modal')}
+							>
+								<TeacherProfile
+									rateMessage={this.state.rateMessage}
+									RatingVariables={RatingVariables}
+									teacherInfo={this.state}
+									showTeacherInfo={this.showTeacherInfo.bind(this)}
+									change={this.change.bind(this)}
+									rating={this.rating.bind(this)}
+									pick={this.pick.bind(this)}
+									radioChange={this.radioChange.bind(this)}
+								/>
+							</Modal>
+						</div>
+					) : (
+						<Profile
+							message={this.state.message}
+							ProfileVariables={ProfileVariables}
+							startHour={this.state.startHour}
+							endHour={this.state.endHour}
+							change={this.change.bind(this)}
+							handleImgChange={(e) => this.handleImgChange(e)}
+							handleImgUpload={() => this.handleImgUpload()}
+							handleFileChange={(e) => this.handleFileChange(e)}
+							handleFileUpload={() => this.handleFileUpload()}
+							addSchedule={this.addSchedule.bind(this)}
+							removeSchedule={this.removeSchedule.bind(this)}
+							updateInfo={this.updateInfo.bind(this)}
+							conform={this.conform.bind(this)}
+							resultOfBook={this.state.bookes}
+							answer={this.answer.bind(this)}
+							updatedMsg={this.state.updatedMsg}
+						/>
+					)}
+
+					{/* <Classes
           searchClasses={this.searchClasses.bind(this)}
           result={this.state.classes}
         /> */}
-				<TeacherProfile
-					rateMessage={this.state.rateMessage}
-					RatingVariables={RatingVariables}
-					teacherInfo={this.state}
-					showTeacherInfo={this.showTeacherInfo.bind(this)}
-					change={this.change.bind(this)}
-					rating={this.rating.bind(this)}
-					pick={this.pick.bind(this)}
-					radioChange={this.radioChange.bind(this)}
-				/>
-				<Profile
-					message={this.state.message}
-					ProfileVariables={ProfileVariables}
-					startHour={this.state.startHour}
-					endHour={this.state.endHour}
-					change={this.change.bind(this)}
-					handleImgChange={(e) => this.handleImgChange(e)}
-					handleImgUpload={() => this.handleImgUpload()}
-					handleFileChange={(e) => this.handleFileChange(e)}
-					handleFileUpload={() => this.handleFileUpload()}
-					addSchedule={this.addSchedule.bind(this)}
-					removeSchedule={this.removeSchedule.bind(this)}
-					updateInfo={this.updateInfo.bind(this)}
-					conform={this.conform.bind(this)}
-					resultOfBook={this.state.bookes}
-					answer={this.answer.bind(this)}
-					updatedMsg={this.state.updatedMsg}
-				/>
+				</div>
 				<Footer />
 			</div>
 		);
 	}
 }
 ReactDOM.render(<App />, document.getElementById('app'));
+
+{
+	/* <Classes
+          searchClasses={this.searchClasses.bind(this)}
+          result={this.state.classes}
+        /> */
+}
