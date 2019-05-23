@@ -2,21 +2,8 @@ const { db } = require("./database/db");
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const SECRET_KEY = "any string";
-const {
-  User,
-  Schedule,
-  Role,
-  Permission,
-  Subject,
-  Rating,
-  PermissionRole,
-  UserRole,
-  TeacherSubject,
-  Confirm
-} = require("./database/model");
+const { User, Schedule, Rating, Confirm } = require("./database/model");
 var jwt = require("jsonwebtoken");
-
-const Op = Sequelize.Op;
 
 //Adding new rating
 exports.rating = (req, res) => {
@@ -76,94 +63,67 @@ exports.updateTeacherProfile = (req, res) => {
 };
 
 exports.showTeacherInfo = (req, res) => {
-  const id = req.query.id;
-  let obj = { id };
-  if (!id) {
-    obj = {};
-  }
-  console.log(obj, "ddddddddd");
-  User.findOne({
-    attributes: [
-      "name",
-      "phone",
-      "location",
-      "img",
-      "cvFile",
-      "email",
-      "summary"
-    ],
-    where: obj,
-    include: [
-      {
-        model: Schedule,
-        attributes: ["day", "startHour", "endHour"]
-      },
-      {
-        model: Rating,
-        attributes: ["rate", "text"]
-      }
-    ]
-  })
-    .then(data => {
-      res.status(200);
-      res.send(data);
-    })
-    .catch(function(error) {
-      res.status(404);
-      res.json({ error: error, stackError: error.stack });
-    });
+  const id = req.params.number;
+  return id === 0
+    ? res.status(200).send({ ok: "" })
+    : User.findOne({
+        attributes: [
+          "name",
+          "phone",
+          "location",
+          "img",
+          "cvFile",
+          "email",
+          "summary"
+        ],
+        where: { id: id },
+        include: [
+          {
+            model: Schedule,
+            attributes: ["day", "startHour", "endHour"]
+          },
+          {
+            model: Rating,
+            attributes: ["rate", "text"]
+          }
+        ]
+      })
+        .then(data => {
+          res.status(200);
+          res.send(data);
+        })
+        .catch(error => {
+          res.status(404);
+          res.json({ error: "Server Error" });
+        });
 };
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage
 
 exports.search = (req, res) => {
-  const query = req.query;
-  Subject.findAll({
-    where: {
-      name: `${query.name}` || { [Op.notLike]: "%=%" },
-      level: `${query.level}` || { [Op.notLike]: "%=%" }
-    },
-    include: [
-      {
-        model: User,
-        where: {
-          location: `${query.location}` || { [Op.notLike]: "%=%" }
-        },
-        include: [
-          {
-            model: Rating
-          }
-        ]
-      }
-    ]
-  }).then(result => {
-    // if(result.length < 1)return res.send({err:'please fill the field'})
+  let { level, location, name } = req.body;
+  location = location || "";
+  name = name || "";
+  level = level || "";
 
-    // res.send(result);
-    // res.end()
-    let info = [];
-    var obj1 = {};
-    //
-    // res.send(result[0])
-    for (let i = 0; i < result.length; i++) {
-      let obj = {};
-      obj.id = result[i].users[0].id;
-      obj.name = result[i].users[0].name;
-      obj.phone = result[i].users[0].phone;
-      obj.location = result[i].users[0].location;
-      obj.img = result[i].users[0].img;
-      obj.cvFile = result[i].users[0].cvFile;
-      obj.summary = result[i].users[0].summary;
-      obj.reatingText = result[i].users[0].ratings[0].text;
-      obj.rate = result[i].users[0].ratings[0].rate;
-      obj.subject = result[0].name;
-      obj.level = result[0].level;
-      // console.log(obj);
-      // obj.subject = obj1.subject;
-      // obj.level = obj1.level;
-      info.push(obj);
-    }
-    res.send({ data: info });
+  db.query(
+    `select
+users.id,
+users.name,
+users.img,
+users.summary,
+users.location,
+ROUND(AVG(ratings.rate)) as rate,
+subjects.level,
+subjects.name AS subjectname
+from users
+join ratings on users.id= ratings.teacherId
+join TeacherSubjects on users.id= TeacherSubjects.userId
+join subjects on subjects.id= TeacherSubjects.subjectId
+where users.location like '%${location}%' and subjects.name like '%${name}%' and subjects.level like '%${level}%' GROUP BY users.id`
+  ).then(([result, metadata]) => {
+    console.log(result);
+    res.send(result);
   });
 };
 ////this function give the teacher a schedule of the classes he/she have
@@ -197,7 +157,7 @@ exports.seeSchedule = (req, res) => {
 
 exports.login = (req, res) => {
   const query = req.body;
-
+  console.log(query);
   User.findOne({
     where: {
       email: query.email

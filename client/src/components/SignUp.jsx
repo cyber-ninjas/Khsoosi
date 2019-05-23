@@ -26,7 +26,7 @@ class SignUp extends React.Component {
               name="is_teacher"
               id="student"
               value="false"
-              onChange={this.props.change1.bind(this)}
+              onChange={this.change1.bind(this)}
             />
             <label className="form-check-label" htmlFor="student">
               student
@@ -37,7 +37,7 @@ class SignUp extends React.Component {
               name="is_teacher"
               id="teacher"
               value="true"
-              onChange={this.props.change1.bind(this)}
+              onChange={this.change1.bind(this)}
             />
             <label id="Tlabel" className="form-check-label" htmlFor="taecher">
               teacher

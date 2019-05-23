@@ -25,8 +25,8 @@ class App extends React.Component {
       phone: "",
       location: "",
       teacherProfiles: [],
-      current_teacherId: "4",
-      current_studentId: "4",
+      current_teacherId: "",
+      current_studentId: "",
       ratingText: "",
       rate: "",
       subjectName: "",
@@ -266,14 +266,14 @@ class App extends React.Component {
   }
 
   showTeacherInfo() {
-    return fetch(`/teacherProfile/?id=${this.state.current_teacherId}`, {
+    return fetch(`/teacherProfile/${this.state.current_teacherId}`, {
       method: "GET",
       headers: {
-        // 'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Accept: "application/json"
       }
     })
-      .then(response => response.json())
+      .then(response => (response = response.json()))
       .then(data => {
         // console.log(data);
         this.setState(
@@ -295,22 +295,29 @@ class App extends React.Component {
   }
 
   searchTecher(e) {
-    // e.preventDefault();
-    return fetch(
-      `/search/?location=${this.state.location}&name=${
-        this.state.subjectName
-      }&level=${this.state.subjectLevel}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json"
-        }
+    e ? e.preventDefault() : null;
+    const body = {
+      location: this.state.location,
+      name: this.state.subjectName,
+      level: this.state.subjectLevel
+    };
+    console.log(body.location, body.name, body.level);
+    return fetch("/search", {
+      method: "post",
+      body: JSON.stringify({
+        location: this.state.location,
+        name: this.state.subjectName,
+        level: this.state.subjectLevel
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
       }
-    )
-      .then(response => (response = response.json()))
+    })
+      .then(response => response.json())
       .then(data => {
-        this.setState({ teacherProfiles: data.data });
-        // console.log(this.state.teacherProfiles);
+        // console.log(data);
+        this.setState({ teacherProfiles: data });
       })
       .catch(err => console.log(err));
   }
@@ -504,11 +511,6 @@ class App extends React.Component {
           errorLogin={this.state.errorLogin}
         />
         <div className="container">
-          <Search
-            searchTecher={this.searchTecher.bind(this)}
-            searchInfo={this.searchInfo.bind(this)}
-          />
-          <ResultSearch resultOfSer={tech} />
           {!this.state.is_teacher ? (
             <div>
               <Search
@@ -560,34 +562,6 @@ class App extends React.Component {
           searchClasses={this.searchClasses.bind(this)}
           result={this.state.classes}
         /> */}
-          <TeacherProfile
-            rateMessage={this.state.rateMessage}
-            RatingVariables={RatingVariables}
-            teacherInfo={this.state}
-            showTeacherInfo={this.showTeacherInfo.bind(this)}
-            change={this.change.bind(this)}
-            rating={this.rating.bind(this)}
-            pick={this.pick.bind(this)}
-            radioChange={this.radioChange.bind(this)}
-          />
-          <Profile
-            message={this.state.message}
-            ProfileVariables={ProfileVariables}
-            startHour={this.state.startHour}
-            endHour={this.state.endHour}
-            change={this.change.bind(this)}
-            handleImgChange={e => this.handleImgChange(e)}
-            handleImgUpload={() => this.handleImgUpload()}
-            handleFileChange={e => this.handleFileChange(e)}
-            handleFileUpload={() => this.handleFileUpload()}
-            addSchedule={this.addSchedule.bind(this)}
-            removeSchedule={this.removeSchedule.bind(this)}
-            updateInfo={this.updateInfo.bind(this)}
-            conform={this.conform.bind(this)}
-            resultOfBook={this.state.bookes}
-            answer={this.answer.bind(this)}
-            updatedMsg={this.state.updatedMsg}
-          />
         </div>
       </div>
     );
