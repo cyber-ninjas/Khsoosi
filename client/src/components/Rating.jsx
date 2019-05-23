@@ -10,7 +10,7 @@ class Rating extends React.Component {
 		return (
 			<form className="sign">
 				<div className="form-group">
-					<h2>Give us your feedback :</h2>
+					<h2>Give the teacher your feedback :</h2>
 					<input
 						className="form-control"
 						type="text"

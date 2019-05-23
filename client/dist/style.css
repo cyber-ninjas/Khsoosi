@@ -21,6 +21,11 @@
 	font-family: "Times New Roman", Times, serif;
 	border: none;
 }
+.sign {
+	padding: 20px;
+	background-color: #272c34;
+	color: #e9e6df;
+}
 
 button {
 	border-radius: 5px;
@@ -48,10 +53,8 @@ h2 {
 }
 #searchForm {
 	float: right;
-	margin-top: 3%;
-	border-style: solid;
 	padding: 1%;
-	margin-right: 30px;
+	margin-right: 70px;
 	margin-top: 2%;
 }
 
@@ -148,7 +151,8 @@ div.ratingScroll {
 iframe.cv {
 	color: 272c34;
 	width: 100%;
-	height: 57%;
+	height: 70%;
+	background-color: #e9e6df;
 }
 .pickRateBtn {
 	position: absolute;
@@ -156,7 +160,7 @@ iframe.cv {
 }
 div.teacherProfileView {
 	position: relative;
-	border-style: dotted;
+	/* border-style: dotted; */
 	height: 500px;
 }
 .center {
@@ -221,4 +225,15 @@ footer {
 
 .cardtext {
 	color: #272c34;
+}
+
+#title {
+	text-align: left;
+	padding: 5px;
+	display: inline;
+}
+
+.container-fluid {
+	background-color: #272c34;
+	color: #e9e6df;
 }
