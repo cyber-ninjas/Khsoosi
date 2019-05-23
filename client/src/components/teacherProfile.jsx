@@ -28,7 +28,7 @@ class TeacherProfile extends React.Component {
 		var that = this;
 		return (
 			<div className="container-fluid">
-				<div className="row">
+				<div className="teacherProfileView row">
 					<div className="teacherInfo col-sm-4">
 						<legend>Teacher Info</legend>
 						<img
@@ -89,31 +89,29 @@ class TeacherProfile extends React.Component {
 								);
 							})}
 						</ul>
-						<button className="pickRateBtn" onClick={this.props.pick.bind(this)}>
-							Pick
-						</button>
+						<span className="pickRateBtn">
+							<button onClick={this.props.pick.bind(this)}>Pick</button>
 
-						<label id="pickLabel">your request was send ...wait for confirm </label>
+							<label id="pickLabel">your request was send ...wait for confirm </label>
 
-						<button className="pickRateBtn" onClick={() => this.openModal('Rate')}>
-							Rate
-						</button>
-						<Modal
-							visible={this.state.Rate}
-							width="400"
-							height="300"
-							effect="fadeInDown"
-							onClickAway={() => this.closeModal('Rate')}
-						>
-							<div>
-								<Rating
-									rateMessage={this.props.rateMessage}
-									RatingVariables={this.props.RatingVariables}
-									change={this.props.change.bind(this)}
-									rating={this.props.rating.bind(this)}
-								/>
-							</div>
-						</Modal>
+							<button onClick={() => this.openModal('Rate')}>Rate</button>
+							<Modal
+								visible={this.state.Rate}
+								width="400"
+								height="300"
+								effect="fadeInDown"
+								onClickAway={() => this.closeModal('Rate')}
+							>
+								<div>
+									<Rating
+										rateMessage={this.props.rateMessage}
+										RatingVariables={this.props.RatingVariables}
+										change={this.props.change.bind(this)}
+										rating={this.props.rating.bind(this)}
+									/>
+								</div>
+							</Modal>
+						</span>
 					</div>
 				</div>
 			</div>
