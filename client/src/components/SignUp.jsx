@@ -74,7 +74,7 @@ class SignUp extends React.Component {
               name="is_teacher"
               id="student"
               value="false"
-              onChange={this.change1.bind(this)}
+              onChange={this.change.bind(this)}
             />
             <label className="form-check-label" htmlFor="student">
               student
@@ -85,7 +85,7 @@ class SignUp extends React.Component {
               name="is_teacher"
               id="teacher"
               value="true"
-              onChange={this.change1.bind(this)}
+              onChange={this.change.bind(this)}
             />
             <label id="Tlabel" className="form-check-label" htmlFor="taecher">
               teacher
@@ -138,7 +138,7 @@ class SignUp extends React.Component {
           value="SignUp"
           onClick={this.onSignUp.bind(this)}
         />
-        <label id="error">{this.info.error}</label>
+        <label id="error">{this.state.error}</label>
         <br />
         <label className="form-check-label" htmlFor="login">
           Already have an account? Login

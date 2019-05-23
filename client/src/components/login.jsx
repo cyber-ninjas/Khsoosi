@@ -4,9 +4,64 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      is_teacher: false,
+      password: "",
       email: "",
-      password: ""
+      current_teacherId: "",
+      current_studentId: "",
+      loginMessage: "",
+      errorLogin: ""
     };
+  }
+
+  loging(e) {
+    e.preventDefault();
+    return fetch(`/login`, {
+      method: "post",
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error)
+          return this.setState({
+            loginMessage: "",
+            password: "",
+            email: "",
+            errorLogin: data.error
+          });
+        let user_id = "current_studentId";
+        if (data.is_teacher) user_id = "current_teacherId";
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user_id", data.user_id);
+
+        this.setState({
+          errorLogin: "",
+          password: "",
+          email: "",
+          loginMessage: "Welcome to Khsoosi!",
+          [user_id]: data.user_id,
+          is_teacher: data.is_teacher
+        });
+        let obj = {
+          is_teacher: this.state.is_teacher,
+          current_teacherId: this.state.current_teacherId,
+          current_studentId: this.state.current_studentId
+        };
+        this.props.onLogin(obj);
+      })
+      .catch();
+  }
+  change(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   }
   render() {
     return (
@@ -18,7 +73,7 @@ class Login extends React.Component {
             className="form-control"
             name="email"
             value={this.state.email}
-            onChange={this.props.change.bind(this)}
+            onChange={this.change.bind(this)}
             placeholder="example@gmail.com"
           />
           <label>Password</label>
@@ -27,7 +82,7 @@ class Login extends React.Component {
             value={this.state.password}
             name="password"
             type="password"
-            onChange={this.props.change.bind(this)}
+            onChange={this.change.bind(this)}
             placeholder="*******"
           />
         </div>
@@ -35,11 +90,11 @@ class Login extends React.Component {
           type="submit"
           className="btn btn-primary"
           value="submit"
-          onClick={this.props.loging.bind(this)}
+          onClick={this.loging.bind(this)}
         />
 
-        <label>{this.props.info.loginMessage}</label>
-        <label id="error">{this.props.info.errorLogin}</label>
+        <label>{this.state.loginMessage}</label>
+        <label id="error">{this.state.errorLogin}</label>
       </form>
     );
   }

@@ -2,11 +2,57 @@ import React from "react";
 import ImageUpload from "./imageUpload.jsx";
 import CVUpload from "./cvUpload.jsx";
 import Schedule from "./Schedule.jsx";
-import Conform from "./conform.jsx";
+import Confirm from "./confirm.jsx";
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      userName: "",
+      cvFile: "",
+      cvFileUrl: "",
+      image: null,
+      imgUrl: "",
+      imageProgress: 0,
+      summary: "",
+      email: "",
+      phone: "",
+      location: "",
+      current_teacherId: "",
+      subjectName: "",
+      subjectLevel: "",
+      day: "Sunday",
+      startHour: "",
+      endHour: "",
+      schedules: [],
+      bookes: []
+    };
+  }
+
+  updateInfo() {
+    const body = {
+      userName: this.state.userName,
+      cvFileUrl: this.state.cvFileUrl,
+      imgUrl: this.state.imgUrl,
+      summary: this.state.summary,
+      email: this.state.email,
+      phone: this.state.phone,
+      location: this.state.location,
+      current_teacherId: this.state.current_teacherId,
+      schedules: this.state.schedules,
+      token: this.state.token
+    };
+    fetch("/updateTeacherProfile", {
+      method: "put",
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(body => {
+        // console.log(body);
+      });
   }
 
   render() {
@@ -85,11 +131,7 @@ class Profile extends React.Component {
             addSchedule={this.props.addSchedule.bind(this)}
             removeSchedule={this.props.removeSchedule.bind(this)}
           />
-          <Conform
-            conform={this.props.conform.bind(this)}
-            resultOfBook={this.props.resultOfBook}
-            answer={this.props.answer.bind(this)}
-          />
+          <Confirm current_teacherId={this.props.current_teacherId} />
         </span>
         <button onClick={this.props.updateInfo.bind(this)}>Update</button>
         <label>{this.props.updatedMsg}</label>

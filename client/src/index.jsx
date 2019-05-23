@@ -51,58 +51,6 @@ class App extends React.Component {
     };
   }
 
-  updateInfo() {
-    const body = {
-      userName: this.state.userName,
-      cvFileUrl: this.state.cvFileUrl,
-      imgUrl: this.state.imgUrl,
-      summary: this.state.summary,
-      email: this.state.email,
-      phone: this.state.phone,
-      location: this.state.location,
-      current_teacherId: this.state.current_teacherId,
-      schedules: this.state.schedules,
-      token: this.state.token
-    };
-    fetch("/updateTeacherProfile", {
-      method: "put",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(body => {
-        // console.log(body);
-      });
-  }
-
-  updateInfo() {
-    const body = {
-      userName: this.state.userName,
-      cvFileUrl: this.state.cvFileUrl,
-      imgUrl: this.state.imgUrl,
-      summary: this.state.summary,
-      email: this.state.email,
-      phone: this.state.phone,
-      location: this.state.location,
-      current_teacherId: this.state.current_teacherId,
-      schedules: this.state.schedules,
-      token: this.state.token
-    };
-    fetch("/updateTeacherProfile", {
-      method: "put",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(body => {
-        // console.log(body);
-      });
-  }
-
   handleImgChange(e) {
     if (e.target.files[0]) {
       const image = e.target.files[0];
@@ -290,40 +238,6 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
-  loging(e) {
-    e.preventDefault();
-    return fetch(`/login`, {
-      method: "post",
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.error)
-          return this.setState({
-            errorLogin: data.error
-          });
-        let user_id = "current_studentId";
-        if (data.is_teacher) user_id = "current_teacherId";
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user_id", data.user_id);
-
-        this.setState({
-          loginMessage: "Welcome to Khsoosi!",
-          token: data.token,
-          [user_id]: data.user_id,
-          is_teacher: data.is_teacher
-        });
-      })
-      .catch();
-  }
-
   searchClasses(e) {
     e.preventDefault();
     return fetch(`/classes?id=${1}`, {
@@ -360,46 +274,6 @@ class App extends React.Component {
         }
       }
     ).then(result => console.log(result));
-  }
-
-  conform(e) {
-    // e.preventDefault();
-    return fetch(`/conform?teacherId=${this.state.current_teacherId}`, {
-      method: "GET",
-      header: {
-        Accept: "application/json"
-      }
-    })
-      .then(result => (result = result.json()))
-      .then(result => {
-        this.setState({ bookes: result });
-        // console.log(this.state.bookes);
-      })
-      .catch(err => {
-        console.log({ err: "error" }, err);
-      });
-  }
-
-  answer(e) {
-    e.preventDefault();
-    // console.log(e.target.name, e.target.value);
-    fetch(
-      `/conformAnswer?id=${e.target.name}&confirmed=${
-        e.target.value
-      }&teacherId=${this.state.current_teacherId}`,
-      {
-        method: "GET",
-        header: {
-          Accept: "application/json"
-        }
-      }
-    )
-      .then(result => (result = result.json()))
-      .then(result => {
-        // console.log(this.state.bookes);
-        this.setState({ bookes: result });
-        // console.log(this.state.bookes);
-      });
   }
 
   radioChange(e) {
@@ -440,7 +314,19 @@ class App extends React.Component {
       modal: false
     });
   }
-
+  change(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+  onLogin(obj) {
+    this.setState({
+      current_studentId: obj.current_studentId,
+      current_teacherId: obj.current_teacherId,
+      is_teacher: obj.is_teacher
+    });
+  }
+  updateInfo() {}
   render() {
     var { ratingText, rate, current_studentId, current_teacherId } = this.state;
     var RatingVariables = {
@@ -483,16 +369,7 @@ class App extends React.Component {
     };
     return (
       <div>
-        <Header
-          // change={this.change.bind(this)}
-          // onSignUp={this.onSignUp.bind(this)}
-          // is_teacher={this.state.is_teacher}
-          loging={this.loging.bind(this)}
-          info={this.state}
-          // error={this.state.error}
-          // loginMessage={this.state.loginMessage}
-          // errorLogin={this.state.errorLogin}
-        />
+        <Header onLogin={this.onLogin.bind(this)} />
         <div className="container">
           {!this.state.is_teacher ? (
             <div>
@@ -526,6 +403,7 @@ class App extends React.Component {
             </div>
           ) : (
             <Profile
+              current_teacherId={this.state.current_teacherId}
               message={this.state.message}
               ProfileVariables={ProfileVariables}
               startHour={this.state.startHour}
@@ -538,9 +416,6 @@ class App extends React.Component {
               addSchedule={this.addSchedule.bind(this)}
               removeSchedule={this.removeSchedule.bind(this)}
               updateInfo={this.updateInfo.bind(this)}
-              conform={this.conform.bind(this)}
-              resultOfBook={this.state.bookes}
-              answer={this.answer.bind(this)}
               updatedMsg={this.state.updatedMsg}
             />
           )}
