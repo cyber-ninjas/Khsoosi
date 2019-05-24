@@ -38,7 +38,7 @@ class App extends React.Component {
       // startHour: "",
       // endHour: "",
       // error: "",
-      // schedules: [],
+      schedules: [],
       // bookes: [],
       classes: [],
       token: "",
@@ -51,41 +51,6 @@ class App extends React.Component {
     };
   }
 
-  handleImgChange(e) {
-    if (e.target.files[0]) {
-      const image = e.target.files[0];
-      this.setState(() => ({ image }));
-    }
-  }
-
-  handleImgUpload() {
-    const { image } = this.state;
-    const uploadTask = storage.ref(`images/${image.name}`).put(image);
-    uploadTask.on(
-      "state_changed",
-      snapshot => {
-        //progress function ....
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        this.setState({ progress });
-      },
-      error => {
-        // error function ....
-        console.log(error);
-      },
-      () => {
-        // complete function ....
-        storage
-          .ref("images")
-          .child(image.name)
-          .getDownloadURL()
-          .then(imgUrl => {
-            this.setState({ imgUrl });
-          });
-      }
-    );
-  }
   // onchangingSignUp(e) {
   // 	this.setState({ [e.target.name]: e.target.value });
   // }

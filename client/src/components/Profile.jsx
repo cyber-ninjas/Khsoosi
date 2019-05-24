@@ -11,9 +11,10 @@ class Profile extends React.Component {
       userName: "",
       // cvFile: "",
       cvFileUrl: "",
-      // image: null,
-      imgUrl: "",
-      imageProgress: 0,
+      image: null,
+      imgUrl:
+        "https://firebasestorage.googleapis.com/v0/b/khsoosi-upload-file-img.appspot.com/o/images%2Fcbde4e59089dcada08218b49a815175d.svg?alt=media&token=0804202d-9e8f-4a41-9be6-836a37a5475e",
+      // imageProgress: 0,
       summary: "",
       email: "",
       phone: "",
@@ -54,9 +55,13 @@ class Profile extends React.Component {
         // console.log(body);
       });
   }
-  changeCV(vale) {
-    this.setState({ [vlaue]: vlaue });
+  changeCV(cvFileUrl) {
+    this.setState({ cvFileUrl: cvFileUrl });
   }
+  changeImg(imgUrl) {
+    this.setState({ imgUrl: imgUrl }, () => console.log(this.state));
+  }
+
   changeSchedules(schedules) {
     this.setState({ schedules: schedules });
   }
@@ -116,13 +121,7 @@ class Profile extends React.Component {
             name="summary"
           />
           <label>Upload your image:</label>
-          <ImageUpload
-            imgUrl={this.state.imgUrl}
-            image={this.state.image}
-            imageProgress={this.state.imageProgress}
-            handleImgChange={e => this.handleImgChange(e)}
-            handleImgUpload={() => this.handleImgUpload()}
-          />
+          <ImageUpload changeImg={this.changeImg.bind(this)} />
           <label>Upload your CV:</label>
           <CVUpload changeCV={this.changeCV.bind(this)} />
           <Schedule

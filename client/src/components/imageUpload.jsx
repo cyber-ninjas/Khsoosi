@@ -1,4 +1,5 @@
 import React from "react";
+import { storage } from "../../../server/database/firebase.js";
 
 class ImageUpload extends React.Component {
   constructor(props) {
@@ -6,7 +7,7 @@ class ImageUpload extends React.Component {
     this.state = {
       image: null,
       imgUrl: "",
-      imageProgress: 0
+      progress: 0
     };
   }
 
@@ -14,6 +15,7 @@ class ImageUpload extends React.Component {
     if (e.target.files[0]) {
       const image = e.target.files[0];
       this.setState(() => ({ image }));
+      // this.setState({ image });
     }
   }
 
@@ -40,7 +42,9 @@ class ImageUpload extends React.Component {
           .child(image.name)
           .getDownloadURL()
           .then(imgUrl => {
-            this.setState({ imgUrl });
+            this.setState({ imgUrl }, () =>
+              this.props.changeImg(this.state.imgUrl)
+            );
           });
       }
     );
@@ -61,7 +65,7 @@ class ImageUpload extends React.Component {
             <button
               type="button"
               id="inputGroupFileAddon01"
-              onClick={this.props.handleImgUpload.bind(this)}
+              onClick={this.handleImgUpload.bind(this)}
             >
               Upload
             </button>
@@ -74,7 +78,7 @@ class ImageUpload extends React.Component {
               type="file"
               accept="image/*"
               data-max-size="5000"
-              onChange={this.props.handleImgChange.bind(this)}
+              onChange={this.handleImgChange.bind(this)}
             />
             <label
               className="custom-file-label"
@@ -89,7 +93,7 @@ class ImageUpload extends React.Component {
           <div className="col-sm-4">
             <img
               src={
-                this.props.imgUrl ||
+                this.state.imgUrl ||
                 "https://firebasestorage.googleapis.com/v0/b/khsoosi-upload-file-img.appspot.com/o/images%2Fcbde4e59089dcada08218b49a815175d.svg?alt=media&token=0804202d-9e8f-4a41-9be6-836a37a5475e"
               }
               alt="uploaded images"
@@ -98,7 +102,7 @@ class ImageUpload extends React.Component {
             />
           </div>
           <div className="col-sm-4">
-            <progress value={this.props.imageProgress} max="100" />
+            <progress value={this.state.progress} max="100" />
           </div>
           <div className="col-sm-4" />
         </div>
