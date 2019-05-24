@@ -1,5 +1,5 @@
 import React from "react";
-
+import _ from "underscore";
 class Schedule extends React.Component {
   constructor(props) {
     super(props);
@@ -16,12 +16,16 @@ class Schedule extends React.Component {
     e.preventDefault();
     const { day, startHour, endHour } = this.state;
     const temp = this.props.schedules;
-    if (startHour >= endHour) {
+
+    if (
+      startHour >= endHour ||
+      _.pluck(this.props.schedules, "day").includes(day)
+    ) {
       // console.log(startHour, endHour);
       this.setState({
         startHour: "",
         endHour: "",
-        message: "start with correct Hour"
+        message: "Check your Time!"
       });
     } else {
       this.setState(

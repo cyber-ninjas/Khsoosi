@@ -233,31 +233,31 @@ exports.signup = (req, res) => {
 };
 
 exports.pick = (req, res) => {
-  // const query = req.query;
-  Confirm.findOne({
-    where: {
-      day: req.body.day,
-      start: req.body.startHour,
-      end: req.body.endHour,
-      studentId: req.body.studentId,
-      teacherId: req.body.teacherId
-    }
-  }).then(data => {
-    // res.send(data)
-    if (data) return res.status(401).send({ error: "You alredy pick up!" });
-    Confirm.create({
-      day: req.body.day,
-      start: req.body.startHour,
-      end: req.body.endHour,
-      studentId: req.body.studentId,
-      teacherId: req.body.teacherId,
-      confirmed: "Not yet"
-    })
-      .then(created => {
-        return res.send({ created: "we send your request wait " });
-      })
-      .catch(err => res.send({ error: "server error" }));
-  });
+  console.log("ddddddd\n\n\n\n\n\n", req.body, "\n\n\n\n ddddddd");
+  // Confirm.findOne({
+  //   where: {
+  //     day: req.body.day,
+  //     start: req.body.startHour,
+  //     end: req.body.endHour,
+  //     studentId: req.body.studentId,
+  //     teacherId: req.body.teacherId
+  //   }
+  // }).then(data => {
+  //   // res.send(data)
+  //   if (data) return res.status(401).send({ error: "You alredy pick up!" });
+  //   Confirm.create({
+  //     day: req.body.day,
+  //     start: req.body.startHour,
+  //     end: req.body.endHour,
+  //     studentId: req.body.studentId,
+  //     teacherId: req.body.teacherId,
+  //     confirmed: "Not yet"
+  //   })
+  //     .then(created => {
+  return res.send({ created: "we recive your request wait " });
+  // })
+  // .catch(err => res.send({ error: "server error" }));
+  // });
 };
 
 exports.conform = (req, res) => {

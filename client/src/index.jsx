@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import Search from "./components/search.jsx";
 import ResultSearch from "./components/resultSearch.jsx";
 import Header from "./components/Header.jsx";
-import { storage } from "../../server/database/firebase.js";
+// import { storage } from "../../server/database/firebase.js";
 import TeacherProfile from "./components/teacherProfile.jsx";
 import Profile from "./components/Profile.jsx";
 import Modal from "react-awesome-modal";
 import Footer from "./components/footer.jsx";
-import $ from "jquery";
+// import $ from "jquery";
 
 class App extends React.Component {
   constructor(props) {
@@ -126,38 +126,6 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
-  pick(e) {
-    e.preventDefault();
-    const { data, studentId, teacherId, day, startHour, endHour } = this.state;
-    const info = { data, studentId, teacherId, day, startHour, endHour };
-    return fetch(
-      `/profileUpdata?studentId=${this.state.current_studentId}&teacherId=${
-        this.state.current_teacherId
-      }&day=${this.state.day}&start=${this.state.startHour}&end=${
-        this.state.endHour
-      }`,
-      {
-        method: "POST",
-        data: JSON.stringify(info),
-        header: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        }
-      }
-    ).then(result => console.log(result));
-  }
-
-  radioChange(e) {
-    let values = e.target.value;
-    values = values.split(" ");
-    this.setState({
-      day: values[0],
-      startHour: values[1],
-      endHour: values[2]
-    });
-
-    // console.log(this.state);
-  }
   componentWillMount() {
     this.searchTecher();
   }
@@ -193,13 +161,13 @@ class App extends React.Component {
   }
   rating() {}
   render() {
-    var { ratingText, rate, current_studentId, current_teacherId } = this.state;
-    var RatingVariables = {
-      ratingText,
-      rate,
-      current_studentId,
-      current_teacherId
-    };
+    // var { ratingText, rate, current_studentId, current_teacherId } = this.state;
+    // var RatingVariables = {
+    //   ratingText,
+    //   rate,
+    //   current_studentId,
+    //   current_teacherId
+    // };
 
     return (
       <div>
@@ -232,8 +200,8 @@ class App extends React.Component {
                   showTeacherInfo={this.showTeacherInfo.bind(this)}
                   change={this.change.bind(this)}
                   // rating={this.rating.bind(this)}
-                  pick={this.pick.bind(this)}
-                  radioChange={this.radioChange.bind(this)}
+                  // pick={this.pick.bind(this)}
+                  // radioChange={this.radioChange.bind(this)}
                 />
               </Modal>
             </div>
