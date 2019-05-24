@@ -9,9 +9,9 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       userName: "",
-      cvFile: "",
+      // cvFile: "",
       cvFileUrl: "",
-      image: null,
+      // image: null,
       imgUrl: "",
       imageProgress: 0,
       summary: "",
@@ -21,11 +21,11 @@ class Profile extends React.Component {
       current_teacherId: "",
       subjectName: "",
       subjectLevel: "",
-      day: "Sunday",
-      startHour: "",
-      endHour: "",
-      schedules: [],
-      bookes: []
+      // day: "Sunday",
+      // startHour: "",
+      // endHour: "",
+      schedules: []
+      // bookes: []
     };
   }
 
@@ -54,13 +54,18 @@ class Profile extends React.Component {
         // console.log(body);
       });
   }
+  changeCV(vale) {
+    this.setState({ [vlaue]: vlaue });
+  }
   changeSchedules(schedules) {
+    this.setState({ schedules: schedules });
+  }
+  change(e) {
     this.setState({
-      schedules: schedules
+      [e.target.name]: e.target.value
     });
   }
   render() {
-    const { ProfileVariables } = this.props;
     return (
       <div>
         <span className="form-group">
@@ -88,8 +93,8 @@ class Profile extends React.Component {
             className="form-control"
             type="text"
             placeholder="phone"
-            value={ProfileVariables.phone}
-            onChange={event => this.props.change(event)}
+            value={this.state.phone}
+            onChange={event => this.change(event)}
             name="phone"
           />
           <label>Location:</label>
@@ -97,7 +102,7 @@ class Profile extends React.Component {
             className="form-control"
             type="text"
             placeholder="location"
-            value={ProfileVariables.location}
+            value={this.state.location}
             onChange={event => this.props.change(event)}
             name="location"
           />
@@ -106,34 +111,28 @@ class Profile extends React.Component {
             className="form-control"
             type="text"
             placeholder="summary"
-            value={ProfileVariables.summary}
+            value={this.state.summary}
             onChange={event => this.props.change(event)}
             name="summary"
           />
           <label>Upload your image:</label>
           <ImageUpload
-            imgUrl={ProfileVariables.imgUrl}
-            image={ProfileVariables.image}
-            imageProgress={ProfileVariables.imageProgress}
-            handleImgChange={e => this.props.handleImgChange(e)}
-            handleImgUpload={() => this.props.handleImgUpload()}
+            imgUrl={this.state.imgUrl}
+            image={this.state.image}
+            imageProgress={this.state.imageProgress}
+            handleImgChange={e => this.handleImgChange(e)}
+            handleImgUpload={() => this.handleImgUpload()}
           />
           <label>Upload your CV:</label>
-          <CVUpload
-            cvFileUrl={ProfileVariables.cvFileUrl}
-            cvFile={ProfileVariables.cvFile}
-            cvProgress={ProfileVariables.cvProgress}
-            handleFileChange={e => this.props.handleFileChange(e)}
-            handleFileUpload={() => this.props.handleFileUpload()}
-          />
+          <CVUpload changeCV={this.changeCV.bind(this)} />
           <Schedule
             changeSchedules={this.changeSchedules.bind(this)}
             schedules={this.state.schedules}
           />
-          <Confirm current_teacherId={this.props.current_teacherId} />
+          <Confirm current_teacherId={this.state.current_teacherId} />
         </span>
-        <button onClick={this.props.updateInfo.bind(this)}>Update</button>
-        <label>{this.props.updatedMsg}</label>
+        <button onClick={this.updateInfo.bind(this)}>Update</button>
+        <label>{this.state.updatedMsg}</label>
       </div>
     );
   }

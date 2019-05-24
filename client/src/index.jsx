@@ -16,17 +16,17 @@ class App extends React.Component {
 
     this.state = {
       userName: "",
-      cvFile: "",
-      cvFileUrl: "",
-      image: null,
-      imgUrl: "",
-      imageProgress: 0,
-      summary: "",
+      // cvFile: "",
+      // cvFileUrl: "",
+      // image: null,
+      // imgUrl: "",
+      // imageProgress: 0,
+      // summary: "",
       is_teacher: false,
-      password: "",
-      email: "",
-      phone: "",
-      location: "",
+      // password: "",
+      // email: "",
+      // phone: "",
+      // location: "",
       teacherProfiles: [],
       current_teacherId: "",
       current_studentId: "",
@@ -34,19 +34,19 @@ class App extends React.Component {
       rate: "",
       subjectName: "",
       subjectLevel: "",
-      day: "Sunday",
-      startHour: "",
-      endHour: "",
-      error: "",
-      schedules: [],
-      bookes: [],
+      // day: "Sunday",
+      // startHour: "",
+      // endHour: "",
+      // error: "",
+      // schedules: [],
+      // bookes: [],
       classes: [],
       token: "",
       ratings: [],
-      message: "",
+      // message: "",
       rateMessage: "",
-      loginMessage: "",
-      errorLogin: "",
+      // loginMessage: "",
+      // errorLogin: "",
       modal: false
     };
   }
@@ -57,43 +57,7 @@ class App extends React.Component {
       this.setState(() => ({ image }));
     }
   }
-  handleFileChange(e) {
-    if (e.target.files[0]) {
-      const cvFile = e.target.files[0];
-      this.setState(() => ({ cvFile }));
-    }
-  }
-  handleFileUpload() {
-    const { cvFile } = this.state;
-    const uploadTask = storage.ref(`files/${cvFile.name}`).put(cvFile);
-    uploadTask.on(
-      "state_changed",
-      snapshot => {
-        //progress function ....
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        this.setState({ progress });
-      },
-      error => {
-        // error function ....
-        // console.log(error);
-      },
-      () => {
-        // complete function ....
-        storage
-          .ref("files")
-          .child(cvFile.name)
-          .getDownloadURL()
-          .then(cvFileUrl => {
-            this.setState({ cvFileUrl, cvFile: cvFile.name });
-          });
-      }
-    );
-    $(".cvDiv").append(
-      '<label className="center"> Your cv was uploaded successfully </label>'
-    );
-  }
+
   handleImgUpload() {
     const { image } = this.state;
     const uploadTask = storage.ref(`images/${image.name}`).put(image);
@@ -376,8 +340,8 @@ class App extends React.Component {
               change={this.change.bind(this)}
               handleImgChange={e => this.handleImgChange(e)}
               handleImgUpload={() => this.handleImgUpload()}
-              handleFileChange={e => this.handleFileChange(e)}
-              handleFileUpload={() => this.handleFileUpload()}
+              // handleFileChange={e => this.handleFileChange(e)}
+              // handleFileUpload={() => this.handleFileUpload()}
               updateInfo={this.updateInfo.bind(this)}
               updatedMsg={this.state.updatedMsg}
             />
