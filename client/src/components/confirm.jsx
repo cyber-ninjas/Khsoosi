@@ -7,11 +7,12 @@ class Conform extends React.Component {
       bookes: []
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.confirm();
   }
   confirm(e) {
     // e.preventDefault();
+    // console.log(this.props.current_teacherId, "from cccccccccc");
     return fetch(`/conform?teacherId=${this.props.current_teacherId}`, {
       method: "GET",
       header: {

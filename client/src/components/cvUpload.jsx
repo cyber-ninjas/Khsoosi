@@ -38,7 +38,9 @@ class CVUpload extends React.Component {
           .child(cvFile.name)
           .getDownloadURL()
           .then(cvFileUrl => {
-            this.setState({ cvFileUrl, cvFile: cvFile.name });
+            setTimeout(() => {
+              this.setState({ cvFileUrl, cvFile: cvFile.name, progress: 0 });
+            }, 2000);
             this.props.changeCV(cvFileUrl);
           });
       }

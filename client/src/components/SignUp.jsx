@@ -51,6 +51,8 @@ class SignUp extends React.Component {
             phone: "",
             location: ""
           });
+          this.props.closeModal("SignUp");
+          this.props.openModal("Login");
         }
       })
       .catch(err => console.log("Error"));
@@ -141,7 +143,15 @@ class SignUp extends React.Component {
         <label id="error">{this.state.error}</label>
         <br />
         <label className="form-check-label" htmlFor="login">
-          Already have an account? Login
+          Already have an account?
+          <a
+            onClick={() => {
+              this.props.closeModal("SignUp");
+              this.props.openModal("Login");
+            }}
+          >
+            Login
+          </a>
         </label>
       </form>
     );

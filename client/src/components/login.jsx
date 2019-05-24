@@ -55,6 +55,10 @@ class Login extends React.Component {
           current_studentId: this.state.current_studentId
         };
         this.props.onLogin(obj);
+        setTimeout(() => {
+          this.props.closeModal("Login");
+          this.setState({ loginMessage: "" });
+        }, 500);
       })
       .catch();
   }

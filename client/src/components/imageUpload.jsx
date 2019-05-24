@@ -1,5 +1,6 @@
 import React from "react";
 import { storage } from "../../../server/database/firebase.js";
+import { set } from "mongoose";
 
 class ImageUpload extends React.Component {
   constructor(props) {
@@ -10,7 +11,11 @@ class ImageUpload extends React.Component {
       progress: 0
     };
   }
-
+  componentDidMount() {
+    this.setState({
+      imgUrl: this.props.imgUrl
+    });
+  }
   handleImgChange(e) {
     if (e.target.files[0]) {
       const image = e.target.files[0];
@@ -42,13 +47,16 @@ class ImageUpload extends React.Component {
           .child(image.name)
           .getDownloadURL()
           .then(imgUrl => {
-            this.setState({ imgUrl }, () =>
-              this.props.changeImg(this.state.imgUrl)
-            );
+            setTimeout(() => {
+              this.setState({ imgUrl, progress: 0 }, () =>
+                this.props.changeImg(this.state.imgUrl)
+              );
+            }, 2000);
           });
       }
     );
   }
+
   render() {
     const style = {
       float: "left",
@@ -93,7 +101,7 @@ class ImageUpload extends React.Component {
           <div className="col-sm-4">
             <img
               src={
-                this.state.imgUrl ||
+                this.props.imgUrl ||
                 "https://firebasestorage.googleapis.com/v0/b/khsoosi-upload-file-img.appspot.com/o/images%2Fcbde4e59089dcada08218b49a815175d.svg?alt=media&token=0804202d-9e8f-4a41-9be6-836a37a5475e"
               }
               alt="uploaded images"

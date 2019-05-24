@@ -15,7 +15,7 @@ class Schedule extends React.Component {
   addSchedule(e) {
     e.preventDefault();
     const { day, startHour, endHour } = this.state;
-    const temp = this.state.schedules;
+    const temp = this.props.schedules;
     if (startHour >= endHour) {
       // console.log(startHour, endHour);
       this.setState({
@@ -39,7 +39,7 @@ class Schedule extends React.Component {
   }
 
   removeSchedule(e) {
-    let { schedules } = this.state;
+    let { schedules } = this.props;
     schedules.forEach((element, index) => {
       if (element.day === e.target.value) {
         schedules.splice(index, 1);

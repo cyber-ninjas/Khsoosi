@@ -20,12 +20,13 @@ class Profile extends React.Component {
       subjectName: "",
       subjectLevel: "",
       schedules: [],
-      updatedMsg: ""
+      updatedMsg: "",
+      ratings: []
     };
   }
   componentDidMount() {
     const id = this.props.current_teacherId;
-    console.log(id);
+    this.setState({ current_teacherId: id });
     this.showTeacherInfo(id);
   }
 
@@ -39,7 +40,7 @@ class Profile extends React.Component {
     })
       .then(response => (response = response.json()))
       .then(data => {
-        console.log(data);
+        // console.log(data);
         this.setState({
           userName: data.name,
           cvFileUrl: data.cvFile,
@@ -49,8 +50,9 @@ class Profile extends React.Component {
           location: data.location,
           summary: data.summary,
           schedules: data.schedules,
-          subjectName: "",
-          subjectLevel: ""
+          ratings: data.ratings,
+          subjectName: data.subjects[0].name,
+          subjectLevel: data.subjects[0].level
         });
       })
       .catch(err => console.log(err));
@@ -78,6 +80,7 @@ class Profile extends React.Component {
         return response.json();
       })
       .then(resp => {
+        this.showTeacherInfo(this.state.current_teacherId);
         this.setState({ updatedMsg: "Updated !" });
       });
   }
@@ -85,7 +88,7 @@ class Profile extends React.Component {
     this.setState({ cvFileUrl: cvFileUrl });
   }
   changeImg(imgUrl) {
-    this.setState({ imgUrl: imgUrl }, () => console.log(this.state));
+    this.setState({ imgUrl: imgUrl });
   }
 
   changeSchedules(schedules) {
@@ -170,14 +173,18 @@ class Profile extends React.Component {
             name="summary"
           />
           <label>Upload your image:</label>
-          <ImageUpload changeImg={this.changeImg.bind(this)} />
+          <ImageUpload
+            changeImg={this.changeImg.bind(this)}
+            imgUrl={this.state.imgUrl}
+          />
           <label>Upload your CV:</label>
+
           <CVUpload changeCV={this.changeCV.bind(this)} />
           <Schedule
             changeSchedules={this.changeSchedules.bind(this)}
             schedules={this.state.schedules}
           />
-          <Confirm current_teacherId={this.state.current_teacherId} />
+          <Confirm current_teacherId={this.props.current_teacherId} />
         </span>
         <button onClick={this.updateInfo.bind(this)}>Update</button>
         <label>{this.state.updatedMsg}</label>

@@ -2,7 +2,13 @@ const { db } = require("./database/db");
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const SECRET_KEY = "any string";
-const { User, Schedule, Rating, Confirm } = require("./database/model");
+const {
+  User,
+  Schedule,
+  Rating,
+  Confirm,
+  Subject
+} = require("./database/model");
 var jwt = require("jsonwebtoken");
 
 //Adding new rating
@@ -64,7 +70,6 @@ exports.updateTeacherProfile = (req, res) => {
 
 exports.showTeacherInfo = (req, res) => {
   const id = req.params.number;
-  console.log(id, "ggggggggggg");
   User.findOne({
     attributes: [
       "name",
@@ -84,6 +89,10 @@ exports.showTeacherInfo = (req, res) => {
       {
         model: Rating,
         attributes: ["rate", "text"]
+      },
+      {
+        model: Subject,
+        attributes: ["name", "level"]
       }
     ]
   })

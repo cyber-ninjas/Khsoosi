@@ -30,10 +30,10 @@ class App extends React.Component {
       teacherProfiles: [],
       current_teacherId: "",
       current_studentId: "",
-      ratingText: "",
-      rate: "",
-      subjectName: "",
-      subjectLevel: "",
+      // ratingText: "",
+      // rate: "",
+      // subjectName: "",
+      // subjectLevel: "",
       // day: "Sunday",
       // startHour: "",
       // endHour: "",
@@ -44,7 +44,7 @@ class App extends React.Component {
       token: "",
       ratings: [],
       // message: "",
-      rateMessage: "",
+      // rateMessage: "",
       // loginMessage: "",
       // errorLogin: "",
       modal: false
@@ -54,31 +54,6 @@ class App extends React.Component {
   // onchangingSignUp(e) {
   // 	this.setState({ [e.target.name]: e.target.value });
   // }
-  rating(e) {
-    e.preventDefault();
-    const body = {
-      ratingText: this.state.ratingText,
-      rate: this.state.rate,
-      current_studentId: this.state.current_studentId,
-      current_teacherId: this.state.current_teacherId
-    };
-    fetch("/rating", {
-      method: "post",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(body => {
-        // console.log(body);
-        this.setState({
-          ratingText: "",
-          rate: "",
-          rateMessage: "Thank you for your feedback!"
-        });
-      });
-  }
 
   showTeacherInfo(id) {
     return fetch(`/teacherProfile/${id}`, {
@@ -210,16 +185,13 @@ class App extends React.Component {
     });
   }
   onLogin(obj) {
-    this.setState(
-      {
-        current_studentId: obj.current_studentId,
-        current_teacherId: obj.current_teacherId,
-        is_teacher: obj.is_teacher
-      },
-      () => console.log(this.state.current_teacherId)
-    );
+    this.setState({
+      current_studentId: obj.current_studentId,
+      current_teacherId: obj.current_teacherId,
+      is_teacher: obj.is_teacher
+    });
   }
-  updateInfo() {}
+  rating() {}
   render() {
     var { ratingText, rate, current_studentId, current_teacherId } = this.state;
     var RatingVariables = {
@@ -252,8 +224,8 @@ class App extends React.Component {
                 onClickAway={() => this.closeModal()}
               >
                 <TeacherProfile
-                  rateMessage={this.state.rateMessage}
-                  RatingVariables={RatingVariables}
+                  // rateMessage={this.state.rateMessage}
+                  // RatingVariables={RatingVariables}
                   teacherInfo={this.state}
                   showTeacherInfo={this.showTeacherInfo.bind(this)}
                   change={this.change.bind(this)}
