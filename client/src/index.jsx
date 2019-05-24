@@ -226,10 +226,12 @@ class App extends React.Component {
                 <TeacherProfile
                   // rateMessage={this.state.rateMessage}
                   // RatingVariables={RatingVariables}
+                  current_studentId={this.state.current_studentId}
+                  current_teacherId={this.state.current_teacherId}
                   teacherInfo={this.state}
                   showTeacherInfo={this.showTeacherInfo.bind(this)}
                   change={this.change.bind(this)}
-                  rating={this.rating.bind(this)}
+                  // rating={this.rating.bind(this)}
                   pick={this.pick.bind(this)}
                   radioChange={this.radioChange.bind(this)}
                 />

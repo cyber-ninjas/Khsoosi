@@ -14,8 +14,8 @@ class Rating extends React.Component {
     const body = {
       ratingText: this.state.ratingText,
       rate: this.state.rate,
-      current_studentId: this.state.current_studentId,
-      current_teacherId: this.state.current_teacherId
+      current_studentId: this.props.current_studentId,
+      current_teacherId: this.props.current_teacherId
     };
     fetch("/rating", {
       method: "post",
@@ -27,11 +27,19 @@ class Rating extends React.Component {
       })
       .then(body => {
         // console.log(body);
+        this.props.showTeacherInfo(this.props.current_teacherId);
         this.setState({
           ratingText: "",
           rate: "",
           rateMessage: "Thank you for your feedback!"
         });
+        setTimeout(() => {
+          this.setState({
+            ratingText: "",
+            rate: "",
+            rateMessage: ""
+          });
+        }, 3000);
       });
   }
   change(e) {
@@ -66,7 +74,7 @@ class Rating extends React.Component {
         <button className="btn btn-primary" onClick={this.rating.bind(this)}>
           submit
         </button>
-        <label id="rateMessage">{this.rateMessage}</label>
+        <label id="rateMessage">{this.state.rateMessage}</label>
       </form>
     );
   }

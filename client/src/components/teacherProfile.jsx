@@ -65,7 +65,6 @@ class TeacherProfile extends React.Component {
 
           <div className="teacherCV col-sm-4">
             <legend>Summary</legend>
-            <label htmlFor="">Summary: </label>{" "}
             <p>{this.props.teacherInfo.summary}</p>
             <legend>Teacher CV</legend>
             <iframe className="cv" src={this.props.teacherInfo.cvFileUrl}>
@@ -94,31 +93,26 @@ class TeacherProfile extends React.Component {
                 );
               })}
             </ul>
-            <span className="pickRateBtn">
+            <div>
               <button onClick={this.props.pick.bind(this)}>Pick</button>
-
               <label id="pickLabel">
                 your request was send ...wait for confirm{" "}
               </label>
-
-              <button onClick={() => this.openModal("Rate")}>Rate</button>
-              <Modal
-                visible={this.state.Rate}
-                width="400"
-                height="300"
-                effect="fadeInDown"
-                onClickAway={() => this.closeModal("Rate")}
-              >
-                <div>
-                  <Rating
-                    rateMessage={this.props.rateMessage}
-                    RatingVariables={this.props.RatingVariables}
-                    change={this.props.change.bind(this)}
-                    rating={this.props.rating.bind(this)}
-                  />
-                </div>
-              </Modal>
-            </span>
+            </div>
+            <br />
+            <br />
+            <div>
+              <Rating
+                current_studentId={this.props.current_studentId}
+                current_teacherId={this.props.current_teacherId}
+                showTeacherInfo={this.props.showTeacherInfo}
+                // rateMessage={this.props.rateMessage}
+                // RatingVariables={this.props.RatingVariables}
+                // change={this.props.change.bind(this)}
+                // rating={this.props.rating.bind(this)}
+                // closeModal={this.closeModal.bind(this)}
+              />
+            </div>
           </div>
         </div>
       </div>
