@@ -185,12 +185,6 @@ class App extends React.Component {
   }
   componentWillMount() {
     this.searchTecher();
-    // const is_teacher = localStorage.getItem("is_teacher");
-    // console.log(is_teacher);
-    // if (is_teacher !== undefined) {
-    //   const is_teacher = localStorage.getItem("is_teacher");
-    //   this.setState({ is_teacher: is_teacher });
-    // }
   }
   openModal(id) {
     // console.log(id);
@@ -216,11 +210,14 @@ class App extends React.Component {
     });
   }
   onLogin(obj) {
-    this.setState({
-      current_studentId: obj.current_studentId,
-      current_teacherId: obj.current_teacherId,
-      is_teacher: obj.is_teacher
-    });
+    this.setState(
+      {
+        current_studentId: obj.current_studentId,
+        current_teacherId: obj.current_teacherId,
+        is_teacher: obj.is_teacher
+      },
+      () => console.log(this.state.current_teacherId)
+    );
   }
   updateInfo() {}
   render() {
@@ -231,38 +228,7 @@ class App extends React.Component {
       current_studentId,
       current_teacherId
     };
-    var {
-      userName,
-      cvFileUrl,
-      imgUrl,
-      summary,
-      email,
-      phone,
-      location,
-      current_teacherId,
-      schedules,
-      token,
-      cvFile,
-      image,
-      imageProgress,
-      cvProgress
-    } = this.state;
-    var ProfileVariables = {
-      userName,
-      cvFileUrl,
-      imgUrl,
-      summary,
-      email,
-      phone,
-      location,
-      current_teacherId,
-      schedules,
-      token,
-      cvFile,
-      image,
-      imageProgress,
-      cvProgress
-    };
+
     return (
       <div>
         <Header onLogin={this.onLogin.bind(this)} />
@@ -298,18 +264,7 @@ class App extends React.Component {
               </Modal>
             </div>
           ) : (
-            <Profile
-              current_teacherId={this.state.current_teacherId}
-              message={this.state.message}
-              ProfileVariables={ProfileVariables}
-              change={this.change.bind(this)}
-              handleImgChange={e => this.handleImgChange(e)}
-              handleImgUpload={() => this.handleImgUpload()}
-              // handleFileChange={e => this.handleFileChange(e)}
-              // handleFileUpload={() => this.handleFileUpload()}
-              updateInfo={this.updateInfo.bind(this)}
-              updatedMsg={this.state.updatedMsg}
-            />
+            <Profile current_teacherId={this.state.current_teacherId} />
           )}
         </div>
         <Footer />

@@ -9,12 +9,9 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       userName: "",
-      // cvFile: "",
       cvFileUrl: "",
-      image: null,
       imgUrl:
         "https://firebasestorage.googleapis.com/v0/b/khsoosi-upload-file-img.appspot.com/o/images%2Fcbde4e59089dcada08218b49a815175d.svg?alt=media&token=0804202d-9e8f-4a41-9be6-836a37a5475e",
-      // imageProgress: 0,
       summary: "",
       email: "",
       phone: "",
@@ -22,14 +19,42 @@ class Profile extends React.Component {
       current_teacherId: "",
       subjectName: "",
       subjectLevel: "",
-      // day: "Sunday",
-      // startHour: "",
-      // endHour: "",
-      schedules: []
-      // bookes: []
+      schedules: [],
+      updatedMsg: ""
     };
   }
+  componentDidMount() {
+    const id = this.props.current_teacherId;
+    console.log(id);
+    this.showTeacherInfo(id);
+  }
 
+  showTeacherInfo(id) {
+    return fetch(`/teacherProfile/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
+    })
+      .then(response => (response = response.json()))
+      .then(data => {
+        console.log(data);
+        this.setState({
+          userName: data.name,
+          cvFileUrl: data.cvFile,
+          imgUrl: data.img,
+          email: data.email,
+          phone: data.phone,
+          location: data.location,
+          summary: data.summary,
+          schedules: data.schedules,
+          subjectName: "",
+          subjectLevel: ""
+        });
+      })
+      .catch(err => console.log(err));
+  }
   updateInfo() {
     const body = {
       userName: this.state.userName,
@@ -41,7 +66,8 @@ class Profile extends React.Component {
       location: this.state.location,
       current_teacherId: this.state.current_teacherId,
       schedules: this.state.schedules,
-      token: this.state.token
+      subjectName: this.state.subjectName,
+      subjectLevel: this.state.subjectLevel
     };
     fetch("/updateTeacherProfile", {
       method: "put",
@@ -51,8 +77,8 @@ class Profile extends React.Component {
       .then(response => {
         return response.json();
       })
-      .then(body => {
-        // console.log(body);
+      .then(resp => {
+        this.setState({ updatedMsg: "Updated !" });
       });
   }
   changeCV(cvFileUrl) {
@@ -64,6 +90,11 @@ class Profile extends React.Component {
 
   changeSchedules(schedules) {
     this.setState({ schedules: schedules });
+  }
+  change(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   }
   change(e) {
     this.setState({
@@ -108,8 +139,26 @@ class Profile extends React.Component {
             type="text"
             placeholder="location"
             value={this.state.location}
-            onChange={event => this.props.change(event)}
+            onChange={event => this.change(event)}
             name="location"
+          />
+          <label>Subject Level:</label>
+          <input
+            className="form-control"
+            type="text"
+            placeholder="subjectLevel"
+            value={this.state.subjectLevel}
+            onChange={event => this.change(event)}
+            name="subjectLevel"
+          />
+          <label>Subject Name:</label>
+          <input
+            className="form-control"
+            type="text"
+            placeholder="subjectName"
+            value={this.state.subjectName}
+            onChange={event => this.change(event)}
+            name="subjectName"
           />
           <label>Summary:</label>
           <input
@@ -117,7 +166,7 @@ class Profile extends React.Component {
             type="text"
             placeholder="summary"
             value={this.state.summary}
-            onChange={event => this.props.change(event)}
+            onChange={event => this.change(event)}
             name="summary"
           />
           <label>Upload your image:</label>
