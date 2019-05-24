@@ -26,14 +26,14 @@ class App extends React.Component {
       // password: "",
       // email: "",
       // phone: "",
-      // location: "",
+      location: "",
       teacherProfiles: [],
       current_teacherId: "",
       current_studentId: "",
       // ratingText: "",
       // rate: "",
-      // subjectName: "",
-      // subjectLevel: "",
+      subjectName: "",
+      subjectLevel: "",
       // day: "Sunday",
       // startHour: "",
       // endHour: "",
@@ -47,6 +47,7 @@ class App extends React.Component {
       // rateMessage: "",
       // loginMessage: "",
       // errorLogin: "",
+      popup: false,
       modal: false
     };
   }
@@ -130,17 +131,24 @@ class App extends React.Component {
     this.searchTecher();
   }
   openModal(id) {
-    // console.log(id);
-    this.showTeacherInfo(id);
-    this.setState(
-      {
-        current_teacherId: id
-      },
-      () =>
-        this.setState({
-          modal: true
-        })
-    );
+    if (this.state.current_studentId === "") {
+      this.setState({ popup: true });
+
+      setTimeout(() => {
+        this.setState({ popup: false });
+      }, 2000);
+    } else {
+      this.showTeacherInfo(id);
+      this.setState(
+        {
+          current_teacherId: id
+        },
+        () =>
+          this.setState({
+            modal: true
+          })
+      );
+    }
   }
   closeModal() {
     this.setState({
@@ -209,6 +217,15 @@ class App extends React.Component {
             <Profile current_teacherId={this.state.current_teacherId} />
           )}
         </div>
+        <Modal
+          visible={this.state.popup}
+          width="40%"
+          height="30%"
+          effect="fadeInDown"
+          onClickAway={() => this.setState({ popup: false })}
+        >
+          <h1> please login first! </h1>
+        </Modal>
         <Footer />
       </div>
     );

@@ -283,7 +283,11 @@ exports.conformAnswer = (req, res) => {
       const id = req.query.teacherId;
       db.query(
         `select TeacherConfirms.id, users.name, TeacherConfirms.start, TeacherConfirms.end, TeacherConfirms.day, TeacherConfirms.confirmed from TeacherConfirms  JOIN users on TeacherConfirms.studentId = users.id and   TeacherConfirms.teacherId = ${id} `
-      ).then(([result, metadata]) => res.send(result));
+      ).then(([result, metadata]) => {
+        //select phone student
+        //send the message
+        return res.send(result);
+      });
     })
     .catch(function(err) {
       req.server.log(["error"], err.stack);
