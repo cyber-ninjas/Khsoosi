@@ -2,8 +2,23 @@ const { db } = require('./database/db');
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const SECRET_KEY = 'any string';
+<<<<<<< HEAD
+const ejs = require('ejs');
+const Nexmo = require('nexmo');
+const socketio = require('socket.io');
 const { User, Schedule, Rating, Confirm, Subject } = require('./database/model');
 var jwt = require('jsonwebtoken');
+const nexmo = new Nexmo(
+	{
+		apiKey: 'b84db079',
+		apiSecret: '2AZLhDff5DJAcmcZ'
+	},
+	{ debug: true }
+);
+=======
+const { User, Schedule, Rating, Confirm, Subject } = require('./database/model');
+var jwt = require('jsonwebtoken');
+>>>>>>> e2960ef3829d092a859b06423979eedb7571af37
 
 //Adding new rating
 exports.rating = (req, res) => {
@@ -270,8 +285,18 @@ exports.conformAnswer = (req, res) => {
 					`select TeacherConfirms.id, users.name, TeacherConfirms.start, TeacherConfirms.end, TeacherConfirms.day, TeacherConfirms.confirmed from TeacherConfirms  JOIN users on TeacherConfirms.studentId = users.id and   TeacherConfirms.teacherId = ${id} `
 				)
 				.then(([ result, metadata ]) => {
+<<<<<<< HEAD
+					var message = 'the teacher accebt your requset';
+					if (query.confirmed === 'No') {
+						message = "the teacher didn't accept your requset";
+					}
+					nexmo.message.sendSms('khsoosi', '00962786916479', message, {
+						type: 'unicode'
+					});
+=======
 					//select phone student
 					//send the message
+>>>>>>> e2960ef3829d092a859b06423979eedb7571af37
 					return res.send(result);
 				});
 		})
