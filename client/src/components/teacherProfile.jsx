@@ -53,7 +53,6 @@ class TeacherProfile extends React.Component {
       }
     }).then(result => {
       this.setState({ message: " your request was send ...wait for confirm" });
-      console.log(result, "kkkokkk");
       setTimeout(() => {
         this.setState({ message: "" });
       }, 4000);
@@ -143,7 +142,8 @@ class TeacherProfile extends React.Component {
             </ul>
             <div>
               <button onClick={this.pick.bind(this)}>Pick</button>
-              <label id="pickLabel">{this.state.message}</label>
+              <br />
+              <label /> {this.state.message}
             </div>
             <br />
             <br />
