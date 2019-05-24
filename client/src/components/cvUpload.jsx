@@ -51,26 +51,43 @@ class CVUpload extends React.Component {
 		};
 
 		return (
-			<div style={style}>
-				<progress value={this.state.progress} max="100" />
-				<br />
-				<label>{this.state.progress === 100 ? 'Done!' : null}</label>
-				<input
-					type="file"
-					accept=".doc,.docx,.txt,.pdf"
-					data-max-size="5000"
-					onChange={this.handleFileChange.bind(this)}
-				/>
-				<button onClick={this.handleFileUpload.bind(this)}>Upload Your CV Here</button>
-				<br />
-				<input
-					type="text"
-					value={this.state.cvFile || 'uploaded file'}
-					height="100"
-					width="100"
-					readOnly
-					disabled
-				/>
+			<div>
+				<div className="input-group mb-3">
+					<div className="input-group-prepend">
+						<button type="button" id="inputGroupFileAddon01" onClick={this.handleFileUpload.bind(this)}>
+							Upload
+						</button>
+					</div>
+					<div className="custom-file">
+						<input
+							type="file"
+							accept=".doc,.docx,.txt,.pdf"
+							data-max-size="5000"
+							onChange={this.handleFileChange.bind(this)}
+						/>
+						<label className="custom-file-label" htmlFor="inputGroupFile01" value="">
+							Choose file
+						</label>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-sm-4">
+						<input
+							type="text"
+							value={this.state.cvFile || 'uploaded file'}
+							height="100"
+							width="100"
+							readOnly
+							disabled
+						/>
+					</div>
+					<div className="col-sm-4">
+						<progress value={this.state.progress} max="100" />
+
+						<label>{this.state.progress === 100 ? 'Done!' : null}</label>
+					</div>
+					<div className="col-sm-4" />
+				</div>
 			</div>
 		);
 	}

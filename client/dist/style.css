@@ -250,3 +250,17 @@ footer {
 legend {
 	font-size: 30px;
 }
+
+.updateBtn {
+	font-size: 40px;
+	margin-left: 44%;
+	margin-bottom: 10px;
+}
+
+form.select {
+	margin-top: 35px;
+}
+
+#addBtn {
+	margin-top: 15px;
+}

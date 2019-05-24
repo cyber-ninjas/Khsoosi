@@ -174,14 +174,16 @@ class Profile extends React.Component {
 					/>
 					<label>Upload your image:</label>
 					<ImageUpload changeImg={this.changeImg.bind(this)} imgUrl={this.state.imgUrl} />
-					<label>Upload your CV:</label>
 
+					<label>Upload your CV:</label>
 					<CVUpload changeCV={this.changeCV.bind(this)} />
 					<Schedule changeSchedules={this.changeSchedules.bind(this)} schedules={this.state.schedules} />
 					<Confirm current_teacherId={this.props.current_teacherId} />
+					<button className="updateBtn" onClick={this.updateInfo.bind(this)}>
+						Update
+					</button>
+					<label>{this.state.updatedMsg}</label>
 				</span>
-				<button onClick={this.updateInfo.bind(this)}>Update</button>
-				<label>{this.state.updatedMsg}</label>
 			</div>
 		);
 	}

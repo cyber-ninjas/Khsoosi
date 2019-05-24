@@ -67,7 +67,7 @@ class Schedule extends React.Component {
 			<div>
 				<div className="row">
 					<div className="col-sm-6">
-						<form className="form-group">
+						<form className="select form-group">
 							<label htmlFor="selectDate">Select day:</label>
 							<select
 								className="form-control"
@@ -101,7 +101,9 @@ class Schedule extends React.Component {
 								onChange={this.change.bind(this)}
 								value={this.state.endHour}
 							/>
-							<button onClick={this.addSchedule.bind(this)}>Add</button>
+							<button id="addBtn" onClick={this.addSchedule.bind(this)}>
+								Add
+							</button>
 						</form>
 					</div>
 					<div className="col-sm-6">
