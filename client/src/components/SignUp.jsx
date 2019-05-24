@@ -133,6 +133,7 @@ class SignUp extends React.Component {
 				<label className="form-check-label" htmlFor="login">
 					Already have an account?
 					<a
+						id="signin"
 						onClick={() => {
 							this.props.closeModal('SignUp');
 							this.props.openModal('Login');

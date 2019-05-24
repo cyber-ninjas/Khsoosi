@@ -155,7 +155,7 @@ class App extends React.Component {
 							<Modal
 								visible={this.state.modal}
 								width="70%"
-								height="100%"
+								height="50%"
 								effect="fadeInDown"
 								onClickAway={() => this.closeModal()}
 							>
@@ -172,15 +172,17 @@ class App extends React.Component {
 						<Profile current_teacherId={this.state.current_teacherId} />
 					)}
 				</div>
-				<Modal
-					visible={this.state.popup}
-					width="40%"
-					height="30%"
-					effect="fadeInDown"
-					onClickAway={() => this.setState({ popup: false })}
-				>
-					<h1> please login first! </h1>
-				</Modal>
+				<div>
+					<Modal
+						visible={this.state.popup}
+						width="40%"
+						height="30%"
+						effect="fadeInDown"
+						onClickAway={() => this.setState({ popup: false })}
+					>
+						<h1 id="plzlogin"> please login first! </h1>
+					</Modal>
+				</div>
 				<Footer />
 			</div>
 		);

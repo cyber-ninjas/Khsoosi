@@ -21,6 +21,13 @@
 	font-family: "Times New Roman", Times, serif;
 	border: none;
 }
+
+#plzlogin {
+	padding: 20px;
+	color: #272c34;
+	text-align: center;
+	margin-top: 70px;
+}
 .sign {
 	padding: 20px;
 	background-color: #272c34;
@@ -122,22 +129,11 @@ body {
 	font-size: 18px;
 }
 
-a {
-	position: absolute;
-	bottom: 0px;
-	color: blue;
-}
 .teacherInfo,
 .teacherCV,
 .teacherSchedule {
 	background-color: e9e6df;
 	color: 272c34;
-}
-
-a {
-	text-decoration: none;
-	font-size: 22px;
-	color: black;
 }
 
 .form-control {
@@ -159,9 +155,8 @@ iframe.cv {
 	bottom: 100px;
 }
 div.teacherProfileView {
-	position: relative;
-	/* border-style: dotted; */
-	height: 500px;
+	padding: 20px;
+	height: 100%;
 }
 .center {
 	display: flex;
@@ -214,6 +209,14 @@ footer {
 	display: inline-block;
 }
 
+#signin {
+	text-decoration: underline;
+	font-size: 23px;
+	margin-left: 10px;
+}
+#signin:hover {
+	color: cornflowerblue;
+}
 #social {
 	width: 250px;
 	padding: 2px;
@@ -233,7 +236,17 @@ footer {
 	display: inline;
 }
 
-.container-fluid {
+.Teacherinfo {
 	background-color: #272c34;
 	color: #e9e6df;
+}
+
+.ratingScroll {
+	color: #272c34;
+	background-color: #e9e6df;
+	padding: 20px;
+}
+
+legend {
+	font-size: 30px;
 }

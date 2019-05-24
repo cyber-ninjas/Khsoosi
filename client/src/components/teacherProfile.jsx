@@ -51,7 +51,7 @@ class TeacherProfile extends React.Component {
 				Accept: 'application/json'
 			}
 		}).then((result) => {
-			this.setState({ message: ' your request was send ...wait for confirm' });
+			this.setState({ message: ' Your request was send ... please wait for confirmation' });
 			setTimeout(() => {
 				this.setState({ message: '' });
 			}, 4000);
@@ -73,7 +73,7 @@ class TeacherProfile extends React.Component {
 		// const schedules = this.props.teacherInfo.schedules;
 		var that = this;
 		return (
-			<div className="container-fluid">
+			<div className="Teacherinfo">
 				<div className="teacherProfileView row">
 					<div className="teacherInfo col-sm-4">
 						<legend>Teacher Info</legend>
@@ -97,8 +97,14 @@ class TeacherProfile extends React.Component {
 							{this.props.teacherInfo.ratings.map((rates, index) => {
 								return (
 									<div key={index}>
-										<label htmlFor="">Testimonial: </label> {rates.text} <br />
-										<label htmlFor="">Rating level: </label> {rates.rate} <br />
+										<label htmlFor="">
+											<b>Testimonial: </b>
+										</label>{' '}
+										{rates.text} <br />
+										<label htmlFor="">
+											<b>Rating level:</b>{' '}
+										</label>{' '}
+										{rates.rate} <br />
 									</div>
 								);
 							})}
@@ -136,7 +142,9 @@ class TeacherProfile extends React.Component {
 							})}
 						</ul>
 						<div>
-							<button onClick={this.pick.bind(this)}>Pick</button>
+							<button className="btn btn-primary" onClick={this.pick.bind(this)}>
+								Pick
+							</button>
 							<br />
 							<label /> {this.state.message}
 						</div>
