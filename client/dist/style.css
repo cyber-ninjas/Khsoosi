@@ -154,6 +154,10 @@ iframe.cv {
 	position: absolute;
 	bottom: 100px;
 }
+.pickMessage {
+  position: absolute;
+  bottom: 100px;
+}
 div.teacherProfileView {
 	padding: 20px;
 	height: 100%;

@@ -182,8 +182,8 @@ class App extends React.Component {
 					>
 						<h1 id="plzlogin"> please login first! </h1>
 					</Modal>
+					<Footer />
 				</div>
-				<Footer />
 			</div>
 		);
 	}
