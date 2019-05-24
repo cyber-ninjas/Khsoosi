@@ -2,7 +2,7 @@ const { db } = require('./database/db');
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const SECRET_KEY = 'any string';
-const { User, Schedule, Rating, Confirm } = require('./database/model');
+const { User, Schedule, Rating, Confirm, Subject } = require('./database/model');
 var jwt = require('jsonwebtoken');
 
 //Adding new rating
@@ -62,30 +62,32 @@ exports.updateTeacherProfile = (req, res) => {
 
 exports.showTeacherInfo = (req, res) => {
 	const id = req.params.number;
-	return id === 0
-		? res.status(200).send({ ok: '' })
-		: User.findOne({
-				attributes: [ 'name', 'phone', 'location', 'img', 'cvFile', 'email', 'summary' ],
-				where: { id: id },
-				include: [
-					{
-						model: Schedule,
-						attributes: [ 'day', 'startHour', 'endHour' ]
-					},
-					{
-						model: Rating,
-						attributes: [ 'rate', 'text' ]
-					}
-				]
-			})
-				.then((data) => {
-					res.status(200);
-					res.send(data);
-				})
-				.catch((error) => {
-					res.status(404);
-					res.json({ error: 'Server Error' });
-				});
+	User.findOne({
+		attributes: [ 'name', 'phone', 'location', 'img', 'cvFile', 'email', 'summary' ],
+		where: { id: id },
+		include: [
+			{
+				model: Schedule,
+				attributes: [ 'day', 'startHour', 'endHour' ]
+			},
+			{
+				model: Rating,
+				attributes: [ 'rate', 'text' ]
+			},
+			{
+				model: Subject,
+				attributes: [ 'name', 'level' ]
+			}
+		]
+	})
+		.then((data) => {
+			res.status(200);
+			res.send(data);
+		})
+		.catch((error) => {
+			res.status(404);
+			res.json({ error: 'Server Error' });
+		});
 };
 //search== its will search for the teacher that have the same location, subject and level
 //that the student ask for in the search feild in the homepage
@@ -214,7 +216,7 @@ exports.signup = (req, res) => {
 };
 
 exports.pick = (req, res) => {
-	// const query = req.query;
+	console.log('ddddddd\n\n\n\n\n\n', req.body, '\n\n\n\n ddddddd');
 	Confirm.findOne({
 		where: {
 			day: req.body.day,
@@ -225,7 +227,7 @@ exports.pick = (req, res) => {
 		}
 	}).then((data) => {
 		// res.send(data)
-		if (data) return res.status(401).send({ error: 'You alredy pick up!' });
+		if (data) return res.status(401).send({ error: 'You already picked this!' });
 		Confirm.create({
 			day: req.body.day,
 			start: req.body.startHour,
@@ -235,7 +237,7 @@ exports.pick = (req, res) => {
 			confirmed: 'Not yet'
 		})
 			.then((created) => {
-				return res.send({ created: 'we send your request wait ' });
+				return res.send({ created: 'we recive your request wait ' });
 			})
 			.catch((err) => res.send({ error: 'server error' }));
 	});
@@ -267,7 +269,11 @@ exports.conformAnswer = (req, res) => {
 				.query(
 					`select TeacherConfirms.id, users.name, TeacherConfirms.start, TeacherConfirms.end, TeacherConfirms.day, TeacherConfirms.confirmed from TeacherConfirms  JOIN users on TeacherConfirms.studentId = users.id and   TeacherConfirms.teacherId = ${id} `
 				)
-				.then(([ result, metadata ]) => res.send(result));
+				.then(([ result, metadata ]) => {
+					//select phone student
+					//send the message
+					return res.send(result);
+				});
 		})
 		.catch(function(err) {
 			req.server.log([ 'error' ], err.stack);

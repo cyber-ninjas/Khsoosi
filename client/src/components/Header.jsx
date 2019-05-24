@@ -45,12 +45,9 @@ class Header extends React.Component {
 				>
 					<div>
 						<SignUp
-							change={this.props.change.bind(this)}
-							onSignUp={this.props.onSignUp.bind(this)}
-							// is_teacher={this.props.is_teacher}
-							// error={this.props.error}
-							info={this.props.info}
 							closeModal={this.closeModal.bind(this)}
+							closeModal={this.closeModal.bind(this)}
+							openModal={this.openModal.bind(this)}
 						/>
 					</div>
 				</Modal>
@@ -62,11 +59,7 @@ class Header extends React.Component {
 					onClickAway={() => this.closeModal('Login')}
 				>
 					<div>
-						<Login
-							info={this.props.info}
-							change={this.props.change.bind(this)}
-							loging={this.props.loging.bind(this)}
-						/>
+						<Login onLogin={this.props.onLogin.bind(this)} closeModal={this.closeModal.bind(this)} />
 					</div>
 				</Modal>
 			</div>

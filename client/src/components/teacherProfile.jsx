@@ -1,11 +1,13 @@
 import React from 'react';
-import Modal from 'react-awesome-modal';
 import Rating from './Rating.jsx';
 class TeacherProfile extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			Rate: false
+			Rate: false,
+			day: 'Sunday',
+			startHour: '',
+			endHour: ''
 		};
 	}
 
@@ -22,6 +24,50 @@ class TeacherProfile extends React.Component {
 	}
 	componentWillMount() {
 		this.props.showTeacherInfo();
+	}
+	pick(e) {
+		e.preventDefault();
+		const { current_studentId, current_teacherId } = this.props;
+		const { day, startHour, endHour } = this.state;
+		const info = {
+			studentId: current_studentId,
+			teacherId: current_teacherId,
+			day,
+			startHour,
+			endHour
+		};
+		console.log('okkkk', info);
+		return fetch('/pickTeacher', {
+			method: 'post',
+			body: JSON.stringify({
+				studentId: current_studentId,
+				teacherId: current_teacherId,
+				day,
+				startHour,
+				endHour
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		}).then((result) => {
+			this.setState({ message: ' your request was send ...wait for confirm' });
+			setTimeout(() => {
+				this.setState({ message: '' });
+			}, 4000);
+		});
+	}
+
+	radioChange(e) {
+		let values = e.target.value;
+		values = values.split(' ');
+		this.setState({
+			day: values[0],
+			startHour: values[1],
+			endHour: values[2]
+		});
+
+		// console.log(this.state);
 	}
 	render() {
 		// const schedules = this.props.teacherInfo.schedules;
@@ -80,7 +126,7 @@ class TeacherProfile extends React.Component {
 											type="radio"
 											name="day"
 											value={`${time.day} ${time.startHour} ${time.endHour}`}
-											onClick={this.props.radioChange.bind(this)}
+											onClick={this.radioChange.bind(this)}
 											id={`radio${index}`}
 										/>{' '}
 										{time.day}
@@ -90,18 +136,17 @@ class TeacherProfile extends React.Component {
 							})}
 						</ul>
 						<div>
-							<button onClick={this.props.pick.bind(this)}>Pick</button>
-							<label id="pickLabel">your request was send ...wait for confirm </label>
+							<button onClick={this.pick.bind(this)}>Pick</button>
+							<br />
+							<label /> {this.state.message}
 						</div>
 						<br />
 						<br />
 						<div>
 							<Rating
-								rateMessage={this.props.rateMessage}
-								RatingVariables={this.props.RatingVariables}
-								change={this.props.change.bind(this)}
-								rating={this.props.rating.bind(this)}
-								closeModal={this.closeModal.bind(this)}
+								current_studentId={this.props.current_studentId}
+								current_teacherId={this.props.current_teacherId}
+								showTeacherInfo={this.props.showTeacherInfo}
 							/>
 						</div>
 					</div>

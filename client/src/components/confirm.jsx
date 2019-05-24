@@ -1,8 +1,51 @@
 import React from 'react';
 
 class Conform extends React.Component {
-	componentWillMount() {
-		this.props.conform();
+	constructor(props) {
+		super(props);
+		this.state = {
+			bookes: []
+		};
+	}
+	componentDidMount() {
+		this.confirm();
+	}
+	confirm(e) {
+		// e.preventDefault();
+		// console.log(this.props.current_teacherId, "from cccccccccc");
+		return fetch(`/conform?teacherId=${this.props.current_teacherId}`, {
+			method: 'GET',
+			header: {
+				Accept: 'application/json'
+			}
+		})
+			.then((result) => (result = result.json()))
+			.then((result) => {
+				this.setState({ bookes: result });
+				// console.log(this.state.bookes);
+			})
+			.catch((err) => {
+				console.log({ err: 'error' }, err);
+			});
+	}
+	answer(e) {
+		e.preventDefault();
+		// console.log(e.target.name, e.target.value);
+		fetch(
+			`/conformAnswer?id=${e.target.name}&confirmed=${e.target.value}&teacherId=${this.props.current_teacherId}`,
+			{
+				method: 'GET',
+				header: {
+					Accept: 'application/json'
+				}
+			}
+		)
+			.then((result) => (result = result.json()))
+			.then((result) => {
+				// console.log(this.state.bookes);
+				this.setState({ bookes: result });
+				// console.log(this.state.bookes);
+			});
 	}
 	render() {
 		var is_disabled = true;
@@ -24,7 +67,7 @@ class Conform extends React.Component {
 								</tr>
 							</thead>
 							<tbody>
-								{this.props.resultOfBook.map((data, index) => {
+								{this.state.bookes.map((data, index) => {
 									return (
 										<tr key={index}>
 											<td>{data.name}</td>
@@ -43,7 +86,7 @@ class Conform extends React.Component {
 													name={data.id}
 													value="Yes"
 													disabled={is_disabled}
-													onClick={(e) => this.props.answer(e)}
+													onClick={(e) => this.answer(e)}
 												>
 													Accept
 												</button>
@@ -54,7 +97,7 @@ class Conform extends React.Component {
 													name={data.id}
 													value="No"
 													disabled={is_disabled}
-													onClick={(e) => this.props.answer(e)}
+													onClick={(e) => this.answer(e)}
 												>
 													No
 												</button>
