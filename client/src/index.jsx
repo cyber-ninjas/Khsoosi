@@ -141,11 +141,26 @@ class App extends React.Component {
       is_teacher: obj.is_teacher
     });
   }
-  rating() {}
+  logout() {
+    // console.log("hhhhh");
+    this.setState({
+      current_studentId: "",
+      current_teacherId: "",
+      is_teacher: false
+    });
+    // this.render();
+  }
   render() {
     return (
       <div>
-        <Header onLogin={this.onLogin.bind(this)} />
+        <Header
+          onLogin={this.onLogin.bind(this)}
+          logout={this.logout.bind(this)}
+          is_logging={{
+            current_studentId: this.state.current_studentId,
+            current_teacherId: this.state.current_teacherId
+          }}
+        />
         <div className="container">
           {!this.state.is_teacher ? (
             <div>
