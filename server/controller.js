@@ -1,16 +1,26 @@
 const { db } = require("./database/db");
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
+const ejs = require("ejs");
+const Nexmo = require("nexmo");
+const socketio = require("socket.io");
 const SECRET_KEY = "any string";
 const {
   User,
   Schedule,
   Rating,
   Confirm,
-  Subject
+  Subject,
+  TeacherSubject
 } = require("./database/model");
 var jwt = require("jsonwebtoken");
-
+const nexmo = new Nexmo(
+  {
+    apiKey: "b84db079",
+    apiSecret: "2AZLhDff5DJAcmcZ"
+  },
+  { debug: true }
+);
 //Adding new rating
 exports.rating = (req, res) => {
   Rating.create({
@@ -60,10 +70,40 @@ exports.updateTeacherProfile = (req, res) => {
         });
       }
     })
-    .then(function(data) {
-      res
-        .status(200)
-        .json({ result: "The information was successfully updated" });
+    .then(() => {
+      TeacherSubject.findOne({
+        attributes: ["subjectId"],
+        where: { userId: req.body.current_teacherId }
+      }).then(teacher => {
+        if (teacher) {
+          Subject.update(
+            {
+              name: req.body.subjectName,
+              level: req.body.subjectLevel
+            },
+            { where: { id: teacher.subjectId } }
+          ).then(function(data) {
+            res
+              .status(200)
+              .json({ result: "The information was successfully updated" });
+          });
+        } else {
+          Subject.create({
+            name: req.body.subjectName,
+            level: req.body.subjectLevel
+          }).then(data => {
+            console.log(data.id);
+            TeacherSubject.create({
+              subjectId: data.id,
+              userId: req.body.current_teacherId
+            }).then(function(data) {
+              res
+                .status(200)
+                .json({ result: "The information was successfully updated" });
+            });
+          });
+        }
+      });
     })
     .catch(err => res.status(500).json({ error: "Server Error" }));
 };
@@ -92,13 +132,12 @@ exports.showTeacherInfo = (req, res) => {
       },
       {
         model: Subject,
-        attributes: ["name", "level"]
+        attributes: ["id", "name", "level"]
       }
     ]
   })
     .then(data => {
-      res.status(200);
-      res.send(data);
+      res.status(200).send(data);
     })
     .catch(error => {
       res.status(404);
@@ -215,15 +254,45 @@ exports.signup = (req, res) => {
           .status(401)
           .send({ error: "The email already exist pleas signIn!" });
       password = bcrypt.hashSync(info.password, 10);
+      var img = info.imgUrl;
+      if (!info.is_teacher) {
+        img = "";
+      }
       User.create({
         email: info.email,
         password: password,
         name: info.userName,
         phone: info.phone,
+        img: img,
         location: info.location,
         is_teacher: info.is_teacher
       })
-        .then(user => {})
+        .then(user => {
+          if (info.is_teacher) {
+            console.log(
+              "ttttttttt\n\n\n\n\n\n",
+              user.id,
+              "\n\n\n\n\n ttttttttt"
+            );
+            Rating.create({
+              studentId: 100,
+              teacherId: user.id,
+              text: "",
+              rate: 10,
+              userId: user.id
+            }).then(rate => {
+              console.log(
+                "ttttttttt\n\n\n\n\n\n",
+                rate,
+                "\n\n\n\n\n ttttttttt"
+              );
+            });
+            TeacherSubject.create({
+              subjectId: 17,
+              userId: user.id
+            });
+          }
+        })
         .then(created => {
           return res.send({ created: created });
         })
@@ -284,8 +353,13 @@ exports.conformAnswer = (req, res) => {
       db.query(
         `select TeacherConfirms.id, users.name, TeacherConfirms.start, TeacherConfirms.end, TeacherConfirms.day, TeacherConfirms.confirmed from TeacherConfirms  JOIN users on TeacherConfirms.studentId = users.id and   TeacherConfirms.teacherId = ${id} `
       ).then(([result, metadata]) => {
-        //select phone student
-        //send the message
+        var message = "the teacher accepted your requset";
+        if (query.confirmed === "No") {
+          message = "the teacher didn't accept your requset";
+        }
+        nexmo.message.sendSms("khsoosi", "00962786916479", message, {
+          type: "unicode"
+        });
         return res.send(result);
       });
     })
