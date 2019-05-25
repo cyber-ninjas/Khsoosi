@@ -77,8 +77,8 @@ class CVUpload extends React.Component {
               //   onClick={() => console.log("ggggg")}
             />
             <label
-              className="custom-file-label"
-              // htmlFor="inputGroupFile01"
+
+            // htmlFor="inputGroupFile01"
             >
               Choose file
             </label>
