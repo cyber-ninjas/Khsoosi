@@ -27,3 +27,5 @@ https://medium.com/jeremy-gottfrieds-tech-blog/tutorial-how-to-deploy-a-producti
 
 
  "react-dev": "webpack -d --watch",
+
+url :https://khsoosi.herokuapp.com/
