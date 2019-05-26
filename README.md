@@ -1,29 +1,43 @@
-# Khsoosi #
- 
-## Heading ##
-  > Find a Tutor Now.
+# Khsoosi
 
-## Sub-Heading ##
-  > having a hard time studying? search for a teacher to help you out. It will take less than a minute.
+Team
+Product Owner: Iman Elokour
+Scrum Master: Ayman Al Hariri
+Development Team Members: Ahmad Al-Darkashli, Yazan Aliwah
 
-## Summary ##
-  > Khsoosi is a website that not only helps the student find a teacher but also it help the teacher find a job. it's simple and easy to use.
+## Heading
 
-## Problem ##
-  > Finding good qualified teachers in a short amount of time and live close by.
+> Find a Tutor Now.
 
-## Solution ##
-  > Helps find those kind of teachers.
+## Sub-Heading
 
-## Quote from You ##
-  > "I wish I could have found a website like this when I was struggling at school and university"
+> having a hard time studying? search for a teacher to help you out. It will take less than a minute.
 
-## How to Get Started ##
-  > If you're a student all you have to do is start searching for the right fit.
-  > If you're a teacher join our team by sending all your  info and be ready to start your class.
+## Summary
 
-## Customer Quote ##
-  > "I remember when i was freaking out because I was very bad at Math and needed help, Khsoosi came to the rescue"
+> Khsoosi is a website that not only helps the student find a teacher but also it help the teacher find a job. it's simple and easy to use.
 
-## Closing and Call to Action ##
-  > Don't waste anymore time and sign up for Khsoosi... You will not regret it.
+## Problem
+
+> Finding good qualified teachers in a short amount of time and live close by.
+
+## Solution
+
+> Helps find those kind of teachers.
+
+## Quote from You
+
+> "I wish I could have found a website like this when I was struggling at school and university"
+
+## How to Get Started
+
+> If you're a student all you have to do is start searching for the right fit.
+> If you're a teacher join our team by sending all your info and be ready to start your class.
+
+## Customer Quote
+
+> "I remember when i was freaking out because I was very bad at Math and needed help, Khsoosi came to the rescue"
+
+## Closing and Call to Action
+
+> Don't waste anymore time and sign up for Khsoosi... You will not regret it.
